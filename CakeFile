@@ -1,0 +1,9 @@
+{exec} = require 'child_process'
+
+task "sbuild", "Build", -> 
+    exec " coffee -c -j app.js -o lib/ src/", (err, stdout, stderr) ->
+        throw err if err
+        console.log stdout + stderr
+        # exec " uglifyjs lib/app.js -o lib/app.js -c -m", (err, stdout, stderr) ->
+        #     throw err if err
+        #     console.log stdout + stderr
