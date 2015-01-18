@@ -4,6 +4,7 @@ files = [
         "src/utils.coffee",
         "src/widgets.coffee",
         "src/loader.coffee",
+        "src/level.coffee",
         "src/game.coffee"
         "src/main.coffee"
     ]

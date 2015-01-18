@@ -42,11 +42,11 @@ class Game
             console.log "level #{number} ready"
             @clearStage()
             @loader.level1.loop.play()
-            @layer.add new Kinetic.Image
-                x: 0
-                y: 0
-                image: @loader.level1.background
-                width: 1280
-                height: 720
-
-            @layer.batchDraw()
+            @layer.add @level = new Level
+                layer1: @loader.level1.layer1
+                layer2: @loader.level1.layer2
+                layer3: @loader.level1.layer3
+            setInterval =>
+                @layer.draw()
+                # @level.batchDraw()
+            , 20

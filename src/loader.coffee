@@ -7,7 +7,9 @@ class DefaultLoader
                 loop: "snd/menu.mp3"
         level1:
             images:
-                background: "img/xxx.png"
+                layer1: "img/level1_layer1.png"
+                layer2: "img/level1_layer2.png"
+                layer3: "img/level1_layer3.png"
             sounds:
                 loop: "snd/level1.mp3"
 
