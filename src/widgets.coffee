@@ -51,6 +51,9 @@ class UI.Button extends Kinetic.Group
             @draw()
             @onclick()
 
+    remove: ->
+        document.body.style.cursor = "default"
+        super
 
     onmouseover: ->
     onmouseout: ->

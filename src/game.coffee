@@ -8,34 +8,21 @@ class Game
         @layer = new Kinetic.Layer
         @stage.add @layer
 
-        @loader = new DefaultLoader
+        @loader = new DefaultLoader this
         @loadMenu()
 
     clearStage: ->
+        @stage.removeChildren()
         @stage.add @layer = new Kinetic.Layer
 
     loadMenu: ->
-        @layer.add loading_text = new Kinetic.Text
-            x: @stage.getWidth() / 2 - 150
-            y: @stage.getHeight() / 2
-            width: 300
-            text: "Loading 0%"
-            fontSize: 30
-            fontFamily: 'Calibri'
-            fill: '#555'
-            align: 'center'
-
-        @loader.progress = (progress) =>
-            loading_text.setText "Loading #{Math.round progress*100 }%"
-            @layer.draw()
-
         @loader.load "menu", =>
             @clearStage()
-            @loader.sounds.menuLoop.play()
+            @loader.menu.loop.play()
             @layer.add new Kinetic.Image
                 x: 0
                 y: 0
-                image: @loader.images.splashScreen
+                image: @loader.menu.splashScreen
                 width: 1280
                 height: 720
 
@@ -44,6 +31,22 @@ class Game
                 y: @stage.getHeight() / 2 - 100
                 text: "Play!"
                 center: true
-                onclick: -> console.log "clicked"
+                onclick: =>
+                    @loader.menu.loop.pause()
+                    @loadLevel 1
+
+            @layer.batchDraw()
+
+    loadLevel: (number) ->
+        @loader.load "level#{number}", =>
+            console.log "level #{number} ready"
+            @clearStage()
+            @loader.level1.loop.play()
+            @layer.add new Kinetic.Image
+                x: 0
+                y: 0
+                image: @loader.level1.background
+                width: 1280
+                height: 720
 
             @layer.batchDraw()

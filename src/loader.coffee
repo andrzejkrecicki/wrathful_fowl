@@ -4,41 +4,56 @@ class DefaultLoader
             images:
                 splashScreen: "img/splash_screen.png"
             sounds:
-                menuLoop: "snd/menu.mp3"
+                loop: "snd/menu.mp3"
+        level1:
+            images:
+                background: "img/xxx.png"
+            sounds:
+                loop: "snd/level1.mp3"
 
-    constructor: ->
-        @images = {}
-        @sounds = {}
+
+    constructor: (@game) ->
         @ready = true
 
     load: (group, @callback) ->
         throw Error "Loader ready" if not @ready
+
+        @game.clearStage()
+        @game.layer.add @loading_text = new Kinetic.Text
+            x: @game.stage.getWidth() / 2 - 150
+            y: @game.stage.getHeight() / 2
+            width: 300
+            text: "Loading 0%"
+            fontSize: 30
+            fontFamily: 'Calibri'
+            fill: '#555'
+            align: 'center'
+
         @ready = false
         @total_elements = 0
         @loaded_elements = 0
+        
+        @progress 0
 
         for name, src of DefaultLoader.resources[group].images
             ++@total_elements
-            img = new Image
-            img.onload = @element_loaded_handler img, name, "images"
-            img.src = src
+            img = new Utils.ImageResource src, (obj) => @element_loaded_handler(obj, name, group)
 
         for name, src of DefaultLoader.resources[group].sounds
             ++@total_elements
-            snd = new Audio
-            snd.preload = "auto"
-            snd.oncanplaythrough = @element_loaded_handler snd, name, "sounds"
-            snd.src = src
+            snd = new Utils.SoundResource src, (obj) => @element_loaded_handler(obj, name, group)
 
-    element_loaded_handler: (obj, name, subgroup) ->
+    element_loaded_handler: (obj, name, group) ->
         =>
             console.log "Finished loading #{name}", obj
-            @[subgroup][name] = obj
+            @[group] or= {}
+            @[group][name] = obj
             ++@loaded_elements
             @progress @loaded_elements / @total_elements
             if @total_elements == @loaded_elements
                 @ready = true
-                @callback()
-                @progress = ->
+                setTimeout @callback, 1000
     
-    progress: ->
+    progress: (progress) ->
+        @loading_text.setText "Loading #{Math.round progress*100 }%"
+        @game.layer.draw()
