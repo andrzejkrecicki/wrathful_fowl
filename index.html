@@ -6,13 +6,15 @@
         canvas {
             border: solid 1px #ddd !important;
         }
-        #container {
+        #container, body {
             text-align: center;
         }
     </style>
 </head>
 <body>
     <div id="container"></div>
+    <canvas id="debug" width="1640" height="720" style="border:1px solid black;"></canvas>
+    <script src="lib/Box2dWeb-2.1.a.3.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="lib/kinetic-v4.7.4.min.js"></script>
     <script type="text/javascript" src="lib/app.js"></script>
 </body>

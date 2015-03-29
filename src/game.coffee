@@ -37,6 +37,16 @@ class Game
 
             @layer.batchDraw()
 
+    draw: ->
+        @level.world.ClearForces()
+        @level.world.DrawDebugData()
+
+        @level.process()
+        @layer.draw()
+        # @level.batchDraw()
+
+
+
     loadLevel: (number) ->
         @loader.load "level#{number}", =>
             console.log "level #{number} ready"
@@ -46,7 +56,8 @@ class Game
                 layer1: @loader.level1.layer1
                 layer2: @loader.level1.layer2
                 layer3: @loader.level1.layer3
-            setInterval =>
-                @layer.draw()
-                # @level.batchDraw()
+            
+            clearInterval @interval if @interval
+            @interval = setInterval =>
+                @draw()
             , 20

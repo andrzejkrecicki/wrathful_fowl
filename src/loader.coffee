@@ -10,9 +10,9 @@ class DefaultLoader
                 layer1: "img/level1_layer1.png"
                 layer2: "img/level1_layer2.png"
                 layer3: "img/level1_layer3.png"
+                slingshot: "img/slingshot.png"
             sounds:
                 loop: "snd/level1.mp3"
-
 
     constructor: (@game) ->
         @ready = true
@@ -27,7 +27,7 @@ class DefaultLoader
             width: 300
             text: "Loading 0%"
             fontSize: 30
-            fontFamily: 'Calibri'
+            fontFamily: 'Helvetica'
             fill: '#555'
             align: 'center'
 

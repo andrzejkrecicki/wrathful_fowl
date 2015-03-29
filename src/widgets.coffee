@@ -5,7 +5,7 @@ class UI.Button extends Kinetic.Group
         @complexText = new Kinetic.Text
             text: options.text
             fontSize: options.fontSize or 18
-            fontFamily: 'Calibri'
+            fontFamily: 'Helvetica'
             fill: '#555'
             width: options.width or 150
             padding: 20

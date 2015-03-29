@@ -25,6 +25,34 @@ class Level extends Kinetic.Group
             width: options.layer1.width
             height: options.layer1.height
 
-        setInterval (=> @layer1.setX(@layer1.getX() - 5)), 20
-        setInterval (=> @layer2.setX(@layer2.getX() - 2.5)), 20
-        setInterval (=> @layer3.setX(@layer3.getX() - 1.25)), 20
+        @add @objects = new Kinetic.Group
+            x: 0
+            y: 0
+
+
+        gravity = new Box2D.Common.Math.b2Vec2 0, 9.8
+        @world = new Box2D.Dynamics.b2World gravity, true
+        @world.scale = 30
+        @world.timeStep = 1 / 50
+
+        @addObject new Objects.Floor @world
+        @addObject new Objects.Slingshot @world, 300, 610
+
+        @world.context = document.getElementById("debug").getContext("2d")
+        debugDraw = new Box2D.Dynamics.b2DebugDraw
+        debugDraw.SetSprite @world.context
+        debugDraw.SetDrawScale @world.scale
+        debugDraw.SetFillAlpha .3
+        debugDraw.SetLineThickness 1
+        debugDraw.SetFlags Box2D.Dynamics.b2DebugDraw.e_shapeBit or Box2D.Dynamics.b2DebugDraw.e_jointBit
+
+        @world.SetDebugDraw debugDraw
+
+    addObject: (object) ->
+        @objects.add object if object.children?
+
+    process: ->
+        @objects.setX(@objects.getX() - 5)
+        @layer1.setX(@layer1.getX() - 5)
+        @layer2.setX(@layer2.getX() - 2.5)
+        @layer3.setX(@layer3.getX() - 1.25)
