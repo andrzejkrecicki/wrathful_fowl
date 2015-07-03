@@ -38,6 +38,8 @@ class Game
             @layer.batchDraw()
 
     draw: ->
+        @level.world.Step @level.world.timeStep, 8, 3
+        
         @level.world.ClearForces()
         @level.world.DrawDebugData()
 
@@ -51,11 +53,12 @@ class Game
         @loader.load "level#{number}", =>
             console.log "level #{number} ready"
             @clearStage()
-            @loader.level1.loop.play()
+            @loader["level#{number}"].loop.play()
             @layer.add @level = new Level
-                layer1: @loader.level1.layer1
-                layer2: @loader.level1.layer2
-                layer3: @loader.level1.layer3
+                layer1: @loader["level#{number}"].layer1
+                layer2: @loader["level#{number}"].layer2
+                layer3: @loader["level#{number}"].layer3
+                objects: DefaultLoader.resources["level#{number}"].objects
             
             clearInterval @interval if @interval
             @interval = setInterval =>

@@ -38,6 +38,9 @@ class Level extends Kinetic.Group
         @addObject new Objects.Floor @world
         @addObject new Objects.Slingshot @world, 300, 610
 
+        for object in options.objects
+            @addObject new Objects[object.type] @world, object.x, object.y, object.angle
+
         @world.context = document.getElementById("debug").getContext("2d")
         debugDraw = new Box2D.Dynamics.b2DebugDraw
         debugDraw.SetSprite @world.context
@@ -52,6 +55,11 @@ class Level extends Kinetic.Group
         @objects.add object if object.children?
 
     process: ->
+        for object in @objects.children
+            {x, y} = object.body.GetPosition()
+            object.setPosition x * @world.scale, y * @world.scale
+            object.setRotation object.body.GetAngle()
+        
         @objects.setX(@objects.getX() - 5)
         @layer1.setX(@layer1.getX() - 5)
         @layer2.setX(@layer2.getX() - 2.5)

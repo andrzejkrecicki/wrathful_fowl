@@ -11,8 +11,41 @@ class DefaultLoader
                 layer2: "img/level1_layer2.png"
                 layer3: "img/level1_layer3.png"
                 slingshot: "img/slingshot.png"
+                wood: "img/wood.png"
             sounds:
                 loop: "snd/level1.mp3"
+            objects: [
+                type: "Wood"
+                x: 1700
+                y: 600
+                angle: 0
+            ,
+                type: "Wood"
+                x: 1796
+                y: 600
+                angle: 0
+            ,
+                type: "Wood"
+                x: 1747
+                y: 526
+                angle: 90
+            ,
+                type: "Wood"
+                x: 1700
+                y: 452
+                angle: 0
+            ,
+                type: "Wood"
+                x: 1796
+                y: 452
+                angle: 0
+            ,
+                type: "Wood"
+                x: 1747
+                y: 382
+                angle: 90
+            ,
+            ]
 
     constructor: (@game) ->
         @ready = true
