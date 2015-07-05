@@ -46,6 +46,7 @@ class DefaultLoader
                 angle: 90
             ,
             ]
+            panOffset: 1040
 
     constructor: (@game) ->
         @ready = true
