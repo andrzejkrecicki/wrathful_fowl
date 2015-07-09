@@ -29,12 +29,16 @@ class Level extends Kinetic.Group
             x: 0
             y: 0
 
+
+        @state = Utils.GameStates.preview
+
         @desiredOffsets = []
         @panningSpeed = 0
         @breakingTime = 50
         setTimeout(
-            => @panTo(0),
-            2000
+            =>
+                @panTo(0)
+            , 2000
         )
         @setOffset options.panOffset
 
@@ -44,19 +48,26 @@ class Level extends Kinetic.Group
         @world.timeStep = 1 / 50
 
         @addObject new Objects.Floor @world
-        @addObject new Objects.Slingshot @world, 300, 610
+        @addObject @slingshot = new Objects.Slingshot @world, 300, 610
 
         for object in options.objects
             @addObject new Objects[object.type] @world, object.x, object.y, object.angle
 
-        @world.context = document.getElementById("debug").getContext("2d")
-        debugDraw = new Box2D.Dynamics.b2DebugDraw
-        debugDraw.SetSprite @world.context
-        debugDraw.SetDrawScale @world.scale
-        debugDraw.SetFillAlpha .3
-        debugDraw.SetLineThickness 1
-        debugDraw.SetFlags Box2D.Dynamics.b2DebugDraw.e_shapeBit or Box2D.Dynamics.b2DebugDraw.e_jointBit
-        @world.SetDebugDraw debugDraw
+        birdX = 250
+        @birds = []
+        for birdType in options.birds
+            @addObject bird = new Objects[birdType] @world, birdX, 550, 0
+            @birds.push bird
+            birdX -= bird.children[0].getWidth() + 10
+
+        # @world.context = document.getElementById("debug").getContext("2d")
+        # debugDraw = new Box2D.Dynamics.b2DebugDraw
+        # debugDraw.SetSprite @world.context
+        # debugDraw.SetDrawScale @world.scale
+        # debugDraw.SetFillAlpha 1
+        # debugDraw.SetLineThickness 3
+        # debugDraw.SetFlags Box2D.Dynamics.b2DebugDraw.e_shapeBit or Box2D.Dynamics.b2DebugDraw.e_jointBit
+        # @world.SetDebugDraw debugDraw
 
     addObject: (object) ->
         @objects.add object if object.children?
@@ -68,6 +79,7 @@ class Level extends Kinetic.Group
             object.setRotation object.body.GetAngle()
         
         @handlePanning()
+        @handleBirdLoad()
 
     panTo: (offset) ->
         @desiredOffsets = [offset]
@@ -76,10 +88,10 @@ class Level extends Kinetic.Group
         @desiredOffsets.push offset
 
     setOffset: (@offset) ->
-        @objects.setX(-@offset)
-        @layer1.setX(-@offset)
-        @layer2.setX(-@offset/2)
-        @layer3.setX(-@offset/4)
+        @objects.setX -@offset
+        @layer1.setX -@offset
+        @layer2.setX -@offset/2
+        @layer3.setX -@offset/4
 
     handlePanning: ->
         if @desiredOffsets.length
@@ -87,7 +99,10 @@ class Level extends Kinetic.Group
             if Math.abs(@desiredOffsets[0] - @offset) < @panningSpeed
                 @panningSpeed = 0
                 @breakingTime = 50
+                @setOffset @desiredOffsets[0]
                 @desiredOffsets.shift()
+                if @state == Utils.GameStates.preview
+                    @state = Utils.GameStates.previewEnded
             else
                 if Math.abs(@desiredOffsets[0] - @offset) <= (.5 * @breakingTime**2) / 2
                     --@breakingTime
@@ -97,3 +112,19 @@ class Level extends Kinetic.Group
 
                 @panningSpeed = Math.min(Math.max(@panningSpeed, -25), 25)
                 @setOffset @offset + @panningSpeed
+
+    handleBirdLoad: ->
+        if @state == Utils.GameStates.previewEnded
+            @state = Utils.GameStates.loadBird
+
+            vy = 9.8
+            adjustedTime = Math.sqrt((2 * (.5 * 9.8 - @slingshot.baseHeight / @world.scale)) / 9.8)
+            vx = ((@slingshot.body.GetPosition().x - @birds[0].body.GetPosition().x)) / (1 + adjustedTime)
+            @birds[0].body.SetAwake true
+            @birds[0].body.SetLinearVelocity x: vx, y: -vy
+
+        if @state == Utils.GameStates.loadBird
+            if Math.abs(@birds[0].body.GetPosition().x - @slingshot.body.GetPosition().x) < 1 / 30
+                @state = Utils.GameStates.readyToFire
+                @birds[0].body.SetLinearVelocity 0, 0
+                @birds[0].body.SetAwake 0

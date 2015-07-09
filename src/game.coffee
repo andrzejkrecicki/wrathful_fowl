@@ -59,6 +59,7 @@ class Game
                 layer2: @loader["level#{number}"].layer2
                 layer3: @loader["level#{number}"].layer3
                 objects: DefaultLoader.resources["level#{number}"].objects
+                birds: DefaultLoader.resources["level#{number}"].birds
                 panOffset: DefaultLoader.resources["level#{number}"].panOffset
             
             clearInterval @interval if @interval

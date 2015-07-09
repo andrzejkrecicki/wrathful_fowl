@@ -1,3 +1,8 @@
+Enum = ->
+    result = {}
+    result[attr] = i for attr, i in arguments
+    result
+
 Utils = 
     lighterColor: (rbg) ->
         return {
@@ -23,4 +28,14 @@ Utils =
         snd.preload = "auto"
         snd.oncanplaythrough = onload snd
         snd.src = src
+        snd.play = =>
         return snd
+
+    GameStates: Enum(
+        "preview",
+        "previewEnded",
+        "loadBird",
+        "readyToFire",
+        "firing",
+        "birdFired"
+    )

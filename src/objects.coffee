@@ -18,8 +18,11 @@ class Objects.GameObject extends Kinetic.Group
 
 class Objects.Slingshot extends Objects.GameObject
     constructor: (@world, x, y) ->
+        @baseHeight = 41
+        @baseWidth = 17
+
         shape = new Box2D.Collision.Shapes.b2PolygonShape
-        shape.SetAsBox 17 / 2 / @world.scale, 41 / 2 / @world.scale
+        shape.SetAsBox @baseWidth / 2 / @world.scale, @baseHeight / 2 / @world.scale
 
         bodyDef = new Box2D.Dynamics.b2BodyDef
         bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
@@ -57,6 +60,27 @@ class Objects.Wood extends Objects.GameObject
             width: 26
             height: 120
             offset: [13, 60]
+
+
+class Objects.StandardBird extends Objects.GameObject
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2CircleShape 23 / @world.scale
+
+        bodyDef = new Box2D.Dynamics.b2BodyDef
+        bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
+        bodyDef.position.x = (x) / @world.scale
+        bodyDef.position.y = (y) / @world.scale
+        bodyDef.angle = Math.PI * angle / 180
+
+        super @world, x, y, bodyDef, shape, .7, .4, .4
+
+        @add new Kinetic.Image
+            image: Utils.ImageResource DefaultLoader.resources.level1.images.bird1_1, -> return 0
+            x: 0
+            y: 0
+            width: 57
+            height: 54
+            offset: [33, 31]
 
 
 class Objects.Floor

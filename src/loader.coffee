@@ -12,6 +12,7 @@ class DefaultLoader
                 layer3: "img/level1_layer3.png"
                 slingshot: "img/slingshot.png"
                 wood: "img/wood.png"
+                bird1_1: "img/bird1_1.png"
             sounds:
                 loop: "snd/level1.mp3"
             objects: [
@@ -47,6 +48,7 @@ class DefaultLoader
             ,
             ]
             panOffset: 1040
+            birds: ["StandardBird", "StandardBird", "StandardBird"]
 
     constructor: (@game) ->
         @ready = true
