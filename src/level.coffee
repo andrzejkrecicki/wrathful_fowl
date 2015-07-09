@@ -124,7 +124,36 @@ class Level extends Kinetic.Group
             @birds[0].body.SetLinearVelocity x: vx, y: -vy
 
         if @state == Utils.GameStates.loadBird
-            if Math.abs(@birds[0].body.GetPosition().x - @slingshot.body.GetPosition().x) < 1 / 30
+            if Math.abs(@birds[0].body.GetPosition().x - @slingshot.body.GetPosition().x) < 1 / @world.scale
                 @state = Utils.GameStates.readyToFire
                 @birds[0].body.SetLinearVelocity 0, 0
                 @birds[0].body.SetAwake 0
+
+                @birds[0].on "mousedown", =>
+                    @on "mousemove", (e) =>
+                        if Box2D.Common.Math.b2Math.Distance(
+                                { x: e.layerX / @world.scale, y: e.layerY / @world.scale }, @slingshot.GetBirdPlacement()
+                            ) < 3.5
+                            @birds[0].body.SetPosition x: e.layerX / @world.scale, y: Math.min(660, e.layerY) / @world.scale
+                        else
+                            angle = Math.atan2(
+                                @slingshot.GetBirdPlacement().y - Math.min(660, e.layerY) / @world.scale,
+                                @slingshot.body.GetPosition().x - e.layerX / @world.scale
+                            )
+                            @birds[0].body.SetPosition
+                                x: @slingshot.body.GetPosition().x - 3.5 * Math.cos(angle)
+                                y: Math.min(@slingshot.GetBirdPlacement().y - 3.5 * Math.sin(angle), 22 * @world.scale)
+
+                        @birds[0].body.SetAwake 0
+
+                    @on "mouseup", (e) =>
+                        @state = Utils.GameStates.birdFired
+                        @birds[0].body.ApplyImpulse
+                            x: (@slingshot.body.GetPosition().x - @birds[0].body.GetPosition().x) * 10
+                            y: (@slingshot.GetBirdPlacement().y - @birds[0].body.GetPosition().y) * 10
+                        ,
+                            @birds[0].body.GetWorldCenter()
+
+                        @birds[0].off "mousedown"
+                        @off "mouseup"
+                        @off "mousemove"

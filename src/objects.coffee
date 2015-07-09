@@ -18,7 +18,7 @@ class Objects.GameObject extends Kinetic.Group
 
 class Objects.Slingshot extends Objects.GameObject
     constructor: (@world, x, y) ->
-        @baseHeight = 41
+        @baseHeight = 105
         @baseWidth = 17
 
         shape = new Box2D.Collision.Shapes.b2PolygonShape
@@ -38,6 +38,9 @@ class Objects.Slingshot extends Objects.GameObject
             width: 80
             height: 80
             offset: [40, 60]
+
+    GetBirdPlacement: ->
+        return x: @body.GetPosition().x, y: @body.GetPosition().y - @baseHeight / @world.scale
 
 
 class Objects.Wood extends Objects.GameObject

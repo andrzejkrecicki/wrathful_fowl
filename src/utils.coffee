@@ -36,6 +36,6 @@ Utils =
         "previewEnded",
         "loadBird",
         "readyToFire",
-        "firing",
+        "aiming",
         "birdFired"
     )
