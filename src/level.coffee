@@ -113,6 +113,11 @@ class Level extends Kinetic.Group
                 @panningSpeed = Math.min(Math.max(@panningSpeed, -25), 25)
                 @setOffset @offset + @panningSpeed
 
+        if @state == Utils.GameStates.birdFired
+            if @offset + @parent.parent.getWidth() / 2 < @birds[0].body.GetPosition().x * @world.scale
+                @setOffset @birds[0].body.GetPosition().x * @world.scale - @parent.parent.getWidth() / 2
+
+
     handleBirdLoad: ->
         if @state == Utils.GameStates.previewEnded
             @state = Utils.GameStates.loadBird
@@ -148,6 +153,13 @@ class Level extends Kinetic.Group
 
                     @on "mouseup", (e) =>
                         @state = Utils.GameStates.birdFired
+                        setTimeout =>
+                            @birds.shift()
+
+                            @state = Utils.GameStates.preview
+                            @panTo(0)
+                        , 10000
+
                         @birds[0].body.ApplyImpulse
                             x: (@slingshot.body.GetPosition().x - @birds[0].body.GetPosition().x) * 10
                             y: (@slingshot.GetBirdPlacement().y - @birds[0].body.GetPosition().y) * 10

@@ -54,7 +54,7 @@ class Objects.Wood extends Objects.GameObject
         bodyDef.position.y = (y) / @world.scale
         bodyDef.angle = Math.PI * angle / 180
 
-        super @world, x, y, bodyDef, shape, .7, .4, .4
+        super @world, x, y, bodyDef, shape, 1.4, .4, .4
 
         @add new Kinetic.Image
             image: Utils.ImageResource DefaultLoader.resources.level1.images.wood, -> return 0
