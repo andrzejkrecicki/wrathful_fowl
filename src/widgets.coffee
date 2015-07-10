@@ -5,7 +5,7 @@ class UI.Button extends Kinetic.Group
         @complexText = new Kinetic.Text
             text: options.text
             fontSize: options.fontSize or 18
-            fontFamily: 'Helvetica'
+            fontFamily: 'AngryBirds'
             fill: '#555'
             width: options.width or 150
             padding: 20
@@ -58,3 +58,101 @@ class UI.Button extends Kinetic.Group
     onmouseover: ->
     onmouseout: ->
     onclick: ->
+
+class UI.IconButton extends Kinetic.Group
+    constructor: (options) ->
+        super 
+            x: options.x
+            y: options.y
+
+        @add @circle = new Kinetic.Circle
+            x: 30
+            y: 30
+            radius: 30
+            fill: '#f60'
+            stroke: '#a40'
+            strokeWidth: 2
+
+        @add new Kinetic.Image
+            image: options.image
+            x: (@circle.getRadius() * 2 - options.image.width) / 2
+            y: (@circle.getRadius() * 2 - options.image.width) / 2
+            width: options.image.width
+            height: options.image.width
+
+        @onclick = options.onclick if options.onclick?
+
+        @on "mouseover", =>
+            document.body.style.cursor = "pointer"
+            @circle.setFill '#f82'
+            @draw()
+            @onmouseover()
+
+        @on "mouseout", =>
+            document.body.style.cursor = "default"
+            @circle.setFill '#f60'
+            @draw()
+            @onmouseover()
+
+        @on "mousedown", =>
+            @circle.setStroke '#c62'
+            @draw()
+
+        @on "mouseup", =>
+            @circle.setStroke '#a40'
+            @draw()
+            @onclick()
+
+    remove: ->
+        document.body.style.cursor = "default"
+        super
+
+    onmouseover: ->
+    onmouseout: ->
+    onclick: ->
+
+
+class UI.GameOverPane extends Kinetic.Group
+    constructor: (options) ->
+        super 
+            x: options.x
+            y: options.y
+
+        @add new Kinetic.Rect
+            x: 0
+            y: 0
+            fill: '#000'
+            opacity: .7
+            width: 600
+            height: 470
+
+
+        @add new Kinetic.Text
+            text: "Level failed!"
+            fontSize: 60
+            fontFamily: 'AngryBirds'
+            fill: '#fff'
+            width: 600
+            x: 0
+            y: 100
+            align: 'center'
+
+        img = Utils.ImageResource DefaultLoader.resources.level1.images.pig1_1, -> return 0
+        @add new Kinetic.Image
+            image: img
+            x: 300 - img.width / 2
+            y: 180
+            width: 98
+            height: 96
+
+        @add @restartButton = new UI.IconButton
+            x: 201
+            y: 300
+            image: Utils.ImageResource DefaultLoader.resources.menu.images.restart, ->
+            onclick: options.onrestart
+
+        @add @cancelButton = new UI.IconButton
+            x: 339
+            y: 300
+            image: Utils.ImageResource DefaultLoader.resources.menu.images.cancel, ->
+            onclick: options.oncancel

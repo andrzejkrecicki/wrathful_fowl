@@ -3,6 +3,8 @@ class DefaultLoader
         menu:
             images:
                 splashScreen: "img/splash_screen.png"
+                restart: "img/restart.png"
+                cancel: "img/cancel.png"
             sounds:
                 loop: "snd/menu.mp3"
         level1:
@@ -13,6 +15,7 @@ class DefaultLoader
                 slingshot: "img/slingshot.png"
                 wood: "img/wood.png"
                 bird1_1: "img/bird1_1.png"
+                pig1_1: "img/pig1_1.png"
             sounds:
                 loop: "snd/level1.mp3"
             objects: [
@@ -63,7 +66,7 @@ class DefaultLoader
             width: 300
             text: "Loading 0%"
             fontSize: 30
-            fontFamily: 'Helvetica'
+            fontFamily: 'AngryBirds'
             fill: '#555'
             align: 'center'
 

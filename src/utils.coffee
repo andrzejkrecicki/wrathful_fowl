@@ -37,5 +37,6 @@ Utils =
         "loadBird",
         "readyToFire",
         "aiming",
-        "birdFired"
+        "birdFired",
+        "gameOver"
     )

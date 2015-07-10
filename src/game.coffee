@@ -11,6 +11,8 @@ class Game
         @loader = new DefaultLoader this
         @loadMenu()
 
+        @levelNumber = 1
+
     clearStage: ->
         @stage.removeChildren()
         @stage.add @layer = new Kinetic.Layer
@@ -33,7 +35,7 @@ class Game
                 center: true
                 onclick: =>
                     @loader.menu.loop.pause()
-                    @loadLevel 1
+                    @loadLevel @levelNumber
 
             @layer.batchDraw()
 
@@ -44,12 +46,26 @@ class Game
         @level.world.DrawDebugData()
 
         @level.process()
+        @checkLevelEnd()
         @layer.draw()
         # @level.batchDraw()
 
 
+    checkLevelEnd: ->
+        if @level.state != Utils.GameStates.gameOver and @level.birds.length == 0
+            @level.state = Utils.GameStates.gameOver
+            clearInterval @interval if @interval
+            @level.restartButton.remove()
+            @layer.add new UI.GameOverPane
+                x: (@stage.getWidth() - 600) / 2
+                y: (@stage.getHeight() - 470) / 2
+                onrestart: => @loadLevel @levelNumber
+                oncancel: => @loadMenu()
+
+
 
     loadLevel: (number) ->
+        clearInterval @interval if @interval
         @loader.load "level#{number}", =>
             console.log "level #{number} ready"
             @clearStage()
@@ -62,6 +78,8 @@ class Game
                 birds: DefaultLoader.resources["level#{number}"].birds
                 panOffset: DefaultLoader.resources["level#{number}"].panOffset
             
+            @level.restartButton.onclick = => @loadLevel @levelNumber
+
             clearInterval @interval if @interval
             @interval = setInterval =>
                 @draw()

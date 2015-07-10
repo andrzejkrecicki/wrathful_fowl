@@ -25,6 +25,11 @@ class Level extends Kinetic.Group
             width: options.layer1.width
             height: options.layer1.height
 
+        @add @restartButton = new UI.IconButton
+            x: 10
+            y: 10
+            image: Utils.ImageResource DefaultLoader.resources.menu.images.restart, ->
+
         @add @objects = new Kinetic.Group
             x: 0
             y: 0
@@ -81,6 +86,7 @@ class Level extends Kinetic.Group
         @handlePanning()
         @handleBirdLoad()
 
+
     panTo: (offset) ->
         @desiredOffsets = [offset]
 
@@ -96,7 +102,7 @@ class Level extends Kinetic.Group
     handlePanning: ->
         if @desiredOffsets.length
             mul = (@desiredOffsets[0] - @offset) / Math.abs(@desiredOffsets[0] - @offset) or 0
-            if Math.abs(@desiredOffsets[0] - @offset) < @panningSpeed
+            if Math.abs(@desiredOffsets[0] - @offset) <= @panningSpeed
                 @panningSpeed = 0
                 @breakingTime = 50
                 @setOffset @desiredOffsets[0]
@@ -119,7 +125,7 @@ class Level extends Kinetic.Group
 
 
     handleBirdLoad: ->
-        if @state == Utils.GameStates.previewEnded
+        if @state == Utils.GameStates.previewEnded and @birds.length
             @state = Utils.GameStates.loadBird
 
             vy = 9.8
