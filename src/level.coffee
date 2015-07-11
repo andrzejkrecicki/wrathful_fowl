@@ -34,7 +34,6 @@ class Level extends Kinetic.Group
             x: 0
             y: 0
 
-
         @state = Utils.GameStates.preview
 
         @desiredOffsets = []
@@ -52,11 +51,29 @@ class Level extends Kinetic.Group
         @world.scale = 30
         @world.timeStep = 1 / 50
 
+        contact_listener = new Box2D.Dynamics.b2ContactListener
+        contact_listener.PostSolve = (contact, impulse) ->
+            body1 = contact.GetFixtureA().GetBody()
+            body2 = contact.GetFixtureB().GetBody()
+
+            impulseNormal = impulse.normalImpulses[0]
+            return if impulseNormal < 1
+            body1.parent.handleHit impulseNormal / 10
+            body2.parent.handleHit impulseNormal / 10
+
+        @world.SetContactListener contact_listener
+
         @addObject new Objects.Floor @world
-        @addObject @slingshot = new Objects.Slingshot @world, 300, 610
+        @addObject @slingshot = new Objects.Slingshot @world, 300, 640
 
         for object in options.objects
             @addObject new Objects[object.type] @world, object.x, object.y, object.angle
+
+
+        @pigs = []
+        for pigDef in options.pigs
+            @addObject pig = new Objects[pigDef.type] @world, pigDef.x, pigDef.y, 0
+            @pigs.push pig
 
         birdX = 250
         @birds = []
@@ -69,7 +86,7 @@ class Level extends Kinetic.Group
         # debugDraw = new Box2D.Dynamics.b2DebugDraw
         # debugDraw.SetSprite @world.context
         # debugDraw.SetDrawScale @world.scale
-        # debugDraw.SetFillAlpha 1
+        # debugDraw.SetFillAlpha .3
         # debugDraw.SetLineThickness 3
         # debugDraw.SetFlags Box2D.Dynamics.b2DebugDraw.e_shapeBit or Box2D.Dynamics.b2DebugDraw.e_jointBit
         # @world.SetDebugDraw debugDraw
@@ -78,10 +95,15 @@ class Level extends Kinetic.Group
         @objects.add object if object.children?
 
     process: ->
-        for object in @objects.children
+        for object in @objects.getChildren()
+            continue unless object?
             {x, y} = object.body.GetPosition()
             object.setPosition x * @world.scale, y * @world.scale
             object.setRotation object.body.GetAngle()
+
+            if object.life? and object.life <= 0
+                @world.DestroyBody object.body
+                object.remove()
         
         @handlePanning()
         @handleBirdLoad()

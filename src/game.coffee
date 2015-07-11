@@ -28,9 +28,21 @@ class Game
                 width: 1280
                 height: 720
 
+            @layer.add new Kinetic.Text
+                text: "Wrathful fowL"
+                fontSize: 100
+                fontFamily: 'AngryBirds'
+                fill: '#fff'
+                stroke: '#000'
+                strokeWidth: 2
+                width: @stage.getWidth()
+                x: 0
+                y: @stage.getHeight() / 2 - 150
+                align: 'center'
+
             @layer.add new UI.Button
                 x: @stage.getWidth() / 2
-                y: @stage.getHeight() / 2 - 100
+                y: @stage.getHeight() / 2
                 text: "Play!"
                 center: true
                 onclick: =>
@@ -76,6 +88,7 @@ class Game
                 layer3: @loader["level#{number}"].layer3
                 objects: DefaultLoader.resources["level#{number}"].objects
                 birds: DefaultLoader.resources["level#{number}"].birds
+                pigs: DefaultLoader.resources["level#{number}"].pigs
                 panOffset: DefaultLoader.resources["level#{number}"].panOffset
             
             @level.restartButton.onclick = => @loadLevel @levelNumber

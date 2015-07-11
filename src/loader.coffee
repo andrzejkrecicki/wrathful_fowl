@@ -13,45 +13,60 @@ class DefaultLoader
                 layer2: "img/level1_layer2.png"
                 layer3: "img/level1_layer3.png"
                 slingshot: "img/slingshot.png"
-                wood: "img/wood.png"
+                wood1: "img/wood1.png"
+                wood2: "img/wood2.png"
+                wood3: "img/wood3.png"
+                wood4: "img/wood4.png"
                 bird1_1: "img/bird1_1.png"
+                pig_big: "img/pig_big.png"
                 pig1_1: "img/pig1_1.png"
+                pig1_2: "img/pig1_2.png"
+                pig1_3: "img/pig1_3.png"
             sounds:
                 loop: "snd/level1.mp3"
             objects: [
                 type: "Wood"
                 x: 1700
-                y: 600
+                y: 660
                 angle: 0
             ,
                 type: "Wood"
                 x: 1796
-                y: 600
+                y: 660
                 angle: 0
             ,
                 type: "Wood"
                 x: 1747
-                y: 526
+                y: 586
                 angle: 90
             ,
                 type: "Wood"
                 x: 1700
-                y: 452
+                y: 512
                 angle: 0
             ,
                 type: "Wood"
                 x: 1796
-                y: 452
+                y: 512
                 angle: 0
             ,
                 type: "Wood"
                 x: 1747
-                y: 382
+                y: 442
                 angle: 90
             ,
             ]
-            panOffset: 1040
+            pigs: [
+                type: "StandardPig"
+                x: 1747
+                y: 530
+            ,
+                type: "StandardPig"
+                x: 1747
+                y: 671
+            ]
             birds: ["StandardBird", "StandardBird", "StandardBird"]
+            panOffset: 1040
 
     constructor: (@game) ->
         @ready = true

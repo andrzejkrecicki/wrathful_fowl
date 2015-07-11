@@ -137,7 +137,7 @@ class UI.GameOverPane extends Kinetic.Group
             y: 100
             align: 'center'
 
-        img = Utils.ImageResource DefaultLoader.resources.level1.images.pig1_1, -> return 0
+        img = Utils.ImageResource DefaultLoader.resources.level1.images.pig_big, -> return 0
         @add new Kinetic.Image
             image: img
             x: 300 - img.width / 2

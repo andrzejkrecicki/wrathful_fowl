@@ -13,7 +13,12 @@ class Objects.GameObject extends Kinetic.Group
         fixtureDef.shape = shape
 
         @body = @world.CreateBody bodyDef
+        @body.parent = this
         fixture = @body.CreateFixture fixtureDef
+
+    handleHit: (impulse) ->
+        return unless @life
+        @life -= impulse
 
 
 class Objects.Slingshot extends Objects.GameObject
@@ -54,15 +59,38 @@ class Objects.Wood extends Objects.GameObject
         bodyDef.position.y = (y) / @world.scale
         bodyDef.angle = Math.PI * angle / 180
 
+        @life = 75
+        @sprite = 1
+        @sprites = [
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood1, -> return 0)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood2, -> return 0)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood3, -> return 0)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood4, -> return 0)
+        ]
+
         super @world, x, y, bodyDef, shape, 1.4, .4, .4
 
         @add new Kinetic.Image
-            image: Utils.ImageResource DefaultLoader.resources.level1.images.wood, -> return 0
+            image: @sprites[@sprite - 1]
             x: 0
             y: 0
             width: 26
             height: 120
             offset: [13, 60]
+
+    handleHit: (impulse) ->
+        super impulse
+        state = [75, 56.25, 37.5, 18.75].filter((x) => @life <= x).length
+        if state != @sprite
+            console.log "Life: #{@life}, state: #{state}"
+            @removeChildren()
+            @add new Kinetic.Image
+                image: @sprites[++@sprite - 1]
+                x: 0
+                y: 0
+                width: 26
+                height: 120
+                offset: [13, 60]
 
 
 class Objects.StandardBird extends Objects.GameObject
@@ -75,6 +103,8 @@ class Objects.StandardBird extends Objects.GameObject
         bodyDef.position.y = (y) / @world.scale
         bodyDef.angle = Math.PI * angle / 180
 
+        @life = 30
+
         super @world, x, y, bodyDef, shape, .7, .4, .4
 
         @add new Kinetic.Image
@@ -86,8 +116,53 @@ class Objects.StandardBird extends Objects.GameObject
             offset: [33, 31]
 
 
-class Objects.Floor
-    constructor: (@world, x=1500, y=700) ->
+class Objects.StandardPig extends Objects.GameObject
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2CircleShape 27.5 / @world.scale
+
+        bodyDef = new Box2D.Dynamics.b2BodyDef
+        bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
+        bodyDef.position.x = (x) / @world.scale
+        bodyDef.position.y = (y) / @world.scale
+        bodyDef.angle = Math.PI * angle / 180
+
+        @life = 15
+        @sprite = 1
+        @sprites = [
+            Utils.ImageResource(DefaultLoader.resources.level1.images.pig1_1, -> return 0)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.pig1_2, -> return 0)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.pig1_3, -> return 0)
+        ]
+
+
+        super @world, x, y, bodyDef, shape, .7, .4, .4
+
+        @add new Kinetic.Image
+            image: @sprites[@sprite - 1]
+            x: 0
+            y: 0
+            width: 55
+            height: 64
+            offset: [27, 36]
+
+
+    handleHit: (impulse) ->
+        super impulse
+        state = [15, 10, 5].filter((x) => @life <= x).length
+        if state != @sprite
+            console.log "Life: #{@life}, state: #{state}"
+            @removeChildren()
+            @add new Kinetic.Image
+                image: @sprites[++@sprite - 1]
+                x: 0
+                y: 0
+                width: 55
+                height: 64
+                offset: [27, 36]
+
+
+class Objects.Floor extends Objects.GameObject
+    constructor: (@world, x=1500, y=730) ->
         bodyDef = new Box2D.Dynamics.b2BodyDef
         bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
         bodyDef.position.x = x / @world.scale
@@ -101,5 +176,6 @@ class Objects.Floor
         fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
         fixtureDef.shape.SetAsBox 3000 / @world.scale, 10 / @world.scale
 
-        body = @world.CreateBody bodyDef
-        fixture = body.CreateFixture fixtureDef
+        @body = @world.CreateBody bodyDef
+        @body.parent = this
+        fixture = @body.CreateFixture fixtureDef
