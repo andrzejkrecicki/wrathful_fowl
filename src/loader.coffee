@@ -72,9 +72,9 @@ class DefaultLoader
             panOffset: 1040
         level2:
             images:
-                layer1: "img/level1_layer1.png"
-                layer2: "img/level1_layer2.png"
-                layer3: "img/level1_layer3.png"
+                layer1: "img/level2_layer1.png"
+                layer2: "img/level2_layer2.png"
+                layer3: "img/level2_layer3.png"
             sounds:
                 loop: "snd/level2.mp3"
             objects: [
