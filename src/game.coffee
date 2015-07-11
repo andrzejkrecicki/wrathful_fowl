@@ -64,15 +64,34 @@ class Game
 
 
     checkLevelEnd: ->
-        if @level.state != Utils.GameStates.gameOver and @level.birds.length == 0
+        if @level.state == Utils.GameStates.preview and @level.pigs.filter((pig) -> pig.life > 0).length == 0
+            @level.state = Utils.GameStates.levelComplete
+            clearInterval @interval if @interval
+            @level.restartButton.remove()
+            @layer.add new UI.LevelCompletePane
+                x: (@stage.getWidth() - 600) / 2
+                y: (@stage.getHeight() - 470) / 2
+                onnext: =>
+                    @loader["level#{@levelNumber}"].loop.pause()
+                    @loadLevel ++@levelNumber
+                oncancel: =>
+                    @loader["level#{@levelNumber}"].loop.pause()
+                    @loadMenu()
+                score: @level.birds.length / @level.totalBirds
+
+        else if @level.state != Utils.GameStates.gameOver and @level.birds.length == 0
             @level.state = Utils.GameStates.gameOver
             clearInterval @interval if @interval
             @level.restartButton.remove()
             @layer.add new UI.GameOverPane
                 x: (@stage.getWidth() - 600) / 2
                 y: (@stage.getHeight() - 470) / 2
-                onrestart: => @loadLevel @levelNumber
-                oncancel: => @loadMenu()
+                onrestart: =>
+                    @loader["level#{@levelNumber}"].loop.pause()
+                    @loadLevel @levelNumber
+                oncancel: =>
+                    @loader["level#{@levelNumber}"].loop.pause()
+                    @loadMenu()
 
 
 
@@ -91,7 +110,9 @@ class Game
                 pigs: DefaultLoader.resources["level#{number}"].pigs
                 panOffset: DefaultLoader.resources["level#{number}"].panOffset
             
-            @level.restartButton.onclick = => @loadLevel @levelNumber
+            @level.restartButton.onclick = =>
+                @loader["level#{number}"].loop.pause()
+                @loadLevel @levelNumber
 
             clearInterval @interval if @interval
             @interval = setInterval =>

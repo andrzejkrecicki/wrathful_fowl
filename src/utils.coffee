@@ -28,7 +28,6 @@ Utils =
         snd.preload = "auto"
         snd.oncanplaythrough = onload snd
         snd.src = src
-        snd.play = =>
         return snd
 
     GameStates: Enum(
@@ -38,5 +37,6 @@ Utils =
         "readyToFire",
         "aiming",
         "birdFired",
-        "gameOver"
+        "gameOver",
+        "levelComplete"
     )

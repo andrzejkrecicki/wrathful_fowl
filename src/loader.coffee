@@ -5,6 +5,10 @@ class DefaultLoader
                 splashScreen: "img/splash_screen.png"
                 restart: "img/restart.png"
                 cancel: "img/cancel.png"
+                next: "img/next.png"
+                star: "img/star.png"
+                star_filled: "img/star_filled.png"
+                pig_big: "img/pig_big.png"
             sounds:
                 loop: "snd/menu.mp3"
         level1:
@@ -18,7 +22,6 @@ class DefaultLoader
                 wood3: "img/wood3.png"
                 wood4: "img/wood4.png"
                 bird1_1: "img/bird1_1.png"
-                pig_big: "img/pig_big.png"
                 pig1_1: "img/pig1_1.png"
                 pig1_2: "img/pig1_2.png"
                 pig1_3: "img/pig1_3.png"
@@ -67,6 +70,64 @@ class DefaultLoader
             ]
             birds: ["StandardBird", "StandardBird", "StandardBird"]
             panOffset: 1040
+        level2:
+            images:
+                layer1: "img/level1_layer1.png"
+                layer2: "img/level1_layer2.png"
+                layer3: "img/level1_layer3.png"
+            sounds:
+                loop: "snd/level2.mp3"
+            objects: [
+                type: "Wood"
+                x: 1700
+                y: 660
+                angle: 0
+            ,
+                type: "Wood"
+                x: 1800
+                y: 660
+                angle: 0
+            ,
+                type: "Wood"
+                x: 1900
+                y: 660
+                angle: 0
+            ,
+                type: "Wood"
+                x: 2000
+                y: 660
+                angle: 0
+            ,
+                type: "Mountain"
+                x: 2350
+                y: 700
+                angle: 230
+            ,
+                type: "Mountain"
+                x: 1250
+                y: 690
+                angle: 0
+            ]
+            pigs: [
+                type: "StandardPig"
+                x: 1700
+                y: 568
+            ,
+                type: "StandardPig"
+                x: 1800
+                y: 568
+            ,
+                type: "StandardPig"
+                x: 1900
+                y: 568
+            ,
+                type: "StandardPig"
+                x: 2000
+                y: 568
+            ]
+            birds: ["StandardBird", "StandardBird", "StandardBird"]
+            panOffset: 1040
+
 
     constructor: (@game) ->
         @ready = true

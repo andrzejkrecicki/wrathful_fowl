@@ -137,7 +137,7 @@ class UI.GameOverPane extends Kinetic.Group
             y: 100
             align: 'center'
 
-        img = Utils.ImageResource DefaultLoader.resources.level1.images.pig_big, -> return 0
+        img = Utils.ImageResource DefaultLoader.resources.menu.images.pig_big, -> return 0
         @add new Kinetic.Image
             image: img
             x: 300 - img.width / 2
@@ -156,3 +156,61 @@ class UI.GameOverPane extends Kinetic.Group
             y: 300
             image: Utils.ImageResource DefaultLoader.resources.menu.images.cancel, ->
             onclick: options.oncancel
+
+
+
+class UI.LevelCompletePane extends Kinetic.Group
+    constructor: (options) ->
+        super 
+            x: options.x
+            y: options.y
+
+        @add new Kinetic.Rect
+            x: 0
+            y: 0
+            fill: '#000'
+            opacity: .7
+            width: 600
+            height: 470
+
+
+        @add new Kinetic.Text
+            text: "Level complete!"
+            fontSize: 60
+            fontFamily: 'AngryBirds'
+            fill: '#fff'
+            width: 600
+            x: 0
+            y: 100
+            align: 'center'
+
+        @add @nextButton = new UI.IconButton
+            x: 201
+            y: 300
+            image: Utils.ImageResource DefaultLoader.resources.menu.images.next, ->
+            onclick: options.onnext
+
+        @add @cancelButton = new UI.IconButton
+            x: 339
+            y: 300
+            image: Utils.ImageResource DefaultLoader.resources.menu.images.cancel, ->
+            onclick: options.oncancel
+
+        for i in [0..4]
+            @add new Kinetic.Image
+                image: Utils.ImageResource DefaultLoader.resources.menu.images.star, ->
+                x: 150 + i * 60
+                y: 200
+                width: 50
+                height: 50
+
+        for i in [0..Math.min(5, Math.round(options.score * 6.25))]
+            setTimeout (do (i) => =>
+                @add star = new Kinetic.Image
+                    image: Utils.ImageResource DefaultLoader.resources.menu.images.star_filled, ->
+                    x: 150 + i * 60
+                    y: 200
+                    width: 50
+                    height: 50
+                star.draw()
+            ), (i + 1) * 400

@@ -57,7 +57,7 @@ class Level extends Kinetic.Group
             body2 = contact.GetFixtureB().GetBody()
 
             impulseNormal = impulse.normalImpulses[0]
-            return if impulseNormal < 1
+            return if impulseNormal < 1.2
             body1.parent.handleHit impulseNormal / 10
             body2.parent.handleHit impulseNormal / 10
 
@@ -81,6 +81,8 @@ class Level extends Kinetic.Group
             @addObject bird = new Objects[birdType] @world, birdX, 550, 0
             @birds.push bird
             birdX -= bird.children[0].getWidth() + 10
+
+        @totalBirds = @birds.length
 
         # @world.context = document.getElementById("debug").getContext("2d")
         # debugDraw = new Box2D.Dynamics.b2DebugDraw
@@ -164,20 +166,21 @@ class Level extends Kinetic.Group
 
                 @birds[0].on "mousedown", =>
                     @on "mousemove", (e) =>
+                        angle = Math.atan2(
+                            @slingshot.GetBirdPlacement().y - e.layerY / @world.scale,
+                            @slingshot.body.GetPosition().x - e.layerX / @world.scale
+                        )
                         if Box2D.Common.Math.b2Math.Distance(
                                 { x: e.layerX / @world.scale, y: e.layerY / @world.scale }, @slingshot.GetBirdPlacement()
                             ) < 3.5
-                            @birds[0].body.SetPosition x: e.layerX / @world.scale, y: Math.min(660, e.layerY) / @world.scale
+                            @birds[0].body.SetPosition x: e.layerX / @world.scale, y: e.layerY / @world.scale
                         else
-                            angle = Math.atan2(
-                                @slingshot.GetBirdPlacement().y - Math.min(660, e.layerY) / @world.scale,
-                                @slingshot.body.GetPosition().x - e.layerX / @world.scale
-                            )
                             @birds[0].body.SetPosition
                                 x: @slingshot.body.GetPosition().x - 3.5 * Math.cos(angle)
                                 y: Math.min(@slingshot.GetBirdPlacement().y - 3.5 * Math.sin(angle), 22 * @world.scale)
 
                         @birds[0].body.SetAwake 0
+                        @birds[0].body.SetAngle angle
 
                     @on "mouseup", (e) =>
                         @state = Utils.GameStates.birdFired
@@ -193,6 +196,8 @@ class Level extends Kinetic.Group
                             y: (@slingshot.GetBirdPlacement().y - @birds[0].body.GetPosition().y) * 10
                         ,
                             @birds[0].body.GetWorldCenter()
+
+                        @birds[0].body.SetAngularVelocity .5
 
                         @birds[0].off "mousedown"
                         @off "mouseup"

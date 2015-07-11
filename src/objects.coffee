@@ -32,7 +32,7 @@ class Objects.Slingshot extends Objects.GameObject
         bodyDef = new Box2D.Dynamics.b2BodyDef
         bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
         bodyDef.position.x = (x + 42) / @world.scale
-        bodyDef.position.y = (y + 58) / @world.scale
+        bodyDef.position.y = (y + 88) / @world.scale
 
         super @world, x, y, bodyDef, shape
 
@@ -42,7 +42,7 @@ class Objects.Slingshot extends Objects.GameObject
             y: 0
             width: 80
             height: 80
-            offset: [40, 60]
+            offset: [40, 90]
 
     GetBirdPlacement: ->
         return x: @body.GetPosition().x, y: @body.GetPosition().y - @baseHeight / @world.scale
@@ -59,7 +59,7 @@ class Objects.Wood extends Objects.GameObject
         bodyDef.position.y = (y) / @world.scale
         bodyDef.angle = Math.PI * angle / 180
 
-        @life = 75
+        @life = 120
         @sprite = 1
         @sprites = [
             Utils.ImageResource(DefaultLoader.resources.level1.images.wood1, -> return 0)
@@ -80,7 +80,7 @@ class Objects.Wood extends Objects.GameObject
 
     handleHit: (impulse) ->
         super impulse
-        state = [75, 56.25, 37.5, 18.75].filter((x) => @life <= x).length
+        state = [120, 90, 60, 30].filter((x) => @life <= x).length
         if state != @sprite
             console.log "Life: #{@life}, state: #{state}"
             @removeChildren()
@@ -159,6 +159,35 @@ class Objects.StandardPig extends Objects.GameObject
                 width: 55
                 height: 64
                 offset: [27, 36]
+
+
+class Objects.Mountain extends Objects.GameObject
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2PolygonShape
+        points = [
+            new Box2D.Common.Math.b2Vec2 0, 0
+            new Box2D.Common.Math.b2Vec2 120 / @world.scale, -200 / @world.scale
+            new Box2D.Common.Math.b2Vec2 280 / @world.scale, -170 / @world.scale
+            new Box2D.Common.Math.b2Vec2 300 / @world.scale, 0 / @world.scale
+        ]
+        shape.SetAsArray points, points.length
+
+        bodyDef = new Box2D.Dynamics.b2BodyDef
+        bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
+        bodyDef.position.x = x / @world.scale
+        bodyDef.position.y = y / @world.scale
+        bodyDef.angle = Math.PI * angle / 180
+
+        super @world, x, y, bodyDef, shape, .7, .4, .4
+
+        @add @shape = new Kinetic.Polygon
+            points: [0, 0, 120, -200, 280, -170, 300, 0]
+            stroke: '#666'
+            fill: '#999'
+            strokeWidth: 10
+            lineCap: 'round'
+            lineJoin: 'round'
+
 
 
 class Objects.Floor extends Objects.GameObject
