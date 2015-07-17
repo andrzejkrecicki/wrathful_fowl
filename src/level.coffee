@@ -28,7 +28,7 @@ class Level extends Kinetic.Group
         @add @restartButton = new UI.IconButton
             x: 10
             y: 10
-            image: Utils.ImageResource DefaultLoader.resources.menu.images.restart, ->
+            image: Utils.ImageResource DefaultLoader.resources.menu.images.restart
 
         @add @objects = new Kinetic.Group
             x: 0
@@ -105,7 +105,7 @@ class Level extends Kinetic.Group
 
             if object.life? and object.life <= 0
                 @world.DestroyBody object.body
-                object.remove()
+                object.remove true
         
         @handlePanning()
         @handleBirdLoad()
@@ -152,6 +152,7 @@ class Level extends Kinetic.Group
         if @state == Utils.GameStates.previewEnded and @birds.length
             @state = Utils.GameStates.loadBird
 
+            Utils.SoundResource(DefaultLoader.resources.level1.sounds.chirp).play()
             vy = 9.8
             adjustedTime = Math.sqrt((2 * (.5 * 9.8 - @slingshot.baseHeight / @world.scale)) / 9.8)
             vx = ((@slingshot.body.GetPosition().x - @birds[0].body.GetPosition().x)) / (1 + adjustedTime)
@@ -165,6 +166,7 @@ class Level extends Kinetic.Group
                 @birds[0].body.SetAwake 0
 
                 @birds[0].on "mousedown", =>
+                    Utils.SoundResource(DefaultLoader.resources.level1.sounds.stretch).play()
                     @on "mousemove", (e) =>
                         angle = Math.atan2(
                             @slingshot.GetBirdPlacement().y - e.layerY / @world.scale,
@@ -183,6 +185,7 @@ class Level extends Kinetic.Group
                         @birds[0].body.SetAngle angle
 
                     @on "mouseup", (e) =>
+                        Utils.SoundResource(DefaultLoader.resources.level1.sounds.swoosh).play()
                         @state = Utils.GameStates.birdFired
                         setTimeout =>
                             @birds.shift()

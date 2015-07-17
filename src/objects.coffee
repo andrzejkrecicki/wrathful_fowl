@@ -37,7 +37,7 @@ class Objects.Slingshot extends Objects.GameObject
         super @world, x, y, bodyDef, shape
 
         @add new Kinetic.Image
-            image: Utils.ImageResource DefaultLoader.resources.level1.images.slingshot, -> return 0
+            image: Utils.ImageResource DefaultLoader.resources.level1.images.slingshot
             x: 0
             y: 0
             width: 80
@@ -62,10 +62,10 @@ class Objects.Wood extends Objects.GameObject
         @life = 120
         @sprite = 1
         @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood1, -> return 0)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood2, -> return 0)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood3, -> return 0)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood4, -> return 0)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood1)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood2)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood3)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood4)
         ]
 
         super @world, x, y, bodyDef, shape, 1.4, .4, .4
@@ -80,6 +80,7 @@ class Objects.Wood extends Objects.GameObject
 
     handleHit: (impulse) ->
         super impulse
+        Utils.SoundResource(DefaultLoader.resources.level1.sounds.wood).play() if impulse > 1.5
         state = [120, 90, 60, 30].filter((x) => @life <= x).length
         if state != @sprite
             console.log "Life: #{@life}, state: #{state}"
@@ -108,7 +109,7 @@ class Objects.StandardBird extends Objects.GameObject
         super @world, x, y, bodyDef, shape, .7, .4, .4
 
         @add new Kinetic.Image
-            image: Utils.ImageResource DefaultLoader.resources.level1.images.bird1_1, -> return 0
+            image: Utils.ImageResource DefaultLoader.resources.level1.images.bird1_1
             x: 0
             y: 0
             width: 57
@@ -129,9 +130,9 @@ class Objects.StandardPig extends Objects.GameObject
         @life = 15
         @sprite = 1
         @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level1.images.pig1_1, -> return 0)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.pig1_2, -> return 0)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.pig1_3, -> return 0)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.pig1_1)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.pig1_2)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.pig1_3)
         ]
 
 
@@ -150,6 +151,9 @@ class Objects.StandardPig extends Objects.GameObject
         super impulse
         state = [15, 10, 5].filter((x) => @life <= x).length
         if state != @sprite
+            if @life > 0
+                Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_grunt).play()
+
             console.log "Life: #{@life}, state: #{state}"
             @removeChildren()
             @add new Kinetic.Image
@@ -159,6 +163,10 @@ class Objects.StandardPig extends Objects.GameObject
                 width: 55
                 height: 64
                 offset: [27, 36]
+
+    remove: (play=false) ->
+        Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_dies).play() if play
+        super
 
 
 class Objects.Mountain extends Objects.GameObject

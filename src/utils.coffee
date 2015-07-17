@@ -17,13 +17,13 @@ Utils =
             b: rgb.b*.8
         }
 
-    ImageResource: (src, onload) ->
+    ImageResource: (src, onload=->) ->
         img = new Image
         img.onload = onload img
         img.src = src
         return img
 
-    SoundResource: (src, onload) ->
+    SoundResource: (src, onload=->) ->
         snd = new Audio
         snd.preload = "auto"
         snd.oncanplaythrough = onload snd

@@ -27,6 +27,14 @@ class DefaultLoader
                 pig1_3: "img/pig1_3.png"
             sounds:
                 loop: "snd/level1.mp3"
+                stretch: "snd/stretch.mp3"
+                swoosh: "snd/swoosh.mp3"
+                wood: "snd/wood.mp3"
+                pig_grunt: "snd/pig_grunt.mp3"
+                pig_dies: "snd/pig_dies.mp3"
+                chirp: "snd/chirp.mp3"
+                crash: "snd/crash.mp3"
+                ding: "snd/ding.mp3"
             objects: [
                 type: "Wood"
                 x: 1700

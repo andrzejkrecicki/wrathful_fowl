@@ -137,7 +137,7 @@ class UI.GameOverPane extends Kinetic.Group
             y: 100
             align: 'center'
 
-        img = Utils.ImageResource DefaultLoader.resources.menu.images.pig_big, -> return 0
+        img = Utils.ImageResource DefaultLoader.resources.menu.images.pig_big
         @add new Kinetic.Image
             image: img
             x: 300 - img.width / 2
@@ -148,13 +148,13 @@ class UI.GameOverPane extends Kinetic.Group
         @add @restartButton = new UI.IconButton
             x: 201
             y: 300
-            image: Utils.ImageResource DefaultLoader.resources.menu.images.restart, ->
+            image: Utils.ImageResource DefaultLoader.resources.menu.images.restart
             onclick: options.onrestart
 
         @add @cancelButton = new UI.IconButton
             x: 339
             y: 300
-            image: Utils.ImageResource DefaultLoader.resources.menu.images.cancel, ->
+            image: Utils.ImageResource DefaultLoader.resources.menu.images.cancel
             onclick: options.oncancel
 
 
@@ -187,18 +187,18 @@ class UI.LevelCompletePane extends Kinetic.Group
         @add @nextButton = new UI.IconButton
             x: 201
             y: 300
-            image: Utils.ImageResource DefaultLoader.resources.menu.images.next, ->
+            image: Utils.ImageResource DefaultLoader.resources.menu.images.next
             onclick: options.onnext
 
         @add @cancelButton = new UI.IconButton
             x: 339
             y: 300
-            image: Utils.ImageResource DefaultLoader.resources.menu.images.cancel, ->
+            image: Utils.ImageResource DefaultLoader.resources.menu.images.cancel
             onclick: options.oncancel
 
         for i in [0..4]
             @add new Kinetic.Image
-                image: Utils.ImageResource DefaultLoader.resources.menu.images.star, ->
+                image: Utils.ImageResource DefaultLoader.resources.menu.images.star
                 x: 150 + i * 60
                 y: 200
                 width: 50
@@ -207,10 +207,11 @@ class UI.LevelCompletePane extends Kinetic.Group
         for i in [0..Math.min(5, Math.round(options.score * 6.25))]
             setTimeout (do (i) => =>
                 @add star = new Kinetic.Image
-                    image: Utils.ImageResource DefaultLoader.resources.menu.images.star_filled, ->
+                    image: Utils.ImageResource DefaultLoader.resources.menu.images.star_filled
                     x: 150 + i * 60
                     y: 200
                     width: 50
                     height: 50
                 star.draw()
+                Utils.SoundResource(DefaultLoader.resources.level1.sounds.ding).play()
             ), (i + 1) * 400
