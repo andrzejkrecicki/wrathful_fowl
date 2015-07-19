@@ -66,6 +66,10 @@ class Level extends Kinetic.Group
         @addObject new Objects.Floor @world
         @addObject @slingshot = new Objects.Slingshot @world, 300, 640
 
+        @addObject @band1 = new Objects.Band @world, [305, 590, 305, 590]
+        @addObject @band2 = new Objects.Band @world, [381, 590, 305, 590]
+
+
         for object in options.objects
             @addObject new Objects[object.type] @world, object.x, object.y, object.angle
 
@@ -83,6 +87,8 @@ class Level extends Kinetic.Group
             birdX -= bird.children[0].getWidth() + 10
 
         @totalBirds = @birds.length
+
+        @band2.setZIndex 200
 
         # @world.context = document.getElementById("debug").getContext("2d")
         # debugDraw = new Box2D.Dynamics.b2DebugDraw
@@ -109,7 +115,7 @@ class Level extends Kinetic.Group
         
         @handlePanning()
         @handleBirdLoad()
-
+        @handleBandSwing()
 
     panTo: (offset) ->
         @desiredOffsets = [offset]
@@ -154,10 +160,11 @@ class Level extends Kinetic.Group
 
             Utils.SoundResource(DefaultLoader.resources.level1.sounds.chirp).play()
             vy = 9.8
-            adjustedTime = Math.sqrt((2 * (.5 * 9.8 - @slingshot.baseHeight / @world.scale)) / 9.8)
+            adjustedTime = Math.sqrt((2 * (.5 * 9.8 - (@slingshot.baseHeight - 27) / @world.scale)) / 9.8)
             vx = ((@slingshot.body.GetPosition().x - @birds[0].body.GetPosition().x)) / (1 + adjustedTime)
             @birds[0].body.SetAwake true
             @birds[0].body.SetLinearVelocity x: vx, y: -vy
+
 
         if @state == Utils.GameStates.loadBird
             if Math.abs(@birds[0].body.GetPosition().x - @slingshot.body.GetPosition().x) < 1 / @world.scale
@@ -176,10 +183,23 @@ class Level extends Kinetic.Group
                                 { x: e.layerX / @world.scale, y: e.layerY / @world.scale }, @slingshot.GetBirdPlacement()
                             ) < 3.5
                             @birds[0].body.SetPosition x: e.layerX / @world.scale, y: e.layerY / @world.scale
+
+                            @band1.adjustPosition e.layerX - Math.cos(angle) * 25, e.layerY - Math.sin(angle) * 25
+                            @band2.adjustPosition e.layerX - Math.cos(angle) * 25, e.layerY - Math.sin(angle) * 25
                         else
                             @birds[0].body.SetPosition
                                 x: @slingshot.body.GetPosition().x - 3.5 * Math.cos(angle)
                                 y: Math.min(@slingshot.GetBirdPlacement().y - 3.5 * Math.sin(angle), 22 * @world.scale)
+
+                            @band1.adjustPosition(
+                                (@slingshot.GetBirdPlacement().x - 4.3 * Math.cos(angle)) * @world.scale,
+                                (@slingshot.GetBirdPlacement().y - 4.3 * Math.sin(angle)) * @world.scale
+                            )
+                            @band2.adjustPosition(
+                                (@slingshot.GetBirdPlacement().x - 4.3 * Math.cos(angle)) * @world.scale,
+                                (@slingshot.GetBirdPlacement().y - 4.3 * Math.sin(angle)) * @world.scale
+                            )
+
 
                         @birds[0].body.SetAwake 0
                         @birds[0].body.SetAngle angle
@@ -201,7 +221,38 @@ class Level extends Kinetic.Group
                             @birds[0].body.GetWorldCenter()
 
                         @birds[0].body.SetAngularVelocity .5
+                        @slingshot.retreatSpeed = (@birds[0].body.GetLinearVelocity().Length() / 50) * @world.scale
 
                         @birds[0].off "mousedown"
                         @off "mouseup"
                         @off "mousemove"
+
+    handleBandSwing: ->
+        if @state == Utils.GameStates.birdFired and @slingshot.retreatSpeed?
+            distance = Math.sqrt(
+                (@slingshot.GetBirdPlacement().x * @world.scale - @band1.line.getPoints()[1].x) ** 2 + 
+                (@slingshot.GetBirdPlacement().y * @world.scale - @band1.line.getPoints()[1].y) ** 2
+            )
+            if distance <= @slingshot.retreatSpeed
+                @band1.resetPosition()
+                @band2.resetPosition()
+                @slingshot.retreatSpeed = undefined
+            else
+                angle = Math.atan2(
+                    @band1.line.getPoints()[1].y - @slingshot.GetBirdPlacement().y * @world.scale,
+                    @band1.line.getPoints()[1].x - @slingshot.GetBirdPlacement().x * @world.scale
+                )
+
+                @band1.adjustPosition(
+                    @band1.line.getPoints()[1].x - @slingshot.retreatSpeed * Math.cos(angle),
+                    @band1.line.getPoints()[1].y - @slingshot.retreatSpeed * Math.sin(angle)
+                )
+
+                @band2.adjustPosition(
+                    @band2.line.getPoints()[1].x - @slingshot.retreatSpeed * Math.cos(angle),
+                    @band2.line.getPoints()[1].y - @slingshot.retreatSpeed * Math.sin(angle)
+                )
+
+        if @state == Utils.GameStates.preview
+            @band1.resetPosition()
+            @band2.resetPosition()

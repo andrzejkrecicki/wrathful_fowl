@@ -23,7 +23,7 @@ class Objects.GameObject extends Kinetic.Group
 
 class Objects.Slingshot extends Objects.GameObject
     constructor: (@world, x, y) ->
-        @baseHeight = 105
+        @baseHeight = 132
         @baseWidth = 17
 
         shape = new Box2D.Collision.Shapes.b2PolygonShape
@@ -40,12 +40,36 @@ class Objects.Slingshot extends Objects.GameObject
             image: Utils.ImageResource DefaultLoader.resources.level1.images.slingshot
             x: 0
             y: 0
-            width: 80
-            height: 80
-            offset: [40, 90]
+            width: 87
+            height: 130
+            offset: [43, 140]
 
     GetBirdPlacement: ->
         return x: @body.GetPosition().x, y: @body.GetPosition().y - @baseHeight / @world.scale
+
+
+class Objects.Band extends Kinetic.Group
+    constructor: (@world, @points) ->
+        super
+            x: 0
+            y: 0
+
+        @add @line = new Kinetic.Line
+            points: @points
+            stroke: '#000'
+            strokeWidth: 10
+            lineCap: 'round'
+            lineJoin: 'round'
+
+        @body =
+            GetPosition: => x: @getX(), y: @getY()
+            GetAngle: ->
+
+    adjustPosition: (x, y) ->
+        @line.setPoints [@points[0], @points[1], x, y]
+
+    resetPosition: ->
+        @line.setPoints @points
 
 
 class Objects.Wood extends Objects.GameObject
