@@ -128,6 +128,7 @@ class Level extends Kinetic.Group
         @desiredOffsets.push offset
 
     setOffset: (@offset) ->
+        @offset = Math.max(0, Math.min(@offset, @layer1.getWidth() - 1280))
         @objects.setX -@offset
         @layer1.setX -@offset
         @layer2.setX -@offset/2
@@ -136,7 +137,7 @@ class Level extends Kinetic.Group
     handlePanning: ->
         if @desiredOffsets.length
             mul = (@desiredOffsets[0] - @offset) / Math.abs(@desiredOffsets[0] - @offset) or 0
-            if Math.abs(@desiredOffsets[0] - @offset) <= @panningSpeed
+            if Math.abs(@desiredOffsets[0] - @offset) <= Math.abs(@panningSpeed)
                 @panningSpeed = 0
                 @breakingTime = 50
                 @setOffset @desiredOffsets[0]
