@@ -40,3 +40,11 @@ Utils =
         "gameOver",
         "levelComplete"
     )
+
+    makeDynamicBodyDef: (scale, x, y, angle) ->
+        bodyDef = new Box2D.Dynamics.b2BodyDef
+        bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
+        bodyDef.position.x = (x) / scale
+        bodyDef.position.y = (y) / scale
+        bodyDef.angle = Math.PI * angle / 180
+        return bodyDef

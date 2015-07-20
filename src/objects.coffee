@@ -78,11 +78,7 @@ class Objects.Wood extends Objects.GameObject
         shape = new Box2D.Collision.Shapes.b2PolygonShape
         shape.SetAsBox 13 / @world.scale, 60 / @world.scale
 
-        bodyDef = new Box2D.Dynamics.b2BodyDef
-        bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
-        bodyDef.position.x = (x) / @world.scale
-        bodyDef.position.y = (y) / @world.scale
-        bodyDef.angle = Math.PI * angle / 180
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
         @life = 120
         @sprite = 1
@@ -123,11 +119,7 @@ class Objects.StandardBird extends Objects.GameObject
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2CircleShape 23 / @world.scale
 
-        bodyDef = new Box2D.Dynamics.b2BodyDef
-        bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
-        bodyDef.position.x = (x) / @world.scale
-        bodyDef.position.y = (y) / @world.scale
-        bodyDef.angle = Math.PI * angle / 180
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
         @life = 30
 
@@ -152,11 +144,7 @@ class Objects.DivingBird extends Objects.GameObject
         ]
         shape.SetAsArray points, points.length
 
-        bodyDef = new Box2D.Dynamics.b2BodyDef
-        bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
-        bodyDef.position.x = (x) / @world.scale
-        bodyDef.position.y = (y) / @world.scale
-        bodyDef.angle = Math.PI * angle / 180
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
         @life = 30
         @superPowerUsed = false
@@ -221,11 +209,7 @@ class Objects.StandardPig extends Objects.GameObject
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2CircleShape 27.5 / @world.scale
 
-        bodyDef = new Box2D.Dynamics.b2BodyDef
-        bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
-        bodyDef.position.x = (x) / @world.scale
-        bodyDef.position.y = (y) / @world.scale
-        bodyDef.angle = Math.PI * angle / 180
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
         @life = 15
         @sprite = 1
@@ -280,11 +264,7 @@ class Objects.Mountain extends Objects.GameObject
         ]
         shape.SetAsArray points, points.length
 
-        bodyDef = new Box2D.Dynamics.b2BodyDef
-        bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
-        bodyDef.position.x = x / @world.scale
-        bodyDef.position.y = y / @world.scale
-        bodyDef.angle = Math.PI * angle / 180
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
         super @world, x, y, bodyDef, shape, .7, .4, .4
 
