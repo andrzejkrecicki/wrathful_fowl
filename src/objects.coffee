@@ -22,7 +22,7 @@ class Objects.GameObject extends Kinetic.Group
 
 
 class Objects.Slingshot extends Objects.GameObject
-    constructor: (@world, x, y) ->
+    constructor: (@world, x, y, angle=0) ->
         @baseHeight = 132
         @baseWidth = 17
 
@@ -31,8 +31,9 @@ class Objects.Slingshot extends Objects.GameObject
 
         bodyDef = new Box2D.Dynamics.b2BodyDef
         bodyDef.type = Box2D.Dynamics.b2Body.b2_staticBody
-        bodyDef.position.x = (x + 42) / @world.scale
-        bodyDef.position.y = (y + 88) / @world.scale
+        bodyDef.position.x = (x) / @world.scale
+        bodyDef.position.y = (y) / @world.scale
+        bodyDef.angle = Math.PI * angle / 180
 
         super @world, x, y, bodyDef, shape
 

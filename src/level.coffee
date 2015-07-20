@@ -64,7 +64,7 @@ class Level extends Kinetic.Group
         @world.SetContactListener contact_listener
 
         @addObject new Objects.Floor @world
-        @addObject @slingshot = new Objects.Slingshot @world, 300, 640
+        @addObject @slingshot = new Objects.Slingshot @world, 342, 728
 
         @addObject @band1 = new Objects.Band @world, [305, 590, 305, 590]
         @addObject @band2 = new Objects.Band @world, [381, 590, 305, 590]
