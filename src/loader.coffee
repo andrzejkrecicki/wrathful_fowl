@@ -80,11 +80,13 @@ class DefaultLoader
             panOffset: 1040
         level2:
             images:
+                bird2_1: "img/bird2_1.png"
                 layer1: "img/level2_layer1.png"
                 layer2: "img/level2_layer2.png"
                 layer3: "img/level2_layer3.png"
             sounds:
                 loop: "snd/level2.mp3"
+                dive: "snd/dive.mp3"
             objects: [
                 type: "Wood"
                 x: 1700
@@ -133,7 +135,7 @@ class DefaultLoader
                 x: 2000
                 y: 568
             ]
-            birds: ["StandardBird", "StandardBird", "StandardBird"]
+            birds: ["DivingBird", "StandardBird", "StandardBird"]
             panOffset: 1040
 
 

@@ -141,6 +141,53 @@ class Objects.StandardBird extends Objects.GameObject
             offset: [33, 31]
 
 
+class Objects.DivingBird extends Objects.GameObject
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2PolygonShape
+        points = [
+            new Box2D.Common.Math.b2Vec2 0, -24 / @world.scale
+            new Box2D.Common.Math.b2Vec2 26 / @world.scale, 15 / @world.scale
+            new Box2D.Common.Math.b2Vec2 -25 / @world.scale, 15 / @world.scale
+        ]
+        shape.SetAsArray points, points.length
+
+        bodyDef = new Box2D.Dynamics.b2BodyDef
+        bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody
+        bodyDef.position.x = (x) / @world.scale
+        bodyDef.position.y = (y) / @world.scale
+        bodyDef.angle = Math.PI * angle / 180
+
+        @life = 30
+        @superPowerUsed = false
+
+        super @world, x, y, bodyDef, shape, 1.1, .4, .1
+
+        @add new Kinetic.Image
+            image: Utils.ImageResource DefaultLoader.resources.level2.images.bird2_1
+            x: 0
+            y: 0
+            width: 58
+            height: 54
+            offset: [31, 33]
+
+    superPower: ->
+        return if @superPowerUsed
+        @superPowerUsed = true
+        @body.SetAngle Math.PI / 5
+        @body.ApplyImpulse
+            x: 20
+            y: 20
+        ,
+            @body.GetWorldCenter()
+
+        Utils.SoundResource(DefaultLoader.resources.level2.sounds.dive).play()
+
+    handleHit: (impulse) ->
+        @superPowerUsed = true if impulse > .5
+        super
+
+
+
 class Objects.StandardPig extends Objects.GameObject
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2CircleShape 27.5 / @world.scale

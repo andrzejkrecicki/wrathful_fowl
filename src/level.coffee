@@ -82,13 +82,17 @@ class Level extends Kinetic.Group
         birdX = 250
         @birds = []
         for birdType in options.birds
-            @addObject bird = new Objects[birdType] @world, birdX, 550, 0
+            @addObject bird = new Objects[birdType] @world, birdX, 680, 0
             @birds.push bird
             birdX -= bird.children[0].getWidth() + 10
 
         @totalBirds = @birds.length
 
         @band2.setZIndex 200
+
+        @on "click", =>
+            if @state == Utils.GameStates.birdFired
+                @birds[0]?.superPower?()
 
         # @world.context = document.getElementById("debug").getContext("2d")
         # debugDraw = new Box2D.Dynamics.b2DebugDraw
