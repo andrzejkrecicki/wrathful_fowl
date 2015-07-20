@@ -81,6 +81,8 @@ class DefaultLoader
         level2:
             images:
                 bird2_1: "img/bird2_1.png"
+                bird2_2: "img/bird2_2.png"
+                bird2_3: "img/bird2_3.png"
                 layer1: "img/level2_layer1.png"
                 layer2: "img/level2_layer2.png"
                 layer3: "img/level2_layer3.png"

@@ -162,13 +162,21 @@ class Objects.DivingBird extends Objects.GameObject
 
         super @world, x, y, bodyDef, shape, 1.1, .4, .1
 
+
+        @sprite = 1
+        @sprites = [
+            Utils.ImageResource(DefaultLoader.resources.level2.images.bird2_1)
+            Utils.ImageResource(DefaultLoader.resources.level2.images.bird2_2)
+            Utils.ImageResource(DefaultLoader.resources.level2.images.bird2_3)
+        ]
+
         @add new Kinetic.Image
-            image: Utils.ImageResource DefaultLoader.resources.level2.images.bird2_1
+            image: @sprites[0]
             x: 0
             y: 0
-            width: 58
+            width: 77
             height: 54
-            offset: [31, 33]
+            offset: [50, 33]
 
     superPower: ->
         return if @superPowerUsed
@@ -180,10 +188,30 @@ class Objects.DivingBird extends Objects.GameObject
         ,
             @body.GetWorldCenter()
 
+        @removeChildren()
+        @add new Kinetic.Image
+            image: @sprites[1]
+            x: 0
+            y: 0
+            width: 77
+            height: 54
+            offset: [50, 33]
+
         Utils.SoundResource(DefaultLoader.resources.level2.sounds.dive).play()
 
     handleHit: (impulse) ->
-        @superPowerUsed = true if impulse > .5
+        if impulse > .5
+            @superPowerUsed = true
+        
+            @removeChildren()
+            @add new Kinetic.Image
+                image: @sprites[2]
+                x: 0
+                y: 0
+                width: 77
+                height: 54
+                offset: [50, 33]
+
         super
 
 
