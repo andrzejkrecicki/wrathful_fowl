@@ -80,7 +80,7 @@ class Objects.Wood extends Objects.GameObject
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
-        @life = 120
+        @life = 40
         @sprite = 1
         @sprites = [
             Utils.ImageResource(DefaultLoader.resources.level1.images.wood1)
@@ -100,9 +100,10 @@ class Objects.Wood extends Objects.GameObject
             offset: [13, 60]
 
     handleHit: (impulse) ->
+        return if impulse < .3
         super impulse
         Utils.SoundResource(DefaultLoader.resources.level1.sounds.wood).play() if impulse > 1.5
-        state = [120, 90, 60, 30].filter((x) => @life <= x).length
+        state = [40, 30, 20, 10].filter((x) => @life <= x).length
         if state != @sprite
             console.log "Life: #{@life}, state: #{state}"
             @removeChildren()
