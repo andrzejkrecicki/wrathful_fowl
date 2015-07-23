@@ -377,6 +377,44 @@ class Objects.BombBird extends Objects.GameObject
 
 
 
+
+class Objects.MultiBird extends Objects.GameObject
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2CircleShape 13 / @world.scale
+
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
+
+        @life = 30
+        @superPowerUsed = false
+
+        super @world, x, y, bodyDef, shape, 1.3, .4, 0
+
+        @add = new Kinetic.Image
+            x: 0
+            y: 0
+            width: 30
+            height: 29
+            offset: [16, 15]
+            image: Utils.ImageResource DefaultLoader.resources.level2.images.bird5_1
+
+    superPower: ->
+        return if @superPowerUsed
+        @superPowerUsed = true
+
+        {x, y} = @body.GetPosition()
+        vc = @body.GetLinearVelocity()
+        vc = new Box2D.Common.Math.b2Vec2(vc.x, vc.y)
+        worldCenter = @body.GetWorldCenter()
+        worldCenter = new Box2D.Common.Math.b2Vec2 worldCenter.x, worldCenter.y
+
+        @world.level.addObject bird = new Objects.MultiBird @world, x * @world.scale, y * @world.scale + 27, @body.GetAngle()
+        bird.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(vc.x, vc.y + 3), new Box2D.Common.Math.b2Vec2(worldCenter.x, worldCenter.y + 1))
+
+        @world.level.addObject bird = new Objects.MultiBird @world, x * @world.scale, y * @world.scale - 27, @body.GetAngle()
+        bird.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(vc.x, vc.y - 3), new Box2D.Common.Math.b2Vec2(worldCenter.x, worldCenter.y - 1))
+
+
+
 class Objects.Explosion extends Kinetic.Group
     constructor: (x, y) ->
         super
