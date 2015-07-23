@@ -83,12 +83,20 @@ class DefaultLoader
                 bird2_1: "img/bird2_1.png"
                 bird2_2: "img/bird2_2.png"
                 bird2_3: "img/bird2_3.png"
+                bird3_1: "img/bird3_1.png"
+                bird3_2: "img/bird3_2.png"
+                bird3_3: "img/bird3_3.png"
+                egg: "img/egg.png"
+                explosion: "img/explosion.png"
                 layer1: "img/level2_layer1.png"
                 layer2: "img/level2_layer2.png"
                 layer3: "img/level2_layer3.png"
             sounds:
                 loop: "snd/level2.mp3"
                 dive: "snd/dive.mp3"
+                pop: "snd/pop.mp3"
+                fall_scream: "snd/fall_scream.mp3"
+                explosion: "snd/explosion.mp3"
             objects: [
                 type: "Wood"
                 x: 1700
@@ -137,7 +145,7 @@ class DefaultLoader
                 x: 2000
                 y: 568
             ]
-            birds: ["DivingBird", "StandardBird", "StandardBird"]
+            birds: ["BombingBird", "DivingBird", "StandardBird"]
             panOffset: 1040
 
 

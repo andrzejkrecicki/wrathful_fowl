@@ -28,6 +28,7 @@ Utils =
         snd.preload = "auto"
         snd.oncanplaythrough = onload snd
         snd.src = src
+        # snd.play = ->
         return snd
 
     GameStates: Enum(
@@ -48,3 +49,17 @@ Utils =
         bodyDef.position.y = (y) / scale
         bodyDef.angle = Math.PI * angle / 180
         return bodyDef
+
+
+    makeExplosion: (world, position, radius, impulse) ->
+        world.level.drawables.add ex = new Objects.Explosion position.x * world.scale, position.y * world.scale
+        ex.sprite.start()
+        body = world.GetBodyList()
+        while body
+            if 0 < (distance = Box2D.Common.Math.b2Math.Distance(position, body.GetPosition())) < radius
+                angle = Math.atan2 body.GetPosition().y - position.y, body.GetPosition().x - position.x
+                body.ApplyImpulse({
+                    x: impulse * (1 - distance / radius) * Math.cos angle
+                    y: impulse * (1 - distance / radius) * Math.sin angle
+                }, body.GetWorldCenter())
+            body = body.m_next

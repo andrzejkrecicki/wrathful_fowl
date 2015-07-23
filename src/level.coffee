@@ -34,6 +34,10 @@ class Level extends Kinetic.Group
             x: 0
             y: 0
 
+        @add @drawables = new Kinetic.Group
+            x: 0
+            y: 0
+
         @state = Utils.GameStates.preview
 
         @desiredOffsets = []
@@ -50,6 +54,7 @@ class Level extends Kinetic.Group
         @world = new Box2D.Dynamics.b2World gravity, true
         @world.scale = 30
         @world.timeStep = 1 / 50
+        @world.level = this
 
         contact_listener = new Box2D.Dynamics.b2ContactListener
         contact_listener.PostSolve = (contact, impulse) ->
@@ -92,7 +97,7 @@ class Level extends Kinetic.Group
 
         @on "click", =>
             if @state == Utils.GameStates.birdFired
-                @birds[0]?.superPower?()
+                @birds[0]?.superPower?(this)
 
         # @world.context = document.getElementById("debug").getContext("2d")
         # debugDraw = new Box2D.Dynamics.b2DebugDraw
@@ -130,9 +135,16 @@ class Level extends Kinetic.Group
     setOffset: (@offset) ->
         @offset = Math.max(0, Math.min(@offset, @layer1.getWidth() - 1280))
         @objects.setX -@offset
+        @drawables.setX -@offset
         @layer1.setX -@offset
         @layer2.setX -@offset/2
         @layer3.setX -@offset/4
+
+    stopPanning: ->
+        @panningSpeed = 0
+        @breakingTime = 50
+        @desiredOffsets = []
+        @state = Utils.GameStates.preview
 
     handlePanning: ->
         if @desiredOffsets.length
@@ -220,8 +232,8 @@ class Level extends Kinetic.Group
                         , 10000
 
                         @birds[0].body.ApplyImpulse
-                            x: (@slingshot.body.GetPosition().x - @birds[0].body.GetPosition().x) * 10
-                            y: (@slingshot.GetBirdPlacement().y - @birds[0].body.GetPosition().y) * 10
+                            x: (@slingshot.body.GetPosition().x - @birds[0].body.GetPosition().x) * 7.7 * @birds[0].body.GetMass()
+                            y: (@slingshot.GetBirdPlacement().y - @birds[0].body.GetPosition().y) * 7.7 * @birds[0].body.GetMass()
                         ,
                             @birds[0].body.GetWorldCenter()
 

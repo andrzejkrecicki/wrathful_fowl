@@ -6,15 +6,15 @@ class Objects.GameObject extends Kinetic.Group
             x: x
             y: y
 
-        fixtureDef = new Box2D.Dynamics.b2FixtureDef
-        fixtureDef.density = density
-        fixtureDef.friction = friction
-        fixtureDef.restitution = restitution
-        fixtureDef.shape = shape
+        @fixtureDef = new Box2D.Dynamics.b2FixtureDef
+        @fixtureDef.density = density
+        @fixtureDef.friction = friction
+        @fixtureDef.restitution = restitution
+        @fixtureDef.shape = shape
 
         @body = @world.CreateBody bodyDef
         @body.parent = this
-        fixture = @body.CreateFixture fixtureDef
+        fixture = @body.CreateFixture @fixtureDef if shape
 
     handleHit: (impulse) ->
         return unless @life
@@ -34,7 +34,6 @@ class Objects.Slingshot extends Objects.GameObject
         bodyDef.position.x = (x) / @world.scale
         bodyDef.position.y = (y) / @world.scale
         bodyDef.angle = Math.PI * angle / 180
-
         super @world, x, y, bodyDef, shape
 
         @add new Kinetic.Image
@@ -205,6 +204,166 @@ class Objects.DivingBird extends Objects.GameObject
         super
 
 
+class Objects.BombingBird extends Objects.GameObject
+    constructor: (@world, x, y, angle=0) ->
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
+        
+        super @world, x, y, bodyDef
+
+        @fixtureDef.shape = new Box2D.Collision.Shapes.b2CircleShape 30 / @world.scale
+        @fixtureDef.filter.groupIndex = -1
+        @body.CreateFixture @fixtureDef
+
+        @fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
+        
+        points = [
+            new Box2D.Common.Math.b2Vec2 (26 - 48) / @world.scale, (38 - 60) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (43 - 48) / @world.scale, (22 - 60) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (40 - 48) / @world.scale, (29 - 60) / @world.scale
+        ]
+        @fixtureDef.shape.SetAsArray points, points.length
+        @fixtureDef.filter.groupIndex = -1
+        @body.CreateFixture @fixtureDef
+
+        points = [
+            new Box2D.Common.Math.b2Vec2 (70 - 48) / @world.scale, (38 - 60) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (56 - 48) / @world.scale, (22 - 60) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (59 - 48) / @world.scale, (29 - 60) / @world.scale
+        ]
+        @fixtureDef.shape.SetAsArray points, points.length
+        @fixtureDef.filter.groupIndex = -1
+        @body.CreateFixture @fixtureDef
+
+        @fixtureDef.shape = new Box2D.Collision.Shapes.b2CircleShape 10 / @world.scale
+        @fixtureDef.shape.m_p = new Box2D.Common.Math.b2Vec2 (49 - 48) / @world.scale, (30 - 60) / @world.scale
+        @fixtureDef.filter.groupIndex = -1
+        @body.CreateFixture @fixtureDef
+
+
+
+        @life = 30
+        @superPowerUsed = false
+
+        @sprite = 1
+        @sprites = [
+            Utils.ImageResource(DefaultLoader.resources.level2.images.bird3_1)
+            Utils.ImageResource(DefaultLoader.resources.level2.images.bird3_2)
+            Utils.ImageResource(DefaultLoader.resources.level2.images.bird3_3)
+        ]
+
+        @add new Kinetic.Image
+            image: @sprites[0]
+            x: 0
+            y: 0
+            width: 80
+            height: 93
+            offset: [47, 60]
+
+    superPower: ->
+        return if @superPowerUsed
+
+        @superPowerUsed = true
+        @body.SetAngle 0
+        @body.SetAngularVelocity 0
+        @body.SetLinearVelocity({ x: 15, y: -20 }, @body.GetWorldCenter())
+
+        @world.level.addObject egg = new Objects.Egg @world, @body.GetPosition().x * @world.scale, @body.GetPosition().y * @world.scale , 0
+        egg.body.ApplyImpulse({ x: 0, y: 10 }, egg.body.GetWorldCenter())
+
+        @world.level.stopPanning()
+
+        @removeChildren()
+        @add new Kinetic.Image
+            image: @sprites[1]
+            x: 0
+            y: 0
+            width: 80
+            height: 93
+            offset: [47, 60]
+
+        Utils.SoundResource(DefaultLoader.resources.level2.sounds.pop).play()
+
+    handleHit: (impulse) ->
+        if impulse > 1.3 and !@superPowerUsed
+            @superPowerUsed = true
+            @removeChildren()
+            @add new Kinetic.Image
+                image: @sprites[2]
+                x: 0
+                y: 0
+                width: 80
+                height: 93
+                offset: [47, 60]
+
+        super
+
+
+class Objects.Egg extends Objects.GameObject
+    constructor: (@world, x, y, angle=0) ->
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
+        super @world, x, y, bodyDef, undefined, .7, .4, 0
+
+        @fixtureDef.shape = new Box2D.Collision.Shapes.b2CircleShape 22 / @world.scale
+        @fixtureDef.filter.groupIndex = -1
+        @body.CreateFixture @fixtureDef
+
+
+        @fixtureDef.shape = new Box2D.Collision.Shapes.b2CircleShape 15 / @world.scale
+        @fixtureDef.shape.m_p = new Box2D.Common.Math.b2Vec2 0 / @world.scale, -18 / @world.scale
+        @fixtureDef.filter.groupIndex = -1
+        @body.CreateFixture @fixtureDef
+
+        @life = 100
+
+        @fallSound = Utils.SoundResource(DefaultLoader.resources.level2.sounds.fall_scream)
+        @fallSound.play()
+
+        @add new Kinetic.Image
+            image: Utils.ImageResource(DefaultLoader.resources.level2.images.egg)
+            x: 0
+            y: 0
+            width: 44
+            height: 57
+            offset: [22, 35]
+
+    handleHit: ->
+        if @life > 0
+            @life = 0
+            @fallSound.pause()
+            snd = Utils.SoundResource(DefaultLoader.resources.level2.sounds.explosion)
+            snd.play()
+            Utils.makeExplosion @world, @body.GetPosition(), 12, 40
+            console.log "egg hit"
+        super
+
+
+class Objects.Explosion extends Kinetic.Group
+    constructor: (x, y) ->
+        super
+            x: x
+            y: y
+
+        @add @sprite = new Kinetic.Sprite
+            x: -144/2
+            y: -137/2
+            image: Utils.ImageResource(DefaultLoader.resources.level2.images.explosion)
+            animation: 'explosion'
+            animations:
+                explosion: [
+                    { x: 144 * 0, y: 0, width: 144, height: 137 }
+                    { x: 144 * 1, y: 0, width: 144, height: 137 }
+                    { x: 144 * 2, y: 0, width: 144, height: 137 }
+                    { x: 144 * 3, y: 0, width: 144, height: 137 }
+                    { x: 144 * 4, y: 0, width: 144, height: 137 }
+                    { x: 144 * 5, y: 0, width: 144, height: 137 }
+                ]
+            frameRate: 20
+            index: 0
+
+        @sprite.on "indexChange", ({oldVal, newVal}) =>
+            if newVal == 0
+                @sprite.stop()
+                @remove()
 
 class Objects.StandardPig extends Objects.GameObject
     constructor: (@world, x, y, angle=0) ->

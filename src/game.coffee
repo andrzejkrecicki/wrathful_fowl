@@ -20,7 +20,7 @@ class Game
     loadMenu: ->
         @loader.load "menu", =>
             @clearStage()
-            @loader.menu.loop.play()
+            # @loader.menu.loop.play()
             @layer.add new Kinetic.Image
                 x: 0
                 y: 0
@@ -100,7 +100,7 @@ class Game
         @loader.load "level#{number}", =>
             console.log "level #{number} ready"
             @clearStage()
-            @loader["level#{number}"].loop.play()
+            # @loader["level#{number}"].loop.play()
             @layer.add @level = new Level
                 layer1: @loader["level#{number}"].layer1
                 layer2: @loader["level#{number}"].layer2
