@@ -86,6 +86,7 @@ class DefaultLoader
                 bird3_1: "img/bird3_1.png"
                 bird3_2: "img/bird3_2.png"
                 bird3_3: "img/bird3_3.png"
+                bird4: "img/bird4.png"
                 egg: "img/egg.png"
                 explosion: "img/explosion.png"
                 layer1: "img/level2_layer1.png"

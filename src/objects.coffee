@@ -330,11 +330,51 @@ class Objects.Egg extends Objects.GameObject
         if @life > 0
             @life = 0
             @fallSound.pause()
-            snd = Utils.SoundResource(DefaultLoader.resources.level2.sounds.explosion)
-            snd.play()
             Utils.makeExplosion @world, @body.GetPosition(), 12, 40
-            console.log "egg hit"
         super
+
+
+
+class Objects.BombBird extends Objects.GameObject
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2CircleShape 32 / @world.scale
+
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
+
+        @life = 30
+
+        super @world, x, y, bodyDef, shape, .7, .4, 0
+
+        @add @sprite = new Kinetic.Sprite
+            x: 0
+            y: 0
+            width: 64
+            height: 84
+            offset: [32, 52]
+            image: Utils.ImageResource DefaultLoader.resources.level2.images.bird4
+            animation: 'boiling'
+            animations:
+                boiling: [
+                    { x: 64 * 0, y: 0, width: 64, height: 84 }
+                    { x: 64 * 1, y: 0, width: 64, height: 84 }
+                    { x: 64 * 2, y: 0, width: 64, height: 84 }
+                    { x: 64 * 3, y: 0, width: 64, height: 84 }
+                ]
+            frameRate: 15
+            index: 0
+
+        @sprite.on "indexChange", ({oldVal, newVal}) =>
+            if newVal == 0
+                @sprite.stop()
+                @remove()
+                Utils.makeExplosion @world, @body.GetPosition(), 12, 60
+
+    handleHit: (impulse) ->
+        return if impulse < .8
+        if @life == 30
+            @sprite.start()
+        super impulse
+
 
 
 class Objects.Explosion extends Kinetic.Group

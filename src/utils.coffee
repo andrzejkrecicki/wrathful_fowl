@@ -54,6 +54,7 @@ Utils =
     makeExplosion: (world, position, radius, impulse) ->
         world.level.drawables.add ex = new Objects.Explosion position.x * world.scale, position.y * world.scale
         ex.sprite.start()
+        Utils.SoundResource(DefaultLoader.resources.level2.sounds.explosion).play()
         body = world.GetBodyList()
         while body
             if 0 < (distance = Box2D.Common.Math.b2Math.Distance(position, body.GetPosition())) < radius
