@@ -414,6 +414,136 @@ class Objects.MultiBird extends Objects.GameObject
         bird.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(vc.x, vc.y - 3), new Box2D.Common.Math.b2Vec2(worldCenter.x, worldCenter.y - 1))
 
 
+class Objects.BoomerangBird extends Objects.GameObject
+    constructor: (@world, x, y, angle=0) ->
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
+        
+        super @world, x, y, bodyDef
+
+        @fixtureDef.shape = new Box2D.Collision.Shapes.b2CircleShape 23 / @world.scale
+        @body.CreateFixture @fixtureDef
+
+        @fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
+        points = [
+            new Box2D.Common.Math.b2Vec2 (52 - 36) / @world.scale, (21 - 37) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (71 - 36) / @world.scale, (17 - 37) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (88 - 36) / @world.scale, (22 - 37) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (95 - 36) / @world.scale, (31 - 37) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (95 - 36) / @world.scale, (40 - 37) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (89 - 36) / @world.scale, (46 - 37) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (76 - 36) / @world.scale, (50 - 37) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (56 - 36) / @world.scale, (46 - 37) / @world.scale
+        ]
+        @fixtureDef.shape.SetAsArray points, points.length
+        @nose = @body.CreateFixture @fixtureDef
+
+
+        @life = 30
+        @superPowerUsed = false
+
+        @sprite = 0
+        @sprites = [
+            Utils.ImageResource(DefaultLoader.resources.level1.images.bird6_1)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.bird6_2)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.bird6_3)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.bird6_4)
+        ]
+
+        @add new Kinetic.Image
+            image: @sprites[@sprite]
+            x: 0
+            y: 0
+            width: 97
+            height: 90
+            offset: [36, 51]
+
+    superPower: ->
+        return if @superPowerUsed
+        @superPowerUsed = true
+
+        @removeChildren()
+        @sprite = 1
+        @add new Kinetic.Image
+            image: @sprites[@sprite]
+            x: 0
+            y: 0
+            width: 97
+            height: 90
+            offset: [36, 51]
+
+        @body.DestroyFixture @nose
+
+        @fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
+        points = [
+            new Box2D.Common.Math.b2Vec2 (39 - 36) / @world.scale, (27 - 51) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (48 - 36) / @world.scale, (11 - 51) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (63 - 36) / @world.scale, (1 - 51) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (73 - 36) / @world.scale, (1 - 51) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (82 - 36) / @world.scale, (7 - 51) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (51 - 36) / @world.scale, (37 - 51) / @world.scale
+        ]
+        @fixtureDef.shape.SetAsArray points, points.length
+        @body.CreateFixture @fixtureDef
+
+        @fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
+        points = [
+            new Box2D.Common.Math.b2Vec2 (57 - 36) / @world.scale, (32 - 51) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (49 - 36) / @world.scale, (48 - 51) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (50 - 36) / @world.scale, (37 - 51) / @world.scale
+        ]
+        @fixtureDef.shape.SetAsArray points, points.length
+        @body.CreateFixture @fixtureDef
+
+        @fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
+        points = [
+            new Box2D.Common.Math.b2Vec2 (49 - 36) / @world.scale, (48 - 51) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (70 - 36) / @world.scale, (69 - 51) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (80 - 36) / @world.scale, (86 - 51) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (68 - 36) / @world.scale, (88 - 51) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (49 - 36) / @world.scale, (70 - 51) / @world.scale
+        ]
+        @fixtureDef.shape.SetAsArray points, points.length
+        @body.CreateFixture @fixtureDef
+
+        @body.SetAngularVelocity 8
+        @body.ApplyForce
+            x: -2000 * @body.GetMass()
+            y: 0
+        ,
+            @body.GetWorldCenter()
+
+        Utils.SoundResource(DefaultLoader.resources.level2.sounds.dive).play()
+
+    handleHit: (impulse) ->
+        if impulse > 1.5
+            @superPowerUsed = true
+
+            if @sprite in [0, 1]
+                @removeChildren()
+                if @sprite == 1
+                    @sprite = 2
+                    @add new Kinetic.Image
+                        image: @sprites[@sprite]
+                        x: 0
+                        y: 0
+                        width: 97
+                        height: 90
+                        offset: [36, 51]
+                else
+                    @sprite = 3
+                    @add new Kinetic.Image
+                        image: @sprites[@sprite]
+                        x: 0
+                        y: 0
+                        width: 97
+                        height: 90
+                        offset: [36, 51]
+        super
+
+
+
+
+
 
 class Objects.Explosion extends Kinetic.Group
     constructor: (x, y) ->
