@@ -389,7 +389,7 @@ class Objects.MultiBird extends Objects.GameObject
 
         super @world, x, y, bodyDef, shape, 1.3, .4, 0
 
-        @add = new Kinetic.Image
+        @add new Kinetic.Image
             x: 0
             y: 0
             width: 30
