@@ -513,6 +513,33 @@ class Objects.Explosion extends Kinetic.Group
                 @sprite.stop()
                 @remove()
 
+class Objects.ExplosionWhite extends Kinetic.Group
+    constructor: (x, y) ->
+        super
+            x: x
+            y: y
+
+        @add @sprite = new Kinetic.Sprite
+            x: -128/2
+            y: -128/2
+            image: Utils.ImageResource(DefaultLoader.resources.level1.images.explosion_white)
+            animation: 'explosion'
+            animations:
+                explosion: [
+                    { x: 128 * 0, y: 0, width: 128, height: 128 }
+                    { x: 128 * 1, y: 0, width: 128, height: 128 }
+                    { x: 128 * 2, y: 0, width: 128, height: 128 }
+                    { x: 128 * 3, y: 0, width: 128, height: 128 }
+                    { x: 128 * 4, y: 0, width: 128, height: 128 }
+                ]
+            frameRate: 15
+            index: 0
+
+        @sprite.on "indexChange", ({oldVal, newVal}) =>
+            if newVal == 0
+                @sprite.stop()
+                @remove()
+
 class Objects.StandardPig extends Objects.GameObject
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2CircleShape 27.5 / @world.scale
@@ -551,6 +578,7 @@ class Objects.StandardPig extends Objects.GameObject
 
     remove: (play=false) ->
         Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_dies).play() if play
+        @world.level.addWhiteExplosion @getPosition()
         super
 
 

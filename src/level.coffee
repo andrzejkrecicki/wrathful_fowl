@@ -99,6 +99,7 @@ class Level extends Kinetic.Group
             if @state == Utils.GameStates.birdFired
                 @birds[0]?.superPower?(this)
 
+
         # @world.context = document.getElementById("debug").getContext("2d")
         # debugDraw = new Box2D.Dynamics.b2DebugDraw
         # debugDraw.SetSprite @world.context
@@ -139,6 +140,11 @@ class Level extends Kinetic.Group
         @layer1.setX -@offset
         @layer2.setX -@offset/2
         @layer3.setX -@offset/4
+
+
+    addWhiteExplosion: (position) ->
+        @drawables.add ex = new Objects.ExplosionWhite position.x, position.y
+        ex.sprite.start()
 
     stopPanning: ->
         @panningSpeed = 0

@@ -25,6 +25,7 @@ class DefaultLoader
                 pig1_1: "img/pig1_1.png"
                 pig1_2: "img/pig1_2.png"
                 pig1_3: "img/pig1_3.png"
+                explosion_white: "img/explosion_white.png"
             sounds:
                 loop: "snd/level1.mp3"
                 stretch: "snd/stretch.mp3"
