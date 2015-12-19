@@ -105,14 +105,7 @@ class Objects.Wood extends Objects.GameObject
         state = [40, 30, 20, 10].filter((x) => @life <= x).length
         if state != @sprite
             console.log "Life: #{@life}, state: #{state}"
-            @removeChildren()
-            @add new Kinetic.Image
-                image: @sprites[++@sprite - 1]
-                x: 0
-                y: 0
-                width: 26
-                height: 120
-                offset: [13, 60]
+            @children[0].setImage @sprites[++@sprite - 1]
 
 
 class Objects.StandardBird extends Objects.GameObject
@@ -177,29 +170,13 @@ class Objects.DivingBird extends Objects.GameObject
         ,
             @body.GetWorldCenter()
 
-        @removeChildren()
-        @add new Kinetic.Image
-            image: @sprites[1]
-            x: 0
-            y: 0
-            width: 77
-            height: 54
-            offset: [50, 33]
-
+        @children[0].setImage @sprites[1]
         Utils.SoundResource(DefaultLoader.resources.level2.sounds.dive).play()
 
     handleHit: (impulse) ->
         if impulse > .5
             @superPowerUsed = true
-        
-            @removeChildren()
-            @add new Kinetic.Image
-                image: @sprites[2]
-                x: 0
-                y: 0
-                width: 77
-                height: 54
-                offset: [50, 33]
+            @children[0].setImage @sprites[2]
 
         super
 
@@ -271,29 +248,14 @@ class Objects.BombingBird extends Objects.GameObject
         egg.body.ApplyImpulse({ x: 0, y: 10 }, egg.body.GetWorldCenter())
 
         @world.level.stopPanning()
-
-        @removeChildren()
-        @add new Kinetic.Image
-            image: @sprites[1]
-            x: 0
-            y: 0
-            width: 80
-            height: 93
-            offset: [47, 60]
+        @children[0].setImage @sprites[1]
 
         Utils.SoundResource(DefaultLoader.resources.level2.sounds.pop).play()
 
     handleHit: (impulse) ->
         if impulse > 1.3 and !@superPowerUsed
             @superPowerUsed = true
-            @removeChildren()
-            @add new Kinetic.Image
-                image: @sprites[2]
-                x: 0
-                y: 0
-                width: 80
-                height: 93
-                offset: [47, 60]
+            @children[0].setImage @sprites[2]
 
         super
 
@@ -461,15 +423,7 @@ class Objects.BoomerangBird extends Objects.GameObject
         return if @superPowerUsed
         @superPowerUsed = true
 
-        @removeChildren()
-        @sprite = 1
-        @add new Kinetic.Image
-            image: @sprites[@sprite]
-            x: 0
-            y: 0
-            width: 97
-            height: 90
-            offset: [36, 51]
+        @children[0].setImage @sprites[@sprite = 1]
 
         @body.DestroyFixture @nose
 
@@ -519,25 +473,11 @@ class Objects.BoomerangBird extends Objects.GameObject
             @superPowerUsed = true
 
             if @sprite in [0, 1]
-                @removeChildren()
                 if @sprite == 1
-                    @sprite = 2
-                    @add new Kinetic.Image
-                        image: @sprites[@sprite]
-                        x: 0
-                        y: 0
-                        width: 97
-                        height: 90
-                        offset: [36, 51]
+                    @children[0].setImage @sprites[@sprite = 2]
                 else
-                    @sprite = 3
-                    @add new Kinetic.Image
-                        image: @sprites[@sprite]
-                        x: 0
-                        y: 0
-                        width: 97
-                        height: 90
-                        offset: [36, 51]
+                    @children[0].setImage @sprites[@sprite = 3]
+
         super
 
 
@@ -607,14 +547,7 @@ class Objects.StandardPig extends Objects.GameObject
                 Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_grunt).play()
 
             console.log "Life: #{@life}, state: #{state}"
-            @removeChildren()
-            @add new Kinetic.Image
-                image: @sprites[++@sprite - 1]
-                x: 0
-                y: 0
-                width: 55
-                height: 64
-                offset: [27, 36]
+            @children[0].setImage @sprites[++@sprite - 1]
 
     remove: (play=false) ->
         Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_dies).play() if play
