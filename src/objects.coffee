@@ -540,13 +540,39 @@ class Objects.ExplosionWhite extends Kinetic.Group
                 @sprite.stop()
                 @remove()
 
-class Objects.StandardPig extends Objects.GameObject
+
+class Objects.GenericPig extends Objects.GameObject
+    animate: ->
+        return if @sprite.anim.isRunning()
+        @sprite.start()
+        @sprite.afterFrame @sprite.getAnimations()[@sprite.getAnimation()].length - 1, =>
+            @sprite.stop()
+
+    handleHit: (impulse) ->
+        super impulse
+        state = @lifeStates.filter((x) => @life <= x).length
+        if state != @sprite_index
+            if @life > 0
+                Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_grunt).play()
+
+            console.log "Life: #{@life}, state: #{state}"
+            @sprite.setAnimation ++@sprite_index - 1
+
+    remove: (play=false) ->
+        Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_dies).play() if play
+        @world.level.addWhiteExplosion @getPosition()
+        super
+
+
+
+class Objects.StandardPig extends Objects.GenericPig
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2CircleShape 27.5 / @world.scale
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
         @life = 15
+        @lifeStates = [15, 10, 5]
         @sprite_index = 1
 
         super @world, x, y, bodyDef, shape, .7, .4, .4
@@ -576,26 +602,41 @@ class Objects.StandardPig extends Objects.GameObject
             index: 0
 
 
-    animate: ->
-        return if @sprite.anim.isRunning()
-        @sprite.start()
-        @sprite.afterFrame @sprite.getAnimations()[@sprite.getAnimation()].length - 1, =>
-            @sprite.stop()
+class Objects.BigPig extends Objects.GenericPig
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2CircleShape 41 / @world.scale
 
-    handleHit: (impulse) ->
-        super impulse
-        state = [15, 10, 5].filter((x) => @life <= x).length
-        if state != @sprite_index
-            if @life > 0
-                Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_grunt).play()
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
-            console.log "Life: #{@life}, state: #{state}"
-            @sprite.setAnimation ++@sprite_index - 1
+        @life = 45
+        @lifeStates = [45, 30, 15]
+        @sprite_index = 1
 
-    remove: (play=false) ->
-        Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_dies).play() if play
-        @world.level.addWhiteExplosion @getPosition()
-        super
+        super @world, x, y, bodyDef, shape, .7, .4, .4
+
+        @add @sprite = new Kinetic.Sprite
+            x: 0
+            y: 0
+            width: 82
+            height: 85
+            offset: [41, 43]
+            image: Utils.ImageResource(DefaultLoader.resources.level1.images.pig2)
+            animation: "0"
+            animations:
+                "0": [
+                    { x: 82 * 0, y: 0, width: 82, height: 85 }
+                    { x: 82 * 1, y: 0, width: 82, height: 85 }
+                ]
+                "1": [
+                    { x: 82 * 2, y: 0, width: 82, height: 85 }
+                    { x: 82 * 3, y: 0, width: 82, height: 85 }
+                ]
+                "2": [
+                    { x: 82 * 4, y: 0, width: 82, height: 85 }
+                    { x: 82 * 5, y: 0, width: 82, height: 85 }
+                ]
+            frameRate: 4
+            index: 0
 
 
 class Objects.Mountain extends Objects.GameObject
