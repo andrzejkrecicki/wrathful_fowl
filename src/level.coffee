@@ -100,6 +100,15 @@ class Level extends Kinetic.Group
                 @birds[0]?.superPower?(this)
 
 
+        @intervals = []
+
+        @intervals.push setInterval =>
+            for object in @objects.getChildren()
+                continue unless object? and object.animate?
+                object.animate() if Math.random() < .18
+        , 500
+
+
         # @world.context = document.getElementById("debug").getContext("2d")
         # debugDraw = new Box2D.Dynamics.b2DebugDraw
         # debugDraw.SetSprite @world.context
@@ -108,6 +117,10 @@ class Level extends Kinetic.Group
         # debugDraw.SetLineThickness 3
         # debugDraw.SetFlags Box2D.Dynamics.b2DebugDraw.e_shapeBit or Box2D.Dynamics.b2DebugDraw.e_jointBit
         # @world.SetDebugDraw debugDraw
+
+    clear: ->
+        for i in @intervals
+            clearInterval i
 
     addObject: (object) ->
         @objects.add object if object.children?

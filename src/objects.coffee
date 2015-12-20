@@ -547,34 +547,50 @@ class Objects.StandardPig extends Objects.GameObject
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
         @life = 15
-        @sprite = 1
-        @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level1.images.pig1_1)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.pig1_2)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.pig1_3)
-        ]
-
+        @sprite_index = 1
 
         super @world, x, y, bodyDef, shape, .7, .4, .4
 
-        @add new Kinetic.Image
-            image: @sprites[@sprite - 1]
+        @add @sprite = new Kinetic.Sprite
             x: 0
             y: 0
-            width: 55
+            width: 56
             height: 64
             offset: [27, 36]
+            image: Utils.ImageResource(DefaultLoader.resources.level1.images.pig1)
+            animation: "0"
+            animations:
+                "0": [
+                    { x: 56 * 0, y: 0, width: 56, height: 64 }
+                    { x: 56 * 1, y: 0, width: 56, height: 64 }
+                ]
+                "1": [
+                    { x: 56 * 2, y: 0, width: 56, height: 64 }
+                    { x: 56 * 3, y: 0, width: 56, height: 64 }
+                ]
+                "2": [
+                    { x: 56 * 4, y: 0, width: 56, height: 64 }
+                    { x: 56 * 5, y: 0, width: 56, height: 64 }
+                ]
+            frameRate: 4
+            index: 0
 
+
+    animate: ->
+        return if @sprite.anim.isRunning()
+        @sprite.start()
+        @sprite.afterFrame @sprite.getAnimations()[@sprite.getAnimation()].length - 1, =>
+            @sprite.stop()
 
     handleHit: (impulse) ->
         super impulse
         state = [15, 10, 5].filter((x) => @life <= x).length
-        if state != @sprite
+        if state != @sprite_index
             if @life > 0
                 Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_grunt).play()
 
             console.log "Life: #{@life}, state: #{state}"
-            @children[0].setImage @sprites[++@sprite - 1]
+            @sprite.setAnimation ++@sprite_index - 1
 
     remove: (play=false) ->
         Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_dies).play() if play

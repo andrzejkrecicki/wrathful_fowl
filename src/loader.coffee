@@ -21,10 +21,7 @@ class DefaultLoader
                 wood2: "img/wood2.png"
                 wood3: "img/wood3.png"
                 wood4: "img/wood4.png"
-                bird1_1: "img/bird1_1.png"
-                pig1_1: "img/pig1_1.png"
-                pig1_2: "img/pig1_2.png"
-                pig1_3: "img/pig1_3.png"
+                pig1: "img/pig1.png"
                 explosion_white: "img/explosion_white.png"
             sounds:
                 loop: "snd/level1.mp3"
@@ -77,7 +74,7 @@ class DefaultLoader
                 x: 1747
                 y: 671
             ]
-            birds: ["StandardBird", "StandardBird", "StandardBird"]
+            birds: ["BoomerangBird", "StandardBird", "StandardBird"]
             panOffset: 1040
         level2:
             images:
@@ -148,7 +145,7 @@ class DefaultLoader
                 x: 2000
                 y: 568
             ]
-            birds: ["BombingBird", "DivingBird", "StandardBird"]
+            birds: ["BombingBird", "DivingBird", "MultiBird"]
             panOffset: 1040
 
 
