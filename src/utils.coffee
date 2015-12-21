@@ -74,3 +74,13 @@ Utils =
             MultiBird: 29
             BoomerangBird: 96
         }[birdType]
+
+    birdBottomOffset: (birdType) ->
+        return {
+            StandardBird: 32 - 23
+            DivingBird: 32 - 20
+            BombingBird: 32 - 30
+            BombBird: 32 - 32
+            MultiBird: 32 - 13
+            BoomerangBird: 32 - 23
+        }[birdType]

@@ -204,15 +204,15 @@ class Objects.BombingBird extends Objects.GameObject
 
         points = [
             new Box2D.Common.Math.b2Vec2 (70 - 48) / @world.scale, (38 - 60) / @world.scale
-            new Box2D.Common.Math.b2Vec2 (56 - 48) / @world.scale, (22 - 60) / @world.scale
-            new Box2D.Common.Math.b2Vec2 (59 - 48) / @world.scale, (29 - 60) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (53 - 48) / @world.scale, (22 - 60) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (56 - 48) / @world.scale, (29 - 60) / @world.scale
         ]
         @fixtureDef.shape.SetAsArray points, points.length
         @fixtureDef.filter.groupIndex = -1
         @body.CreateFixture @fixtureDef
 
         @fixtureDef.shape = new Box2D.Collision.Shapes.b2CircleShape 10 / @world.scale
-        @fixtureDef.shape.m_p = new Box2D.Common.Math.b2Vec2 (49 - 48) / @world.scale, (30 - 60) / @world.scale
+        @fixtureDef.shape.m_p = new Box2D.Common.Math.b2Vec2 0, (30 - 60) / @world.scale
         @fixtureDef.filter.groupIndex = -1
         @body.CreateFixture @fixtureDef
 

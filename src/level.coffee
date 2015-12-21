@@ -84,12 +84,13 @@ class Level extends Kinetic.Group
             @addObject pig = new Objects[pigDef.type] @world, pigDef.x, pigDef.y, 0
             @pigs.push pig
 
-        birdX = 310
+        birdX = 350
         @birds = []
         for birdType in options.birds
-            @addObject bird = new Objects[birdType] @world, birdX - Utils.birdWidth(birdType) , 680, 0
+            @addObject bird = new Objects[birdType] @world, birdX - Utils.birdWidth(birdType) , 687 + Utils.birdBottomOffset(birdType), 0
             @birds.push bird
-            birdX -= Utils.birdWidth(birdType) + 20
+            bird.body.SetAwake false
+            birdX -= Utils.birdWidth(birdType) + 30
 
         @totalBirds = @birds.length
 
