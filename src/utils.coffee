@@ -64,3 +64,13 @@ Utils =
                     y: impulse * (1 - distance / radius) * Math.sin angle
                 }, body.GetWorldCenter())
             body = body.m_next
+
+    birdWidth: (birdType) ->
+        return {
+            StandardBird: 46
+            DivingBird: 56
+            BombingBird: 79
+            BombBird: 63
+            MultiBird: 29
+            BoomerangBird: 96
+        }[birdType]

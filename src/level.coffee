@@ -84,12 +84,12 @@ class Level extends Kinetic.Group
             @addObject pig = new Objects[pigDef.type] @world, pigDef.x, pigDef.y, 0
             @pigs.push pig
 
-        birdX = 250
+        birdX = 310
         @birds = []
         for birdType in options.birds
-            @addObject bird = new Objects[birdType] @world, birdX, 680, 0
+            @addObject bird = new Objects[birdType] @world, birdX - Utils.birdWidth(birdType) , 680, 0
             @birds.push bird
-            birdX -= bird.children[0].getWidth() + 10
+            birdX -= Utils.birdWidth(birdType) + 20
 
         @totalBirds = @birds.length
 
@@ -203,7 +203,7 @@ class Level extends Kinetic.Group
 
 
         if @state == Utils.GameStates.loadBird
-            if Math.abs(@birds[0].body.GetPosition().x - @slingshot.body.GetPosition().x) < 1 / @world.scale
+            if Math.abs(@birds[0].body.GetPosition().x - @slingshot.body.GetPosition().x) < 3 / @world.scale
                 @state = Utils.GameStates.readyToFire
                 @birds[0].body.SetLinearVelocity 0, 0
                 @birds[0].body.SetAwake 0
