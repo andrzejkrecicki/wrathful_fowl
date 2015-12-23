@@ -638,6 +638,43 @@ class Objects.BigPig extends Objects.GenericPig
             frameRate: 4
             index: 0
 
+class Objects.TinyPig extends Objects.GenericPig
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2CircleShape 20 / @world.scale
+
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
+
+        @life = 8
+        @lifeStates = [8, 5, 2]
+        @sprite_index = 1
+
+        super @world, x, y, bodyDef, shape, .7, .4, .4
+
+        @add @sprite = new Kinetic.Sprite
+            x: 0
+            y: 0
+            width: 42
+            height: 46
+            offset: [21, 26]
+            image: Utils.ImageResource(DefaultLoader.resources.level1.images.pig3)
+            animation: "0"
+            animations:
+                "0": [
+                    { x: 42 * 0, y: 0, width: 42, height: 46 }
+                    { x: 42 * 1, y: 0, width: 42, height: 46 }
+                ]
+                "1": [
+                    { x: 42 * 2, y: 0, width: 42, height: 46 }
+                    { x: 42 * 3, y: 0, width: 42, height: 46 }
+                ]
+                "2": [
+                    { x: 42 * 4, y: 0, width: 42, height: 46 }
+                    { x: 42 * 5, y: 0, width: 42, height: 46 }
+                ]
+            frameRate: 4
+            index: 0
+
+
 
 class Objects.Mountain extends Objects.GameObject
     constructor: (@world, x, y, angle=0) ->
