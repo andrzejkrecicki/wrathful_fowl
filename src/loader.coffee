@@ -17,10 +17,10 @@ class DefaultLoader
                 layer2: "img/level1_layer2.png"
                 layer3: "img/level1_layer3.png"
                 slingshot: "img/slingshot.png"
-                wood1: "img/wood1.png"
-                wood2: "img/wood2.png"
-                wood3: "img/wood3.png"
-                wood4: "img/wood4.png"
+                wood1_1: "img/wood1_1.png"
+                wood1_2: "img/wood1_2.png"
+                wood1_3: "img/wood1_3.png"
+                bird1_1: "img/bird1_1.png"
                 pig1: "img/pig1.png"
                 explosion_white: "img/explosion_white.png"
             sounds:
@@ -36,45 +36,45 @@ class DefaultLoader
             objects: [
                 type: "Wood"
                 x: 1700
-                y: 660
-                angle: 0
-            ,
-                type: "Wood"
-                x: 1796
-                y: 660
-                angle: 0
-            ,
-                type: "Wood"
-                x: 1747
-                y: 586
+                y: 646
                 angle: 90
+            ,
+                type: "Wood"
+                x: 1828
+                y: 646
+                angle: 90
+            ,
+                type: "Wood"
+                x: 1765
+                y: 565
+                angle: 0
             ,
                 type: "Wood"
                 x: 1700
-                y: 512
-                angle: 0
-            ,
-                type: "Wood"
-                x: 1796
-                y: 512
-                angle: 0
-            ,
-                type: "Wood"
-                x: 1747
-                y: 442
+                y: 482
                 angle: 90
+            ,
+                type: "Wood"
+                x: 1828
+                y: 482
+                angle: 90
+            ,
+                type: "Wood"
+                x: 1765
+                y: 402
+                angle: 0
             ,
             ]
             pigs: [
                 type: "StandardPig"
-                x: 1747
-                y: 530
+                x: 1764
+                y: 527
             ,
                 type: "StandardPig"
-                x: 1747
-                y: 671
+                x: 1764
+                y: 691
             ]
-            birds: ["BoomerangBird", "StandardBird", "StandardBird"]
+            birds: ["StandardBird", "StandardBird", "StandardBird"]
             panOffset: 1040
         level2:
             images:
@@ -100,23 +100,23 @@ class DefaultLoader
             objects: [
                 type: "Wood"
                 x: 1700
-                y: 660
-                angle: 0
+                y: 645
+                angle: 90
             ,
                 type: "Wood"
                 x: 1800
-                y: 660
-                angle: 0
+                y: 645
+                angle: 90
             ,
                 type: "Wood"
                 x: 1900
-                y: 660
-                angle: 0
+                y: 645
+                angle: 90
             ,
                 type: "Wood"
                 x: 2000
-                y: 660
-                angle: 0
+                y: 645
+                angle: 90
             ,
                 type: "Mountain"
                 x: 2350
@@ -131,21 +131,21 @@ class DefaultLoader
             pigs: [
                 type: "StandardPig"
                 x: 1700
-                y: 568
+                y: 545
             ,
                 type: "StandardPig"
                 x: 1800
-                y: 568
+                y: 545
             ,
                 type: "StandardPig"
                 x: 1900
-                y: 568
+                y: 545
             ,
                 type: "StandardPig"
                 x: 2000
-                y: 568
+                y: 545
             ]
-            birds: ["BombingBird", "DivingBird", "MultiBird"]
+            birds: ["BomgingBird", "DivingBird", "MultiBird"]
             panOffset: 1040
 
 

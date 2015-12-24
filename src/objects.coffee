@@ -71,21 +71,31 @@ class Objects.Band extends Kinetic.Group
     resetPosition: ->
         @line.setPoints @points
 
+class Objects.GenericWood extends Objects.GameObject
+    handleHit: (impulse) ->
+        return if impulse < .3
+        super impulse
+        Utils.SoundResource(DefaultLoader.resources.level1.sounds.wood).play() if impulse > 1.5
+        state = @lifeStates.filter((x) => @life <= x).length
+        if state != @sprite
+            console.log "#{@constructor.name + @_id}: #{@life}, state: #{state}"
+            @children[0].setImage @sprites[++@sprite - 1]
 
-class Objects.Wood extends Objects.GameObject
+
+class Objects.Wood extends Objects.GenericWood
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2PolygonShape
-        shape.SetAsBox 13 / @world.scale, 60 / @world.scale
+        shape.SetAsBox 73 / @world.scale, 9 / @world.scale
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
-        @life = 40
+        @lifeStates = [30, 20, 10]
+        @life = 30
         @sprite = 1
         @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood1)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood2)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood3)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood4)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood1_1)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood1_2)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood1_3)
         ]
 
         super @world, x, y, bodyDef, shape, 1.4, .4, .4
@@ -94,18 +104,10 @@ class Objects.Wood extends Objects.GameObject
             image: @sprites[@sprite - 1]
             x: 0
             y: 0
-            width: 26
-            height: 120
-            offset: [13, 60]
+            width: 145
+            height: 17
+            offset: [73, 9]
 
-    handleHit: (impulse) ->
-        return if impulse < .3
-        super impulse
-        Utils.SoundResource(DefaultLoader.resources.level1.sounds.wood).play() if impulse > 1.5
-        state = [40, 30, 20, 10].filter((x) => @life <= x).length
-        if state != @sprite
-            console.log "Life: #{@life}, state: #{state}"
-            @children[0].setImage @sprites[++@sprite - 1]
 
 
 class Objects.StandardBird extends Objects.GameObject
