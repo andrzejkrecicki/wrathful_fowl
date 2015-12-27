@@ -63,6 +63,7 @@ Utils =
                     x: impulse * (1 - distance / radius) * Math.cos angle
                     y: impulse * (1 - distance / radius) * Math.sin angle
                 }, body.GetWorldCenter())
+                body.parent.handleHit? .2 * impulse * (1 - distance / radius)
             body = body.m_next
 
     birdWidth: (birdType) ->
