@@ -34,32 +34,32 @@ class DefaultLoader
                 crash: "snd/crash.mp3"
                 ding: "snd/ding.mp3"
             objects: [
-                type: "Wood"
+                type: "SlimWood"
                 x: 1700
                 y: 646
                 angle: 90
             ,
-                type: "Wood"
+                type: "SlimWood"
                 x: 1828
                 y: 646
                 angle: 90
             ,
-                type: "Wood"
+                type: "SlimWood"
                 x: 1765
                 y: 565
                 angle: 0
             ,
-                type: "Wood"
+                type: "SlimWood"
                 x: 1700
                 y: 482
                 angle: 90
             ,
-                type: "Wood"
+                type: "SlimWood"
                 x: 1828
                 y: 482
                 angle: 90
             ,
-                type: "Wood"
+                type: "SlimWood"
                 x: 1765
                 y: 402
                 angle: 0
@@ -98,22 +98,22 @@ class DefaultLoader
                 fall_scream: "snd/fall_scream.mp3"
                 explosion: "snd/explosion.mp3"
             objects: [
-                type: "Wood"
+                type: "SlimWood"
                 x: 1700
                 y: 645
                 angle: 90
             ,
-                type: "Wood"
+                type: "SlimWood"
                 x: 1800
                 y: 645
                 angle: 90
             ,
-                type: "Wood"
+                type: "SlimWood"
                 x: 1900
                 y: 645
                 angle: 90
             ,
-                type: "Wood"
+                type: "SlimWood"
                 x: 2000
                 y: 645
                 angle: 90

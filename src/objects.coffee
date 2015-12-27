@@ -71,24 +71,25 @@ class Objects.Band extends Kinetic.Group
     resetPosition: ->
         @line.setPoints @points
 
-class Objects.GenericWood extends Objects.GameObject
+class Objects.GenericBlock extends Objects.GameObject
     handleHit: (impulse) ->
         return if impulse < .3
         super impulse
-        Utils.SoundResource(DefaultLoader.resources.level1.sounds.wood).play() if impulse > 1.5
+        @sound.play() if impulse > 1.5
         state = @lifeStates.filter((x) => @life <= x).length
         if state != @sprite
             console.log "#{@constructor.name + @_id}: #{@life}, state: #{state}"
             @children[0].setImage @sprites[++@sprite - 1]
 
 
-class Objects.Wood extends Objects.GenericWood
+class Objects.SlimWood extends Objects.GenericBlock
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2PolygonShape
-        shape.SetAsBox 73 / @world.scale, 9 / @world.scale
+        shape.SetAsBox 73 / @world.scale, 8 / @world.scale
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
+        @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.wood)
         @lifeStates = [30, 20, 10]
         @life = 30
         @sprite = 1
@@ -106,7 +107,167 @@ class Objects.Wood extends Objects.GenericWood
             y: 0
             width: 145
             height: 17
-            offset: [73, 9]
+            offset: [72, 8]
+
+
+class Objects.WideWood extends Objects.GenericBlock
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2PolygonShape
+        shape.SetAsBox 36 / @world.scale, 18 / @world.scale
+
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
+
+        @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.wood)
+        @lifeStates = [50, 33, 17]
+        @life = 50
+        @sprite = 1
+        @sprites = [
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood2_1)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood2_2)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.wood2_3)
+        ]
+
+        super @world, x, y, bodyDef, shape, 1.4, .4, .4
+
+        @add new Kinetic.Image
+            image: @sprites[@sprite - 1]
+            x: 0
+            y: 0
+            width: 72
+            height: 36
+            offset: [36, 18]
+
+class Objects.SlimStone extends Objects.GenericBlock
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2PolygonShape
+        shape.SetAsBox 73 / @world.scale, 8 / @world.scale
+
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
+
+        @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.stone)
+        @lifeStates = [60, 45, 30, 15]
+        @life = 60
+        @sprite = 1
+        @sprites = [
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_1)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_2)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_3)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_4)
+        ]
+
+        super @world, x, y, bodyDef, shape, 2.4, .6, .15
+
+        @add new Kinetic.Image
+            image: @sprites[@sprite - 1]
+            x: 0
+            y: 0
+            width: 145
+            height: 17
+            offset: [72, 8]
+
+
+class Objects.WideStone extends Objects.GenericBlock
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2PolygonShape
+        shape.SetAsBox 36 / @world.scale, 18 / @world.scale
+
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
+
+        @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.stone)
+        @lifeStates = [100, 75, 50, 25]
+        @life = 100
+        @sprite = 1
+        @sprites = [
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_1)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_2)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_3)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_4)
+        ]
+
+        super @world, x, y, bodyDef, shape, 2.4, .6, .15
+
+        @add new Kinetic.Image
+            image: @sprites[@sprite - 1]
+            x: 0
+            y: 0
+            width: 72
+            height: 36
+            offset: [36, 18]
+
+class Objects.BigRock extends Objects.GenericBlock
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2PolygonShape
+        points = [
+            new Box2D.Common.Math.b2Vec2 (14 - 32) / @world.scale, (4 - 32) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (39 - 32) / @world.scale, (0 - 32) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (64 - 32) / @world.scale, (25 - 32) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (62 - 32) / @world.scale, (47 - 32) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (42 - 32) / @world.scale, (62 - 32) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (9 - 32) / @world.scale, (56 - 32) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (1 - 32) / @world.scale, (31 - 32) / @world.scale
+        ]
+        shape.SetAsArray points, points.length
+
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
+
+        @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.stone)
+        @lifeStates = [140, 105, 70, 35]
+        @life = 140
+        @sprite = 1
+        @sprites = [
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_1)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_2)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_3)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_4)
+        ]
+
+        super @world, x, y, bodyDef, shape, 2.4, .6, .15
+
+        @add new Kinetic.Image
+            image: @sprites[@sprite - 1]
+            x: 0
+            y: 0
+            width: 65
+            height: 64
+            offset: [32, 32]
+
+
+class Objects.SmallRock extends Objects.GenericBlock
+    constructor: (@world, x, y, angle=0) ->
+        shape = new Box2D.Collision.Shapes.b2PolygonShape
+        points = [
+            new Box2D.Common.Math.b2Vec2 (8 - 16) / @world.scale, (1 - 16) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (22 - 16) / @world.scale, (1 - 16) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (32 - 16) / @world.scale, (12 - 16) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (31 - 16) / @world.scale, (23 - 16) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (22 - 16) / @world.scale, (32 - 16) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (4 - 16) / @world.scale, (29 - 16) / @world.scale
+            new Box2D.Common.Math.b2Vec2 (0 - 16) / @world.scale, (16 - 16) / @world.scale
+        ]
+        shape.SetAsArray points, points.length
+
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
+
+        @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.stone)
+        @lifeStates = [40, 30, 20, 10]
+        @life = 40
+        @sprite = 1
+        @sprites = [
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_1)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_2)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_3)
+            Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_4)
+        ]
+
+        super @world, x, y, bodyDef, shape, 2.4, .6, .15
+
+        @add new Kinetic.Image
+            image: @sprites[@sprite - 1]
+            x: 0
+            y: 0
+            width: 33
+            height: 33
+            offset: [16, 16]
 
 
 
