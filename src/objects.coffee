@@ -270,6 +270,33 @@ class Objects.SmallRock extends Objects.GenericBlock
             offset: [16, 16]
 
 
+class Objects.TNT extends Objects.GameObject
+    constructor: (@world, x, y, angle=0) ->
+        bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
+        super @world, x, y, bodyDef, undefined, .7, .4, 0
+
+        @fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape
+        @fixtureDef.shape.SetAsBox 18 / @world.scale, 18 / @world.scale
+        @body.CreateFixture @fixtureDef
+
+        @life = 100
+
+        @add new Kinetic.Image
+            image: Utils.ImageResource(DefaultLoader.resources.level1.images.tnt)
+            x: 0
+            y: 0
+            width: 36
+            height: 36
+            offset: [18, 18]
+
+    handleHit: (impulse) ->
+        return unless impulse > .7
+
+        if @life > 0
+            @life = 0
+            Utils.makeExplosion @world, @body.GetPosition(), 12, 30
+        super
+
 
 class Objects.StandardBird extends Objects.GameObject
     constructor: (@world, x, y, angle=0) ->
