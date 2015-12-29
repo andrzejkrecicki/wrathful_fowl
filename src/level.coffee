@@ -70,9 +70,11 @@ class Level extends Kinetic.Group
 
         @addObject new Objects.Floor @world
         @addObject @slingshot = new Objects.Slingshot @world, 342, 728
+        @addObject @slingshot_front = new Objects.SlingshotFront 342, 728
+        @slingshot_front.setListening(0)
 
-        @addObject @band1 = new Objects.Band @world, [305, 590, 305, 590]
-        @addObject @band2 = new Objects.Band @world, [381, 590, 305, 590]
+        @addObject @band1 = new Objects.Band @world, [316, 595, 316, 595]
+        @addObject @band2 = new Objects.Band @world, [358, 600, 316, 595]
 
 
         for object in options.objects
@@ -94,7 +96,9 @@ class Level extends Kinetic.Group
 
         @totalBirds = @birds.length
 
-        @band2.setZIndex 200
+        @band1.setZIndex 1000
+        @band2.setZIndex 0
+        @slingshot_front.setZIndex 999
 
         @on "click", =>
             if @state == Utils.GameStates.birdFired

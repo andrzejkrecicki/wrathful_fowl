@@ -37,16 +37,34 @@ class Objects.Slingshot extends Objects.GameObject
         super @world, x, y, bodyDef, shape
 
         @add new Kinetic.Image
-            image: Utils.ImageResource DefaultLoader.resources.level1.images.slingshot
+            image: Utils.ImageResource DefaultLoader.resources.level1.images.slingshot_back
             x: 0
             y: 0
-            width: 87
-            height: 130
-            offset: [43, 140]
+            width: 40
+            height: 198
+            offset: [43 - 32, 140 + 18]
 
     GetBirdPlacement: ->
         return x: @body.GetPosition().x, y: @body.GetPosition().y - @baseHeight / @world.scale
 
+class Objects.SlingshotFront extends Kinetic.Group
+    constructor: (x, y) ->
+        super
+            x: x
+            y: y
+
+        @add new Kinetic.Image
+            image: Utils.ImageResource DefaultLoader.resources.level1.images.slingshot_front
+            x: -28
+            y: -10
+            width: 44
+            height: 198
+            offset: [43 - 32, 140 + 18]
+
+        @body =
+            GetPosition: => x: @getX(), y: @getY()
+            GetAngle: ->
+    setPosition: ->
 
 class Objects.Band extends Kinetic.Group
     constructor: (@world, @points) ->
@@ -56,7 +74,7 @@ class Objects.Band extends Kinetic.Group
 
         @add @line = new Kinetic.Line
             points: @points
-            stroke: '#000'
+            stroke: '#301708'
             strokeWidth: 10
             lineCap: 'round'
             lineJoin: 'round'
