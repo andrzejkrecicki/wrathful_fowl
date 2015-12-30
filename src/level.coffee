@@ -1,5 +1,5 @@
 class Level extends Kinetic.Group
-    constructor: (options) ->
+    constructor: (@stage, options) ->
         super
             x: 0
             y: 0
@@ -37,6 +37,31 @@ class Level extends Kinetic.Group
         @add @drawables = new Kinetic.Group
             x: 0
             y: 0
+
+
+        @score = 0
+        @add new Kinetic.Text
+            x: @stage.getWidth() - 230
+            y: 10
+            text: "Score:"
+            align: 'right'
+            fontFamily: 'AngryBirds'
+            fontSize: 40
+            fill: '#fff'
+            stroke: '#000'
+            strokeWidth: 1
+
+        @add @scoreText = new Kinetic.Text
+            x: @stage.getWidth() - 220
+            y: 10
+            text: @score
+            align: 'right'
+            fontFamily: 'AngryBirds'
+            fontSize: 40
+            width: 200
+            fill: '#fff'
+            stroke: '#000'
+            strokeWidth: 1
 
         @state = Utils.GameStates.preview
 
@@ -144,6 +169,10 @@ class Level extends Kinetic.Group
         @handlePanning()
         @handleBirdLoad()
         @handleBandSwing()
+
+        oldScore = +@scoreText.getText()
+        if oldScore < @score
+            @scoreText.setText oldScore + 25
 
     panTo: (offset) ->
         @desiredOffsets = [offset]

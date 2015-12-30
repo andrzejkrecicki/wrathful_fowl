@@ -20,6 +20,13 @@ class Objects.GameObject extends Kinetic.Group
         return unless @life
         @life -= impulse
 
+    remove: ->
+        if @score?
+            @world.level.drawables.add new Objects.FloatingScore @getX(), @getY(), @score
+            @world.level.score += @score.val
+        super
+
+
 
 class Objects.Slingshot extends Objects.GameObject
     constructor: (@world, x, y, angle=0) ->
@@ -110,6 +117,7 @@ class Objects.SlimWood extends Objects.GenericBlock
         @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.wood)
         @lifeStates = [30, 20, 10]
         @life = 30
+        @score = { val: 50 }
         @sprite = 1
         @sprites = [
             Utils.ImageResource(DefaultLoader.resources.level1.images.wood1_1)
@@ -138,6 +146,7 @@ class Objects.WideWood extends Objects.GenericBlock
         @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.wood)
         @lifeStates = [50, 33, 17]
         @life = 50
+        @score = { val: 75 }
         @sprite = 1
         @sprites = [
             Utils.ImageResource(DefaultLoader.resources.level1.images.wood2_1)
@@ -165,6 +174,7 @@ class Objects.SlimStone extends Objects.GenericBlock
         @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.stone)
         @lifeStates = [60, 45, 30, 15]
         @life = 60
+        @score = { val: 100 }
         @sprite = 1
         @sprites = [
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_1)
@@ -194,6 +204,7 @@ class Objects.WideStone extends Objects.GenericBlock
         @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.stone)
         @lifeStates = [100, 75, 50, 25]
         @life = 100
+        @score = { val: 125 }
         @sprite = 1
         @sprites = [
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_1)
@@ -231,6 +242,7 @@ class Objects.BigRock extends Objects.GenericBlock
         @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.stone)
         @lifeStates = [140, 105, 70, 35]
         @life = 140
+        @score = { val: 200 }
         @sprite = 1
         @sprites = [
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_1)
@@ -269,6 +281,7 @@ class Objects.SmallRock extends Objects.GenericBlock
         @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.stone)
         @lifeStates = [40, 30, 20, 10]
         @life = 40
+        @score = { val: 50 }
         @sprite = 1
         @sprites = [
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_1)
@@ -298,6 +311,7 @@ class Objects.TNT extends Objects.GameObject
         @body.CreateFixture @fixtureDef
 
         @life = 100
+        @score = { val: 250 }
 
         @add new Kinetic.Image
             image: Utils.ImageResource(DefaultLoader.resources.level1.images.tnt)
@@ -749,6 +763,41 @@ class Objects.ExplosionWhite extends Kinetic.Group
                 @remove()
 
 
+class Objects.FloatingScore extends Kinetic.Group
+    constructor: (x, y, score) ->
+        super
+            x: x
+            y: y
+
+        @text = new Kinetic.Text
+            x: 0
+            y: 0
+            text: score.val
+            align: 'center'
+            width: 300
+            fontFamily: 'AngryBirds'
+            fontSize: 0
+            fill: score.color || '#fff'
+            stroke: score.stroke || '#000'
+            strokeWidth: 2
+
+        @text.setX -@text.getWidth() / 2
+        @text.setY -@text.getHeight() / 2
+        @add @text
+
+        @delta = 0
+
+        @anim = new Kinetic.Animation (frame) =>
+            @delta += frame.timeDiff
+            @text.setFontSize Math.sin(@delta / 200) * (score.size || 60)
+            @text.setY -(@delta / 10 + Math.sin(@delta / 200) * (score.size || 60) / 2)
+            if (@delta / 200) > Math.PI
+                @anim.stop()
+                @remove()
+
+        @anim.start()
+
+
 class Objects.GenericPig extends Objects.GameObject
     animate: ->
         return if @sprite.anim.isRunning()
@@ -782,6 +831,12 @@ class Objects.StandardPig extends Objects.GenericPig
         @life = 15
         @lifeStates = [15, 10, 5]
         @sprite_index = 1
+
+        @score =
+            val: 2500
+            size: 80
+            color: '#6DE249'
+            stroke: '#0D8209'
 
         super @world, x, y, bodyDef, shape, .7, .4, .4
 
@@ -820,6 +875,12 @@ class Objects.BigPig extends Objects.GenericPig
         @lifeStates = [45, 30, 15]
         @sprite_index = 1
 
+        @score =
+            val: 5000
+            size: 80
+            color: '#6DE249'
+            stroke: '#0D8209'
+
         super @world, x, y, bodyDef, shape, .7, .4, .4
 
         @add @sprite = new Kinetic.Sprite
@@ -855,6 +916,12 @@ class Objects.TinyPig extends Objects.GenericPig
         @life = 8
         @lifeStates = [8, 5, 2]
         @sprite_index = 1
+
+        @score =
+            val: 1000
+            size: 80
+            color: '#6DE249'
+            stroke: '#0D8209'
 
         super @world, x, y, bodyDef, shape, .7, .4, .4
 

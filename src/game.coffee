@@ -83,6 +83,7 @@ class Game
             @level.state = Utils.GameStates.gameOver
             clearInterval @interval if @interval
             @level.restartButton.remove()
+            @level.scoreText.setText @level.score
             @layer.add new UI.GameOverPane
                 x: (@stage.getWidth() - 600) / 2
                 y: (@stage.getHeight() - 470) / 2
@@ -102,7 +103,7 @@ class Game
             @clearStage()
             @level?.clear()
             # @loader["level#{number}"].loop.play()
-            @layer.add @level = new Level
+            @layer.add @level = new Level @stage,
                 layer1: @loader["level#{number}"].layer1
                 layer2: @loader["level#{number}"].layer2
                 layer3: @loader["level#{number}"].layer3
