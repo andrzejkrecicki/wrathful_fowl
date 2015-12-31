@@ -106,6 +106,18 @@ class Objects.GenericBlock extends Objects.GameObject
             console.log "#{@constructor.name + @_id}: #{@life}, state: #{state}"
             @children[0].setImage @sprites[++@sprite - 1]
 
+    remove: ->
+        if @children.length and @particles_type?
+            {width, height} = @children[0].getSize()
+            angle = @getRotation()
+            for x in [0..Math.round(width / 8)]
+                for y in [0..Math.round(height / 8)]
+                    @world.level.drawables.add new Objects.Particle(@particles_type
+                        @getX() + ((x*8) - width / 2) * Math.cos(angle) - ((y*8) - height / 2) * Math.sin(angle),
+                        @getY() + ((x*8) - width / 2) * Math.sin(angle) + ((y*8) - height / 2) * Math.cos(angle)
+                    )
+        super
+
 
 class Objects.SlimWood extends Objects.GenericBlock
     constructor: (@world, x, y, angle=0) ->
@@ -124,6 +136,7 @@ class Objects.SlimWood extends Objects.GenericBlock
             Utils.ImageResource(DefaultLoader.resources.level1.images.wood1_2)
             Utils.ImageResource(DefaultLoader.resources.level1.images.wood1_3)
         ]
+        @particles_type = "particle_wood"
 
         super @world, x, y, bodyDef, shape, 1.4, .4, .4
 
@@ -153,6 +166,7 @@ class Objects.WideWood extends Objects.GenericBlock
             Utils.ImageResource(DefaultLoader.resources.level1.images.wood2_2)
             Utils.ImageResource(DefaultLoader.resources.level1.images.wood2_3)
         ]
+        @particles_type = "particle_wood"
 
         super @world, x, y, bodyDef, shape, 1.4, .4, .4
 
@@ -182,6 +196,7 @@ class Objects.SlimStone extends Objects.GenericBlock
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_3)
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_4)
         ]
+        @particles_type = "particle_stone"
 
         super @world, x, y, bodyDef, shape, 2.4, .6, .15
 
@@ -212,6 +227,7 @@ class Objects.WideStone extends Objects.GenericBlock
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_3)
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_4)
         ]
+        @particles_type = "particle_stone"
 
         super @world, x, y, bodyDef, shape, 2.4, .6, .15
 
@@ -250,6 +266,7 @@ class Objects.BigRock extends Objects.GenericBlock
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_3)
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_4)
         ]
+        @particles_type = "particle_stone"
 
         super @world, x, y, bodyDef, shape, 2.4, .6, .15
 
@@ -289,6 +306,7 @@ class Objects.SmallRock extends Objects.GenericBlock
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_3)
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_4)
         ]
+        @particles_type = "particle_stone"
 
         super @world, x, y, bodyDef, shape, 2.4, .6, .15
 
@@ -796,6 +814,35 @@ class Objects.FloatingScore extends Kinetic.Group
                 @remove()
 
         @anim.start()
+
+
+class Objects.Particle extends Kinetic.Group
+    constructor: (type, x, y) ->
+        super
+            x: x
+            y: y
+
+        @add @image = new Kinetic.Image
+            image: Utils.ImageResource DefaultLoader.resources.level1.images[type + (1+Math.floor(Math.random() * 3))]
+
+        @image.setOffset @image.getWidth() / 2, @image.getHeight() / 2
+        @image.setRotation Math.random() * Math.PI * 2
+
+        @delta = 0
+        @direction = Math.random() * Math.PI * 2
+        @rotation_modifier = Math.random() * 2 - 1
+
+        @anim = new Kinetic.Animation (frame) =>
+            @delta += frame.timeDiff
+            @image.setRotation @rotation_modifier * @delta / 200
+            @image.move Math.sin(@direction) * frame.timeDiff / 10, (1 - Math.cos(@direction)) * frame.timeDiff / 10
+            @image.setScale .5 + Math.sin(@delta / 200) / 2
+            if (@delta / 200) > Math.PI
+                @anim.stop()
+                @remove()
+
+        @anim.start()
+
 
 
 class Objects.GenericPig extends Objects.GameObject

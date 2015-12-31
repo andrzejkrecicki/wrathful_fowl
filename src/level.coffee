@@ -163,8 +163,8 @@ class Level extends Kinetic.Group
             object.setRotation object.body.GetAngle()
 
             if object.life? and object.life <= 0
-                @world.DestroyBody object.body
                 object.remove true
+                @world.DestroyBody object.body
         
         @handlePanning()
         @handleBirdLoad()
