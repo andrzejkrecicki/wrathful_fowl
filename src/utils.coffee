@@ -31,6 +31,9 @@ Utils =
         # snd.play = ->
         return snd
 
+    randChoice: (arr) ->
+        return arr[Math.floor(Math.random() *  arr.length)]
+
     GameStates: Enum(
         "preview",
         "previewEnded",

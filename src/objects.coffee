@@ -20,11 +20,27 @@ class Objects.GameObject extends Kinetic.Group
         return unless @life
         @life -= impulse
 
+
+    makeParticles: ->
+        particles_spacing = @particles_spacing or 8
+        if @children.length and @particle_types?
+            {width, height} = @children[0].getSize()
+            angle = @getRotation()
+            for x in [0..Math.round(width / particles_spacing)]
+                for y in [0..Math.round(height / particles_spacing)]
+                    @world.level.drawables.add new Objects.Particle(@particle_types
+                        @getX() + ((x*particles_spacing) - width / 2) * Math.cos(angle) - ((y*particles_spacing) - height / 2) * Math.sin(angle),
+                        @getY() + ((x*particles_spacing) - width / 2) * Math.sin(angle) + ((y*particles_spacing) - height / 2) * Math.cos(angle)
+                    )
+
     remove: ->
         if @score?
             @world.level.drawables.add new Objects.FloatingScore @getX(), @getY(), @score
             @world.level.score += @score.val
+
+        @makeParticles()
         super
+
 
 
 
@@ -106,18 +122,6 @@ class Objects.GenericBlock extends Objects.GameObject
             console.log "#{@constructor.name + @_id}: #{@life}, state: #{state}"
             @children[0].setImage @sprites[++@sprite - 1]
 
-    remove: ->
-        if @children.length and @particles_type?
-            {width, height} = @children[0].getSize()
-            angle = @getRotation()
-            for x in [0..Math.round(width / 8)]
-                for y in [0..Math.round(height / 8)]
-                    @world.level.drawables.add new Objects.Particle(@particles_type
-                        @getX() + ((x*8) - width / 2) * Math.cos(angle) - ((y*8) - height / 2) * Math.sin(angle),
-                        @getY() + ((x*8) - width / 2) * Math.sin(angle) + ((y*8) - height / 2) * Math.cos(angle)
-                    )
-        super
-
 
 class Objects.SlimWood extends Objects.GenericBlock
     constructor: (@world, x, y, angle=0) ->
@@ -136,7 +140,7 @@ class Objects.SlimWood extends Objects.GenericBlock
             Utils.ImageResource(DefaultLoader.resources.level1.images.wood1_2)
             Utils.ImageResource(DefaultLoader.resources.level1.images.wood1_3)
         ]
-        @particles_type = "particle_wood"
+        @particle_types = ["particle_wood1", "particle_wood2", "particle_wood3"]
 
         super @world, x, y, bodyDef, shape, 1.4, .4, .4
 
@@ -166,7 +170,7 @@ class Objects.WideWood extends Objects.GenericBlock
             Utils.ImageResource(DefaultLoader.resources.level1.images.wood2_2)
             Utils.ImageResource(DefaultLoader.resources.level1.images.wood2_3)
         ]
-        @particles_type = "particle_wood"
+        @particle_types = ["particle_wood1", "particle_wood2", "particle_wood3"]
 
         super @world, x, y, bodyDef, shape, 1.4, .4, .4
 
@@ -196,7 +200,7 @@ class Objects.SlimStone extends Objects.GenericBlock
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_3)
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_4)
         ]
-        @particles_type = "particle_stone"
+        @particle_types = ["particle_stone1", "particle_stone2", "particle_stone3"]
 
         super @world, x, y, bodyDef, shape, 2.4, .6, .15
 
@@ -227,7 +231,7 @@ class Objects.WideStone extends Objects.GenericBlock
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_3)
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_4)
         ]
-        @particles_type = "particle_stone"
+        @particle_types = ["particle_stone1", "particle_stone2", "particle_stone3"]
 
         super @world, x, y, bodyDef, shape, 2.4, .6, .15
 
@@ -266,7 +270,7 @@ class Objects.BigRock extends Objects.GenericBlock
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_3)
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_4)
         ]
-        @particles_type = "particle_stone"
+        @particle_types = ["particle_stone1", "particle_stone2", "particle_stone3"]
 
         super @world, x, y, bodyDef, shape, 2.4, .6, .15
 
@@ -306,7 +310,7 @@ class Objects.SmallRock extends Objects.GenericBlock
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_3)
             Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_4)
         ]
-        @particles_type = "particle_stone"
+        @particle_types = ["particle_stone1", "particle_stone2", "particle_stone3"]
 
         super @world, x, y, bodyDef, shape, 2.4, .6, .15
 
@@ -348,13 +352,23 @@ class Objects.TNT extends Objects.GameObject
         super
 
 
-class Objects.StandardBird extends Objects.GameObject
+class Objects.GenericBird extends Objects.GameObject
+    constructor: ->
+        @particles_spacing = 16
+        super
+
+    remove: ->
+        @world.level.addWhiteExplosion @getPosition() unless @suppress_final_explosion
+        super
+
+class Objects.StandardBird extends Objects.GenericBird
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2CircleShape 23 / @world.scale
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
-        @life = 30
+        @life = 8
+        @particle_types = ["feather_red"]
 
         super @world, x, y, bodyDef, shape, .7, .4, .4
 
@@ -367,7 +381,7 @@ class Objects.StandardBird extends Objects.GameObject
             offset: [33, 31]
 
 
-class Objects.DivingBird extends Objects.GameObject
+class Objects.DivingBird extends Objects.GenericBird
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2PolygonShape
         points = [
@@ -379,7 +393,9 @@ class Objects.DivingBird extends Objects.GameObject
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
-        @life = 30
+        @life = 8
+        @particle_types = ["feather_yellow"]
+
         @superPowerUsed = false
 
         super @world, x, y, bodyDef, shape, 1.1, .4, .1
@@ -421,7 +437,7 @@ class Objects.DivingBird extends Objects.GameObject
         super
 
 
-class Objects.BombingBird extends Objects.GameObject
+class Objects.BombingBird extends Objects.GenericBird
     constructor: (@world, x, y, angle=0) ->
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
         
@@ -458,7 +474,8 @@ class Objects.BombingBird extends Objects.GameObject
 
 
 
-        @life = 30
+        @life = 15
+        @particle_types = ["feather_white"]
         @superPowerUsed = false
 
         @sprite = 1
@@ -537,13 +554,15 @@ class Objects.Egg extends Objects.GameObject
 
 
 
-class Objects.BombBird extends Objects.GameObject
+class Objects.BombBird extends Objects.GenericBird
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2CircleShape 32 / @world.scale
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
         @life = 30
+        @particle_types = ["feather_black"]
+        @suppress_final_explosion = true
 
         super @world, x, y, bodyDef, shape, .7, .4, 0
 
@@ -580,13 +599,13 @@ class Objects.BombBird extends Objects.GameObject
 
 
 
-class Objects.MultiBird extends Objects.GameObject
+class Objects.MultiBird extends Objects.GenericBird
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2CircleShape 13 / @world.scale
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
-        @life = 30
+        @life = 10
         @superPowerUsed = false
 
         super @world, x, y, bodyDef, shape, 1.3, .4, 0
@@ -616,7 +635,7 @@ class Objects.MultiBird extends Objects.GameObject
         bird.body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(vc.x, vc.y - 3), new Box2D.Common.Math.b2Vec2(worldCenter.x, worldCenter.y - 1))
 
 
-class Objects.BoomerangBird extends Objects.GameObject
+class Objects.BoomerangBird extends Objects.GenericBird
     constructor: (@world, x, y, angle=0) ->
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
         
@@ -640,7 +659,8 @@ class Objects.BoomerangBird extends Objects.GameObject
         @nose = @body.CreateFixture @fixtureDef
 
 
-        @life = 30
+        @life = 15
+        @particle_types = ["feather_green"]
         @superPowerUsed = false
 
         @sprite = 0
@@ -823,7 +843,7 @@ class Objects.Particle extends Kinetic.Group
             y: y
 
         @add @image = new Kinetic.Image
-            image: Utils.ImageResource DefaultLoader.resources.level1.images[type + (1+Math.floor(Math.random() * 3))]
+            image: Utils.ImageResource DefaultLoader.resources.level1.images[Utils.randChoice type]
 
         @image.setOffset @image.getWidth() / 2, @image.getHeight() / 2
         @image.setRotation Math.random() * Math.PI * 2
