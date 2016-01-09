@@ -846,7 +846,7 @@ class Objects.Particle extends Kinetic.Group
             image: Utils.ImageResource DefaultLoader.resources.level1.images[Utils.randChoice type]
 
         @image.setOffset @image.getWidth() / 2, @image.getHeight() / 2
-        @image.setRotation Math.random() * Math.PI * 2
+        @image.setRotation @initial_rotation = Math.random() * Math.PI * 2
 
         @delta = 0
         @direction = Math.random() * Math.PI * 2
@@ -854,10 +854,10 @@ class Objects.Particle extends Kinetic.Group
 
         @anim = new Kinetic.Animation (frame) =>
             @delta += frame.timeDiff
-            @image.setRotation @rotation_modifier * @delta / 200
+            @image.setRotation @initial_rotation + @rotation_modifier * @delta / 200
             @image.move Math.sin(@direction) * frame.timeDiff / 10, (1 - Math.cos(@direction)) * frame.timeDiff / 10
             @image.setScale .5 + Math.sin(@delta / 200) / 2
-            if (@delta / 200) > Math.PI
+            if (@delta / 200) > Math.PI * 1.5
                 @anim.stop()
                 @remove()
 
