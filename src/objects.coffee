@@ -357,6 +357,11 @@ class Objects.GenericBird extends Objects.GameObject
         @particles_spacing = 16
         super
 
+    handleHit: (impulse) ->
+        super
+        if impulse > 1.5 and @life > 0
+            @makeParticles()
+
     remove: ->
         @world.level.addWhiteExplosion @getPosition() unless @suppress_final_explosion
         super
