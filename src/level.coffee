@@ -68,11 +68,6 @@ class Level extends Kinetic.Group
         @desiredOffsets = []
         @panningSpeed = 0
         @breakingTime = 50
-        setTimeout(
-            =>
-                @panTo(0)
-            , 2000
-        )
         @setOffset options.panOffset
 
         gravity = new Box2D.Common.Math.b2Vec2 0, 9.8
@@ -132,13 +127,6 @@ class Level extends Kinetic.Group
 
         @intervals = []
 
-        @intervals.push setInterval =>
-            for object in @objects.getChildren()
-                continue unless object? and object.animate?
-                object.animate() if Math.random() < .18
-        , 500
-
-
         # @world.context = document.getElementById("debug").getContext("2d")
         # debugDraw = new Box2D.Dynamics.b2DebugDraw
         # debugDraw.SetSprite @world.context
@@ -151,6 +139,20 @@ class Level extends Kinetic.Group
     clear: ->
         for i in @intervals
             clearInterval i
+
+    initIntervals: ->
+        setTimeout(
+            =>
+                @panTo(0)
+            , 2000
+        )
+
+        @intervals.push setInterval =>
+            for object in @objects.getChildren()
+                continue unless object? and object.animate?
+                object.animate() if Math.random() < .18
+        , 500
+
 
     addObject: (object) ->
         @objects.add object if object.children?

@@ -112,6 +112,7 @@ class Game
                 pigs: DefaultLoader.resources["level#{number}"].pigs
                 panOffset: DefaultLoader.resources["level#{number}"].panOffset
             
+            @level.initIntervals()
             @level.restartButton.onclick = =>
                 @loader["level#{number}"].loop.pause()
                 @loadLevel @levelNumber
