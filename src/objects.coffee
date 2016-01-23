@@ -323,7 +323,7 @@ class Objects.SmallRock extends Objects.GenericBlock
             offset: [16, 16]
 
 
-class Objects.TNT extends Objects.GameObject
+class Objects.TNT extends Objects.GenericBlock
     constructor: (@world, x, y, angle=0) ->
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
         super @world, x, y, bodyDef, undefined, .7, .4, 0
@@ -349,7 +349,6 @@ class Objects.TNT extends Objects.GameObject
         if @life > 0
             @life = 0
             Utils.makeExplosion @world, @body.GetPosition(), 12, 30
-        super
 
 
 class Objects.GenericBird extends Objects.GameObject
