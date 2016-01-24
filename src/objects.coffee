@@ -60,7 +60,7 @@ class Objects.Slingshot extends Objects.GameObject
         super @world, x, y, bodyDef, shape
 
         @add new Kinetic.Image
-            image: Utils.ImageResource DefaultLoader.resources.level1.images.slingshot_back
+            image: game.loader.cache["img/slingshot_back.png"]
             x: 0
             y: 0
             width: 40
@@ -77,7 +77,7 @@ class Objects.SlingshotFront extends Kinetic.Group
             y: y
 
         @add new Kinetic.Image
-            image: Utils.ImageResource DefaultLoader.resources.level1.images.slingshot_front
+            image: game.loader.cache["img/slingshot_front.png"]
             x: -28
             y: -10
             width: 44
@@ -130,15 +130,15 @@ class Objects.SlimWood extends Objects.GenericBlock
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
-        @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.wood)
+        @sound = game.loader.cache["snd/wood.mp3"]
         @lifeStates = [30, 20, 10]
         @life = 30
         @score = { val: 50 }
         @sprite = 1
         @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood1_1)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood1_2)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood1_3)
+            game.loader.cache["img/wood1_1.png"]
+            game.loader.cache["img/wood1_2.png"]
+            game.loader.cache["img/wood1_3.png"]
         ]
         @particle_types = ["particle_wood1", "particle_wood2", "particle_wood3"]
 
@@ -160,15 +160,15 @@ class Objects.WideWood extends Objects.GenericBlock
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
-        @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.wood)
+        @sound = game.loader.cache["snd/wood.mp3"]
         @lifeStates = [50, 33, 17]
         @life = 50
         @score = { val: 75 }
         @sprite = 1
         @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood2_1)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood2_2)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.wood2_3)
+            game.loader.cache["img/wood2_1.png"]
+            game.loader.cache["img/wood2_2.png"]
+            game.loader.cache["img/wood2_3.png"]
         ]
         @particle_types = ["particle_wood1", "particle_wood2", "particle_wood3"]
 
@@ -189,16 +189,16 @@ class Objects.SlimStone extends Objects.GenericBlock
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
-        @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.stone)
+        @sound = game.loader.cache["snd/stone.mp3"]
         @lifeStates = [60, 45, 30, 15]
         @life = 60
         @score = { val: 100 }
         @sprite = 1
         @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_1)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_2)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_3)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone1_4)
+            game.loader.cache["img/stone1_1.png"]
+            game.loader.cache["img/stone1_2.png"]
+            game.loader.cache["img/stone1_3.png"]
+            game.loader.cache["img/stone1_4.png"]
         ]
         @particle_types = ["particle_stone1", "particle_stone2", "particle_stone3"]
 
@@ -220,16 +220,16 @@ class Objects.WideStone extends Objects.GenericBlock
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
-        @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.stone)
+        @sound = game.loader.cache["snd/stone.mp3"]
         @lifeStates = [100, 75, 50, 25]
         @life = 100
         @score = { val: 125 }
         @sprite = 1
         @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_1)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_2)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_3)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone2_4)
+            game.loader.cache["img/stone2_1.png"]
+            game.loader.cache["img/stone2_2.png"]
+            game.loader.cache["img/stone2_3.png"]
+            game.loader.cache["img/stone2_4.png"]
         ]
         @particle_types = ["particle_stone1", "particle_stone2", "particle_stone3"]
 
@@ -259,16 +259,16 @@ class Objects.BigRock extends Objects.GenericBlock
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
-        @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.stone)
+        @sound = game.loader.cache["snd/stone.mp3"]
         @lifeStates = [140, 105, 70, 35]
         @life = 140
         @score = { val: 200 }
         @sprite = 1
         @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_1)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_2)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_3)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone3_4)
+            game.loader.cache["img/stone3_1.png"]
+            game.loader.cache["img/stone3_2.png"]
+            game.loader.cache["img/stone3_3.png"]
+            game.loader.cache["img/stone3_4.png"]
         ]
         @particle_types = ["particle_stone1", "particle_stone2", "particle_stone3"]
 
@@ -299,16 +299,16 @@ class Objects.SmallRock extends Objects.GenericBlock
 
         bodyDef = Utils.makeDynamicBodyDef @world.scale, x, y, angle
 
-        @sound = Utils.SoundResource(DefaultLoader.resources.level1.sounds.stone)
+        @sound = game.loader.cache["snd/stone.mp3"]
         @lifeStates = [40, 30, 20, 10]
         @life = 40
         @score = { val: 50 }
         @sprite = 1
         @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_1)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_2)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_3)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.stone4_4)
+            game.loader.cache["img/stone4_1.png"]
+            game.loader.cache["img/stone4_2.png"]
+            game.loader.cache["img/stone4_3.png"]
+            game.loader.cache["img/stone4_4.png"]
         ]
         @particle_types = ["particle_stone1", "particle_stone2", "particle_stone3"]
 
@@ -336,7 +336,7 @@ class Objects.TNT extends Objects.GenericBlock
         @score = { val: 250 }
 
         @add new Kinetic.Image
-            image: Utils.ImageResource(DefaultLoader.resources.level1.images.tnt)
+            image: game.loader.cache["img/tnt.png"]
             x: 0
             y: 0
             width: 36
@@ -377,7 +377,7 @@ class Objects.StandardBird extends Objects.GenericBird
         super @world, x, y, bodyDef, shape, .7, .4, .4
 
         @add new Kinetic.Image
-            image: Utils.ImageResource DefaultLoader.resources.level1.images.bird1_1
+            image: game.loader.cache["img/bird1_1.png"]
             x: 0
             y: 0
             width: 57
@@ -407,9 +407,9 @@ class Objects.DivingBird extends Objects.GenericBird
 
         @sprite = 1
         @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level2.images.bird2_1)
-            Utils.ImageResource(DefaultLoader.resources.level2.images.bird2_2)
-            Utils.ImageResource(DefaultLoader.resources.level2.images.bird2_3)
+            game.loader.cache["img/bird2_1.png"]
+            game.loader.cache["img/bird2_2.png"]
+            game.loader.cache["img/bird2_3.png"]
         ]
 
         @add new Kinetic.Image
@@ -431,7 +431,7 @@ class Objects.DivingBird extends Objects.GenericBird
             @body.GetWorldCenter()
 
         @children[0].setImage @sprites[1]
-        Utils.SoundResource(DefaultLoader.resources.level2.sounds.dive).play()
+        game.loader.cache["snd/dive.mp3"].play()
 
     handleHit: (impulse) ->
         if impulse > .5
@@ -484,9 +484,9 @@ class Objects.BombingBird extends Objects.GenericBird
 
         @sprite = 1
         @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level2.images.bird3_1)
-            Utils.ImageResource(DefaultLoader.resources.level2.images.bird3_2)
-            Utils.ImageResource(DefaultLoader.resources.level2.images.bird3_3)
+            game.loader.cache["img/bird3_1.png"]
+            game.loader.cache["img/bird3_2.png"]
+            game.loader.cache["img/bird3_3.png"]
         ]
 
         @add new Kinetic.Image
@@ -511,7 +511,7 @@ class Objects.BombingBird extends Objects.GenericBird
         @world.level.stopPanning()
         @children[0].setImage @sprites[1]
 
-        Utils.SoundResource(DefaultLoader.resources.level2.sounds.pop).play()
+        game.loader.cache["snd/pop.mp3"].play()
 
     handleHit: (impulse) ->
         if impulse > 1.3 and !@superPowerUsed
@@ -538,11 +538,11 @@ class Objects.Egg extends Objects.GameObject
 
         @life = 100
 
-        @fallSound = Utils.SoundResource(DefaultLoader.resources.level2.sounds.fall_scream)
+        @fallSound = game.loader.cache["snd/fall_scream.mp3"]
         @fallSound.play()
 
         @add new Kinetic.Image
-            image: Utils.ImageResource(DefaultLoader.resources.level2.images.egg)
+            image: game.loader.cache["img/egg.png"]
             x: 0
             y: 0
             width: 44
@@ -576,7 +576,7 @@ class Objects.BombBird extends Objects.GenericBird
             width: 64
             height: 84
             offset: [32, 52]
-            image: Utils.ImageResource DefaultLoader.resources.level2.images.bird4
+            image: game.loader.cache["img/bird4.png"]
             animation: 'boiling'
             animations:
                 boiling: [
@@ -620,7 +620,7 @@ class Objects.MultiBird extends Objects.GenericBird
             width: 30
             height: 29
             offset: [16, 15]
-            image: Utils.ImageResource DefaultLoader.resources.level2.images.bird5_1
+            image: game.loader.cache["img/bird5_1.png"]
 
     superPower: ->
         return if @superPowerUsed
@@ -669,10 +669,10 @@ class Objects.BoomerangBird extends Objects.GenericBird
 
         @sprite = 0
         @sprites = [
-            Utils.ImageResource(DefaultLoader.resources.level1.images.bird6_1)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.bird6_2)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.bird6_3)
-            Utils.ImageResource(DefaultLoader.resources.level1.images.bird6_4)
+            game.loader.cache["img/bird6_1.png"]
+            game.loader.cache["img/bird6_2.png"]
+            game.loader.cache["img/bird6_3.png"]
+            game.loader.cache["img/bird6_4.png"]
         ]
 
         @add new Kinetic.Image
@@ -730,7 +730,7 @@ class Objects.BoomerangBird extends Objects.GenericBird
         ,
             @body.GetWorldCenter()
 
-        Utils.SoundResource(DefaultLoader.resources.level2.sounds.dive).play()
+        game.loader.cache["snd/dive.mp3"].play()
 
     handleHit: (impulse) ->
         if impulse > 1.5
@@ -758,7 +758,7 @@ class Objects.Explosion extends Kinetic.Group
         @add @sprite = new Kinetic.Sprite
             x: -144/2
             y: -137/2
-            image: Utils.ImageResource(DefaultLoader.resources.level2.images.explosion)
+            image: game.loader.cache["img/explosion.png"]
             animation: 'explosion'
             animations:
                 explosion: [
@@ -786,7 +786,7 @@ class Objects.ExplosionWhite extends Kinetic.Group
         @add @sprite = new Kinetic.Sprite
             x: -128/2
             y: -128/2
-            image: Utils.ImageResource(DefaultLoader.resources.level1.images.explosion_white)
+            image: game.loader.cache["img/explosion_white.png"]
             animation: 'explosion'
             animations:
                 explosion: [
@@ -847,7 +847,7 @@ class Objects.Particle extends Kinetic.Group
             y: y
 
         @add @image = new Kinetic.Image
-            image: Utils.ImageResource DefaultLoader.resources.level1.images[Utils.randChoice type]
+            image: game.loader.cache["img/" + Utils.randChoice(type) + ".png"]
 
         @image.setOffset @image.getWidth() / 2, @image.getHeight() / 2
         @image.setRotation @initial_rotation = Math.random() * Math.PI * 2
@@ -881,13 +881,13 @@ class Objects.GenericPig extends Objects.GameObject
         state = @lifeStates.filter((x) => @life <= x).length
         if state != @sprite_index
             if @life > 0
-                Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_grunt).play()
+                game.loader.cache["snd/pig_grunt.mp3"].play()
 
             console.log "Life: #{@life}, state: #{state}"
             @sprite.setAnimation ++@sprite_index - 1
 
     remove: (play=false) ->
-        Utils.SoundResource(DefaultLoader.resources.level1.sounds.pig_dies).play() if play
+        game.loader.cache["snd/pig_dies.mp3"].play() if play
         @world.level.addWhiteExplosion @getPosition()
         super
 
@@ -917,7 +917,7 @@ class Objects.StandardPig extends Objects.GenericPig
             width: 56
             height: 64
             offset: [27, 36]
-            image: Utils.ImageResource(DefaultLoader.resources.level1.images.pig1)
+            image: game.loader.cache["img/pig1.png"]
             animation: "0"
             animations:
                 "0": [
@@ -960,7 +960,7 @@ class Objects.BigPig extends Objects.GenericPig
             width: 82
             height: 85
             offset: [41, 43]
-            image: Utils.ImageResource(DefaultLoader.resources.level1.images.pig2)
+            image: game.loader.cache["img/pig2.png"]
             animation: "0"
             animations:
                 "0": [
@@ -1002,7 +1002,7 @@ class Objects.TinyPig extends Objects.GenericPig
             width: 42
             height: 46
             offset: [21, 26]
-            image: Utils.ImageResource(DefaultLoader.resources.level1.images.pig3)
+            image: game.loader.cache["img/pig3.png"]
             animation: "0"
             animations:
                 "0": [

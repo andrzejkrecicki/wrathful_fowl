@@ -1,4 +1,56 @@
 class DefaultLoader
+    @dependencies =
+        BigPig:
+            images: ["pig2", "explosion_white"]
+            sounds: ["pig_dies", "pig_grunt"]
+        StandardPig:
+            images: ["pig1", "explosion_white"]
+            sounds: ["pig_dies", "pig_grunt"]
+        TinyPig:
+            images: ["pig3", "explosion_white"]
+            sounds: ["pig_dies", "pig_grunt"]
+        BombBird:
+            images: ["bird4", "feather_black", "explosion"]
+            sounds: ["explosion"]
+        BombingBird:
+            images: ["bird3_1", "bird3_2", "bird3_3", "egg", "feather_white", "explosion"]
+            sounds: ["pop", "fall_scream", "explosion"]
+        BoomerangBird:
+            images: ["bird6_1", "bird6_2", "bird6_3", "bird6_4", "feather_green", "explosion"]
+            sounds: ["dive"]
+        DivingBird:
+            images: ["bird2_1", "bird2_2", "bird2_3", "feather_yellow", "explosion"]
+            sounds: ["dive"]
+        MultiBird:
+            images: ["bird5_1", "explosion"]
+            sounds: []
+        StandardBird:
+            images: ["bird1_1", "feather_red", "explosion"]
+            sounds: []
+        SlimWood:
+            images: ["wood1_1", "wood1_2", "wood1_3", "particle_wood1", "particle_wood2", "particle_wood3"]
+            sounds: ["wood"]
+        WideWood:
+            images: ["wood2_1", "wood2_2", "wood2_3", "particle_wood1", "particle_wood2", "particle_wood3"]
+            sounds: ["wood"]
+        SlimStone:
+            images: ["stone1_1", "stone1_2", "stone1_3", "stone1_4", "particle_stone1", "particle_stone2", "particle_stone3"]
+            sounds: ["stone"]
+        WideStone:
+            images: ["stone2_1", "stone2_2", "stone2_3", "stone2_4", "particle_stone1", "particle_stone2", "particle_stone3"]
+            sounds: ["stone"]
+        BigRock:
+            images: ["stone3_1", "stone3_2", "stone3_3", "stone3_4", "particle_stone1", "particle_stone2", "particle_stone3"]
+            sounds: ["stone"]
+        SmallRock:
+            images: ["stone4_1", "stone4_2", "stone4_3", "stone4_4", "particle_stone1", "particle_stone2", "particle_stone3"]
+            sounds: ["stone"]
+        TNT:
+            images: ["tnt", "explosion"]
+            sounds: ["explosion"]
+
+
+
     @resources =
         menu:
             images:
@@ -9,31 +61,16 @@ class DefaultLoader
                 star: "img/star.png"
                 star_filled: "img/star_filled.png"
                 pig_big: "img/pig_big.png"
-            sounds:
-                loop: "snd/menu.mp3"
-        level1:
-            images:
-                layer1: "img/level1_layer1.png"
-                layer2: "img/level1_layer2.png"
-                layer3: "img/level1_layer3.png"
                 slingshot_front: "img/slingshot_front.png"
                 slingshot_back: "img/slingshot_back.png"
-                wood1_1: "img/wood1_1.png"
-                wood1_2: "img/wood1_2.png"
-                wood1_3: "img/wood1_3.png"
-                bird1_1: "img/bird1_1.png"
-                pig1: "img/pig1.png"
-                explosion_white: "img/explosion_white.png"
             sounds:
-                loop: "snd/level1.mp3"
+                loop: "snd/menu.mp3"
                 stretch: "snd/stretch.mp3"
                 swoosh: "snd/swoosh.mp3"
-                wood: "snd/wood.mp3"
-                pig_grunt: "snd/pig_grunt.mp3"
-                pig_dies: "snd/pig_dies.mp3"
                 chirp: "snd/chirp.mp3"
                 crash: "snd/crash.mp3"
                 ding: "snd/ding.mp3"
+        level1:
             objects: [
                 type: "SlimWood"
                 x: 1700
@@ -65,6 +102,71 @@ class DefaultLoader
                 y: 402
                 angle: 0
             ,
+                type: "WideStone"
+                x: 1700 - 26 - 1
+                y: 646 + 36
+                angle: 90
+            ,
+                type: "WideStone"
+                x: 1700 - 26 - 1
+                y: 646 + 36 -72
+                angle: 90
+            ,
+                type: "WideStone"
+                x: 1700 - 26 - 1
+                y: 646 + 36 - 72*2
+                angle: 90
+            ,
+                type: "WideStone"
+                x: 1700 - 26 - 1
+                y: 646 + 36 - 72*3
+                angle: 90
+            ,
+                type: "SlimStone"
+                x: 1700 - 26 - 1 - 22
+                y: 646 + 16
+                angle: 90
+            ,
+                type: "SlimStone"
+                x: 1700 - 26 - 1 - 22
+                y: 482
+                angle: 90
+            ,
+                type: "SmallRock"
+                x: 1600 - 50
+                y: 606 - 40
+                angle: 90
+            ,
+                type: "SmallRock"
+                x: 1600 - 50
+                y: 606 - 40 - 33 * 1
+                angle: 90
+            ,
+                type: "SmallRock"
+                x: 1600 - 50
+                y: 606 - 40 - 33 * 2
+                angle: 90
+            ,
+                type: "SmallRock"
+                x: 1600 - 50
+                y: 606 - 40 - 33 * 3
+                angle: 90
+            ,
+                type: "SmallRock"
+                x: 1600 - 50
+                y: 606 - 40 - 33 * 4
+                angle: 90
+            ,
+                type: "SmallRock"
+                x: 1600 - 50
+                y: 606 - 40 - 33 * 5
+                angle: 90
+            ,
+                type: "SmallRock"
+                x: 1600 - 50
+                y: 606 - 40 - 33 * 6
+                angle: 90
+            ,
             ]
             pigs: [
                 type: "StandardPig"
@@ -75,29 +177,9 @@ class DefaultLoader
                 x: 1764
                 y: 691
             ]
-            birds: ["StandardBird", "StandardBird", "StandardBird"]
+            birds: ["DivingBird", "StandardBird", "MultiBird"]
             panOffset: 1040
         level2:
-            images:
-                bird2_1: "img/bird2_1.png"
-                bird2_2: "img/bird2_2.png"
-                bird2_3: "img/bird2_3.png"
-                bird3_1: "img/bird3_1.png"
-                bird3_2: "img/bird3_2.png"
-                bird3_3: "img/bird3_3.png"
-                bird4: "img/bird4.png"
-                bird5_1: "img/bird5_1.png"
-                egg: "img/egg.png"
-                explosion: "img/explosion.png"
-                layer1: "img/level2_layer1.png"
-                layer2: "img/level2_layer2.png"
-                layer3: "img/level2_layer3.png"
-            sounds:
-                loop: "snd/level2.mp3"
-                dive: "snd/dive.mp3"
-                pop: "snd/pop.mp3"
-                fall_scream: "snd/fall_scream.mp3"
-                explosion: "snd/explosion.mp3"
             objects: [
                 type: "SlimWood"
                 x: 1700
@@ -146,12 +228,13 @@ class DefaultLoader
                 x: 2000
                 y: 545
             ]
-            birds: ["BomgingBird", "DivingBird", "MultiBird"]
+            birds: ["BombingBird", "DivingBird", "MultiBird"]
             panOffset: 1040
 
 
     constructor: (@game) ->
         @ready = true
+        @cache = {}
 
     load: (group, @callback) ->
         throw Error "Loader ready" if not @ready
@@ -175,17 +258,43 @@ class DefaultLoader
 
         for name, src of DefaultLoader.resources[group].images
             ++@total_elements
-            img = new Utils.ImageResource src, (obj) => @element_loaded_handler(obj, name, group)
+            img = new Utils.ImageResource src, (obj) => @element_loaded_handler(obj, src, group)
 
         for name, src of DefaultLoader.resources[group].sounds
             ++@total_elements
-            snd = new Utils.SoundResource src, (obj) => @element_loaded_handler(obj, name, group)
+            snd = new Utils.SoundResource src, (obj) => @element_loaded_handler(obj, src, group)
+
+        if num = group.match(/level(\d+)/)?[1]
+            @total_elements += 4
+
+            new Utils.ImageResource "img/level#{num}_layer1.png", (obj) => @element_loaded_handler(obj, "img/level#{num}_layer1.png", group)
+            new Utils.ImageResource "img/level#{num}_layer2.png", (obj) => @element_loaded_handler(obj, "img/level#{num}_layer2.png", group)
+            new Utils.ImageResource "img/level#{num}_layer3.png", (obj) => @element_loaded_handler(obj, "img/level#{num}_layer3.png", group)
+
+            new Utils.SoundResource "snd/level#{num}.mp3", (obj) => @element_loaded_handler(obj, "snd/level#{num}.mp3", group)
+
+        for list in [DefaultLoader.resources[group]?.objects, DefaultLoader.resources[group]?.pigs, DefaultLoader.resources[group]?.birds]
+            for object in list or []
+                type = object.type || object
+                if DefaultLoader.dependencies[type]
+                    for name in DefaultLoader.dependencies[type].sounds
+                        if not @cache["snd/" + name + ".mp3"]?
+                            @cache["snd/" + name + ".mp3"] = {}
+                            ++@total_elements
+                            snd = new Utils.SoundResource "snd/" + name + ".mp3", (obj) => @element_loaded_handler(obj, "snd/" + name + ".mp3", group)
+
+                    for name in DefaultLoader.dependencies[type].images
+                        if not @cache["img/" + name + ".png"]?
+                            @cache["img/" + name + ".png"] = {}
+                            ++@total_elements
+                            img = new Utils.ImageResource "img/" + name + ".png", (obj) => @element_loaded_handler(obj, "img/" + name + ".png", group)
+
+
 
     element_loaded_handler: (obj, name, group) ->
         =>
-            console.log "Finished loading #{name}", obj
-            @[group] or= {}
-            @[group][name] = obj
+            console.count "Finished loading #{name}"
+            @cache[name] = obj
             ++@loaded_elements
             @progress @loaded_elements / @total_elements
             if @total_elements == @loaded_elements

@@ -137,7 +137,7 @@ class UI.GameOverPane extends Kinetic.Group
             y: 100
             align: 'center'
 
-        img = Utils.ImageResource DefaultLoader.resources.menu.images.pig_big
+        img = game.loader.cache["img/pig_big.png"]
         @add new Kinetic.Image
             image: img
             x: 300 - img.width / 2
@@ -148,13 +148,13 @@ class UI.GameOverPane extends Kinetic.Group
         @add @restartButton = new UI.IconButton
             x: 201
             y: 300
-            image: Utils.ImageResource DefaultLoader.resources.menu.images.restart
+            image: game.loader.cache["img/restart.png"]
             onclick: options.onrestart
 
         @add @cancelButton = new UI.IconButton
             x: 339
             y: 300
-            image: Utils.ImageResource DefaultLoader.resources.menu.images.cancel
+            image: game.loader.cache["img/cancel.png"]
             onclick: options.oncancel
 
 
@@ -187,18 +187,18 @@ class UI.LevelCompletePane extends Kinetic.Group
         @add @nextButton = new UI.IconButton
             x: 201
             y: 300
-            image: Utils.ImageResource DefaultLoader.resources.menu.images.next
+            image: game.loader.cache["img/next.png"]
             onclick: options.onnext
 
         @add @cancelButton = new UI.IconButton
             x: 339
             y: 300
-            image: Utils.ImageResource DefaultLoader.resources.menu.images.cancel
+            image: game.loader.cache["img/cancel.png"]
             onclick: options.oncancel
 
         for i in [0..4]
             @add new Kinetic.Image
-                image: Utils.ImageResource DefaultLoader.resources.menu.images.star
+                image: game.loader.cache["img/star.png"]
                 x: 150 + i * 60
                 y: 200
                 width: 50
@@ -207,11 +207,11 @@ class UI.LevelCompletePane extends Kinetic.Group
         for i in [0..Math.min(5, Math.round(options.score * 6.25))]
             setTimeout (do (i) => =>
                 @add star = new Kinetic.Image
-                    image: Utils.ImageResource DefaultLoader.resources.menu.images.star_filled
+                    image: game.loader.cache["img/star_filled.png"]
                     x: 150 + i * 60
                     y: 200
                     width: 50
                     height: 50
                 star.draw()
-                Utils.SoundResource(DefaultLoader.resources.level1.sounds.ding).play()
+                game.loader.cache["snd/ding.mp3"].play()
             ), (i + 1) * 400

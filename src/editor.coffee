@@ -54,8 +54,6 @@ class Editor
 
     serialize: ->
         result =
-            images: {}
-            sounds: {}
             objects: []
             pigs: []
             birds: ["DivingBird", "StandardBird", "MultiBird"]
