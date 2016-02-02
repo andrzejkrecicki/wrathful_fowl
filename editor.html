@@ -13,9 +13,18 @@
         #container, body {
             text-align: center;
         }
+
+        .sidebar [objects] {
+            text-align: center;
+        }
         .sidebar div[object] {
-            padding: 10px;
+            padding: 2px;
             cursor: pointer;
+            overflow: hidden;
+        }
+        .sidebar div[object] > div {
+            overflow: hidden;
+            display: inline-block;
         }
         .sidebar div[object]:hover {
             background: #eee;
@@ -23,6 +32,28 @@
         .sidebar div[object].active {
             background: #ddd;
         }
+        .sidebar div[object=StandardPig] > div {
+            width: 56px;
+        }
+        .sidebar div[object=BigPig] > div {
+            width: 82px;
+        }
+        .sidebar div[object=TinyPig] > div {
+            width: 42px;
+        }
+
+        [params] label {
+            width: 65px;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        [params] [name=type] {
+            background: transparent;
+            border: solid 2px transparent;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
@@ -30,21 +61,77 @@
         window.editor = true;
     </script>
     <div class="container-flex">
-        <div class="col-sm-2 sidebar">
-            <div params>
-                <input name="X" value=""/>
-                <input name="Y" value=""/>
-                <input name="RotationDeg" value=""/>
+        <div class="col-sm-3 sidebar">
+
+            <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation"><a class="btn btn-default"><span class="glyphicon glyphicon-folder-open"></span></a></li>
+              <li role="presentation"><a id="save" class="btn btn-default"><span class="glyphicon glyphicon-floppy-disk"></span></a></li>
+              <li role="presentation" class="active"><a href="#objects" role="tab" data-toggle="tab">Objects</a></li>
+              <li role="presentation"><a href="#birds" role="tab" data-toggle="tab">Birds</a></li>
+              <li role="presentation"><a href="#settings" role="tab" data-toggle="tab">Settings</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="objects">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><b>Object parameters</b></div>
+                        <div class="panel-body">
+                            <div params>
+                                <div><input name="type" value="" disabled/></div>
+                                <div><label>x:</label><input name="X" value="" type="number"/></div>
+                                <div><label>y:</label><input name="Y" value="" type="number"/></div>
+                                <div><label>angle:</label><input name="RotationDeg" value="" type="number"/></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><b>Available objects</b></div>
+                        <div class="panel-body">
+                            <div objects>
+                                <div object="SlimStone">
+                                    <div><img src="img/stone1_1.png"></div>
+                                </div>
+                                <div object="WideStone">
+                                    <div><img src="img/stone2_1.png"></div>
+                                </div>
+                                <div object="BigRock">
+                                    <div><img src="img/stone3_1.png"></div>
+                                </div>
+                                <div object="SmallRock">
+                                    <div><img src="img/stone4_1.png"></div>
+                                </div>
+                                <div object="TNT">
+                                    <div><img src="img/tnt.png"></div>
+                                </div>
+                                <div object="SlimWood">
+                                    <div><img src="img/wood1_1.png"></div>
+                                </div>
+                                <div object="WideWood">
+                                    <div><img src="img/wood2_1.png"></div>
+                                </div>
+                                <div object="StandardPig">
+                                    <div><img src="img/pig1.png"></div>
+                                </div>
+                                <div object="BigPig">
+                                    <div><img src="img/pig2.png"></div>
+                                </div>
+                                <div object="TinyPig">
+                                    <div><img src="img/pig3.png"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="birds">
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="settings">
+                    <h3>Settings</h3>
+                </div>
             </div>
-            <div object="SlimStone"><img src="img/stone1_1.png"></div>
-            <div object="WideStone"><img src="img/stone2_1.png"></div>
-            <div object="BigRock"><img src="img/stone3_1.png"></div>
-            <div object="SmallRock"><img src="img/stone4_1.png"></div>
-            <div object="TNT"><img src="img/tnt.png"></div>
-            <div object="SlimWood"><img src="img/wood1_1.png"></div>
-            <div object="WideWood"><img src="img/wood2_1.png"></div>
         </div>
-        <div class="col-sm-10">
+        <div class="col-sm-9">
             <div id="container"></div>
             <div class="scroll" style="overflow-x: scroll; width: 1280px; display: inline-block;">
                 <div style="width: 4289px; height: 10px;"></div>
@@ -55,6 +142,7 @@
     <script src="lib/Box2dWeb-2.1.a.3.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="lib/kinetic-v4.7.4.js"></script>
     <script type="text/javascript" src="lib/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="lib/app.js"></script>
 </body>
 </html>

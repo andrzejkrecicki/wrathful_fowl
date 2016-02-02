@@ -21,10 +21,10 @@ class Editor
 
         $(".sidebar [params] input").keyup ->
             if that.active_object
-                that.active_object["set" + @name] +$(this).val()
+                that.active_object["set" + @name] Math.round +$(this).val()
                 that.level.draw()
 
-        $(".sidebar div[object]").click ->
+        $(".sidebar #objects div[object]").click ->
             that.level.addObject obj = new Objects[$(this).attr("object")](
                 that.level.world,
                 scroll.scrollLeft() + scroll.width() / 2,
@@ -51,6 +51,7 @@ class Editor
         $(".sidebar [params] input[name=X]").val(obj.getX())
         $(".sidebar [params] input[name=Y]").val(obj.getY())
         $(".sidebar [params] input[name=RotationDeg]").val(obj.getRotationDeg())
+        $(".sidebar [params] input[name=type]").val(obj.constructor.name)
 
     serialize: ->
         result =
