@@ -258,6 +258,16 @@ class DefaultLoader
         @progress 0
 
     load: (group, @callback) ->
+        if DefaultLoader.resources[group]?
+            @inner_load(group, @callback)
+        else
+            $.getJSON
+                url: "async/#{group}.json"
+                success: (data) =>
+                    DefaultLoader.resources[group] = data
+                    @inner_load group, @callback
+
+    inner_load: (group, @callback) ->
         @initialize_loading_screen()
 
         for name, src of DefaultLoader.resources[group].images
@@ -331,7 +341,7 @@ class EditorLoader extends DefaultLoader
                     img = new Utils.ImageResource "img/" + name + ".png", (obj) => @element_loaded_handler(obj, "img/" + name + ".png")
         return
     
-    load: (group, @callback) ->
+    inner_load: (group, @callback) ->
         @initialize_loading_screen()
         if num = group.match(/level(\d+)/)?[1]
             @total_elements += 4
