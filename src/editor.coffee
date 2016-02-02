@@ -38,6 +38,9 @@ class Editor
                 that.setActiveObject obj
             that.level.draw()
 
+        $("#save").click ->
+            @href = URL.createObjectURL(new Blob([that.serialize()], {type: "json"}));
+            @download = "level#{that.number}.json";
 
     clearStage: ->
         @stage.removeChildren()
