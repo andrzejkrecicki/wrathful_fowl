@@ -1,0 +1,72 @@
+{
+  "objects": [
+    {
+      "type": "SlimWood",
+      "x": 1700,
+      "y": 645,
+      "angle": 90
+    },
+    {
+      "type": "SlimWood",
+      "x": 1800,
+      "y": 645,
+      "angle": 90
+    },
+    {
+      "type": "SlimWood",
+      "x": 1900,
+      "y": 645,
+      "angle": 90
+    },
+    {
+      "type": "SlimWood",
+      "x": 2000,
+      "y": 645,
+      "angle": 90
+    },
+    {
+      "type": "Mountain",
+      "x": 2350,
+      "y": 700,
+      "angle": 230
+    },
+    {
+      "type": "Mountain",
+      "x": 1250,
+      "y": 690,
+      "angle": 0
+    }
+  ],
+  "pigs": [
+    {
+      "type": "StandardPig",
+      "x": 1700,
+      "y": 545,
+      "angle": 0
+    },
+    {
+      "type": "StandardPig",
+      "x": 1800,
+      "y": 545,
+      "angle": 0
+    },
+    {
+      "type": "StandardPig",
+      "x": 1900,
+      "y": 545,
+      "angle": 0
+    },
+    {
+      "type": "StandardPig",
+      "x": 2000,
+      "y": 545,
+      "angle": 0
+    }
+  ],
+  "birds": [
+    "BombingBird",
+    "DivingBird",
+    "MultiBird"
+  ],
+  "panOffset": 1040
+}

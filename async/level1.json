@@ -1,0 +1,138 @@
+{
+  "objects": [
+    {
+      "type": "SlimWood",
+      "x": 1700,
+      "y": 646,
+      "angle": 90
+    },
+    {
+      "type": "SlimWood",
+      "x": 1828,
+      "y": 646,
+      "angle": 90
+    },
+    {
+      "type": "SlimWood",
+      "x": 1765,
+      "y": 565,
+      "angle": 0
+    },
+    {
+      "type": "SlimWood",
+      "x": 1700,
+      "y": 482,
+      "angle": 90
+    },
+    {
+      "type": "SlimWood",
+      "x": 1828,
+      "y": 482,
+      "angle": 90
+    },
+    {
+      "type": "SlimWood",
+      "x": 1765,
+      "y": 402,
+      "angle": 0
+    },
+    {
+      "type": "WideStone",
+      "x": 1673,
+      "y": 682,
+      "angle": 90
+    },
+    {
+      "type": "WideStone",
+      "x": 1673,
+      "y": 610,
+      "angle": 90
+    },
+    {
+      "type": "WideStone",
+      "x": 1673,
+      "y": 538,
+      "angle": 90
+    },
+    {
+      "type": "WideStone",
+      "x": 1673,
+      "y": 466,
+      "angle": 90
+    },
+    {
+      "type": "SlimStone",
+      "x": 1646,
+      "y": 646,
+      "angle": 90
+    },
+    {
+      "type": "SlimStone",
+      "x": 1646,
+      "y": 501,
+      "angle": 90
+    },
+    {
+      "type": "SmallRock",
+      "x": 1550,
+      "y": 566,
+      "angle": 90
+    },
+    {
+      "type": "SmallRock",
+      "x": 1550,
+      "y": 533,
+      "angle": 90
+    },
+    {
+      "type": "SmallRock",
+      "x": 1550,
+      "y": 500,
+      "angle": 90
+    },
+    {
+      "type": "SmallRock",
+      "x": 1550,
+      "y": 467,
+      "angle": 90
+    },
+    {
+      "type": "SmallRock",
+      "x": 1550,
+      "y": 434,
+      "angle": 90
+    },
+    {
+      "type": "SmallRock",
+      "x": 1550,
+      "y": 401,
+      "angle": 90
+    },
+    {
+      "type": "SmallRock",
+      "x": 1550,
+      "y": 368,
+      "angle": 90
+    }
+  ],
+  "pigs": [
+    {
+      "type": "StandardPig",
+      "x": 1764,
+      "y": 527,
+      "angle": 0
+    },
+    {
+      "type": "StandardPig",
+      "x": 1764,
+      "y": 691,
+      "angle": 0
+    }
+  ],
+  "birds": [
+    "StandardBird",
+    "DivingBird",
+    "MultiBird"
+  ],
+  "panOffset": 1040
+}
