@@ -179,6 +179,10 @@ class EditorLoader extends DefaultLoader
                     @cache["img/" + name + ".png"] = {}
                     ++@total_elements
                     img = new Utils.ImageResource "img/" + name + ".png", (obj) => @element_loaded_handler(obj, "img/" + name + ".png")
+
+            @total_elements += 2
+            new Utils.ImageResource "img/slingshot_front.png", (obj) => @element_loaded_handler(obj, "img/slingshot_front.png")
+            new Utils.ImageResource "img/slingshot_back.png", (obj) => @element_loaded_handler(obj, "img/slingshot_back.png")
         return
     
     inner_load: (group, @callback) ->
