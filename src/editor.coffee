@@ -8,6 +8,7 @@ class Editor
         @layer = new Kinetic.Layer
         @stage.add @layer
 
+        @birds = []
         @number = 1
         @loader = new EditorLoader this, => @loadLevel @number
 
@@ -38,6 +39,14 @@ class Editor
                 that.setActiveObject obj
             that.level.draw()
 
+        $(".sidebar #birds [birds] div[object]").click ->
+            that.birds.push $(this).attr("object")
+            that.setBirds()
+
+        $("body").delegate ".sidebar #birds [chosen-birds] div[object]", "click", ->
+            that.birds.splice($(this).index(), 1)
+            that.setBirds()
+
         $("#save").click ->
             @href = URL.createObjectURL(new Blob([that.serialize()], {type: "json"}));
             @download = "level#{that.number}.json";
@@ -55,6 +64,12 @@ class Editor
         $(".sidebar [params] input[name=Y]").val(obj.getY())
         $(".sidebar [params] input[name=RotationDeg]").val(obj.getRotationDeg())
         $(".sidebar [params] input[name=type]").val(obj.constructor.name)
+
+    setBirds: () ->
+        $("[chosen-birds]").html("")
+        $.each @birds, (i, name) ->
+            src = $("[birds] [object=#{name}] img")[0].src
+            $("[chosen-birds]").append "<div object=\"#{name}\"><div><img src=\"#{src}\"></div></div>"
 
     serialize: ->
         result =
@@ -96,6 +111,9 @@ class Editor
 
             @level.process()
             @draw()
+
+            @birds = @loader.constructor.resources["level#{number}"].birds
+            @setBirds()
 
             for object in @level.objects.children
                 do (object) =>

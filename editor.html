@@ -42,6 +42,10 @@
             width: 42px;
         }
 
+        .sidebar div[object=BombBird] > div {
+            width: 64px;
+        }
+
         [params] label {
             width: 65px;
             text-align: right;
@@ -124,7 +128,39 @@
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="birds">
+                     <div class="panel panel-default">
+                        <div class="panel-heading"><b>Available birds</b></div>
+                        <div class="panel-body">
+                            <div birds>
+                                <div object="StandardBird">
+                                    <div><img src="img/bird1_1.png"></div>
+                                </div>
+                                <div object="DivingBird">
+                                    <div><img src="img/bird2_1.png"></div>
+                                </div>
+                                <div object="BombingBird">
+                                    <div><img src="img/bird3_1.png"></div>
+                                </div>
+                                <div object="BombBird">
+                                    <div><img src="img/bird4.png"></div>
+                                </div>
+                                <div object="MultiBird">
+                                    <div><img src="img/bird5_1.png"></div>
+                                </div>
+                                <div object="BoomerangBird">
+                                    <div><img src="img/bird6_1.png"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><b>Chosen birds</b></div>
+                        <div class="panel-body">
+                            <div chosen-birds>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="settings">
                     <h3>Settings</h3>
