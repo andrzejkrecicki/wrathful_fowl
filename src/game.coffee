@@ -113,6 +113,12 @@ class Game
                 panOffset: DefaultLoader.resources["level#{number}"].panOffset
             
             @level.initIntervals()
+
+            @level.add @level.restartButton = new UI.IconButton
+                x: 10
+                y: 10
+                image: @loader.cache["img/restart.png"]
+
             @level.restartButton.onclick = =>
                 @loader.cache["snd/level#{number}.mp3"].pause()
                 @loadLevel @levelNumber

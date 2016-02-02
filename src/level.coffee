@@ -25,11 +25,6 @@ class Level extends Kinetic.Group
             width: options.layer1.width
             height: options.layer1.height
 
-        @add @restartButton = new UI.IconButton
-            x: 10
-            y: 10
-            image: game.loader.cache["img/restart.png"]
-
         @add @objects = new Kinetic.Group
             x: 0
             y: 0
