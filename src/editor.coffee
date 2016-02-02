@@ -8,8 +8,8 @@ class Editor
         @layer = new Kinetic.Layer
         @stage.add @layer
 
-        @loader = new DefaultLoader this
-        @loadLevel 1
+        @number = 1
+        @loader = new EditorLoader this, => @loadLevel @number
 
         that = this;
 
@@ -56,7 +56,7 @@ class Editor
         result =
             objects: []
             pigs: []
-            birds: ["DivingBird", "StandardBird", "MultiBird"]
+            birds: DefaultLoader.resources["level#{@number}"].birds
             panOffset: 1040
 
         for object in @level.objects.children
@@ -73,7 +73,7 @@ class Editor
                 y: object.getY()
                 angle: object.getRotationDeg()
 
-        return JSON.stringify result
+        return JSON.stringify result, null, 2
 
     loadLevel: (number) ->
         clearInterval @interval if @interval
@@ -82,9 +82,9 @@ class Editor
             @level?.clear()
             # @loader["level#{number}"].loop.play()
             @layer.add @level = new Level @stage,
-                layer1: @loader["level#{number}"].layer1
-                layer2: @loader["level#{number}"].layer2
-                layer3: @loader["level#{number}"].layer3
+                layer1: @loader.cache["img/level#{number}_layer1.png"]
+                layer2: @loader.cache["img/level#{number}_layer2.png"]
+                layer3: @loader.cache["img/level#{number}_layer3.png"]
                 objects: DefaultLoader.resources["level#{number}"].objects
                 birds: []
                 pigs: DefaultLoader.resources["level#{number}"].pigs

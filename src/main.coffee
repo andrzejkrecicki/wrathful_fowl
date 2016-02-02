@@ -1,4 +1,4 @@
 if window.editor
-    window.editor = new Editor
+    window.game = new Editor
 else
     window.game = new Game
