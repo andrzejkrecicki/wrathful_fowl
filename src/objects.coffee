@@ -1022,7 +1022,7 @@ class Objects.TinyPig extends Objects.GenericPig
 
 
 
-class Objects.Mountain extends Objects.GameObject
+class Objects.Mountain extends Objects.GenericBlock
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2PolygonShape
         points = [
@@ -1045,7 +1045,7 @@ class Objects.Mountain extends Objects.GameObject
             lineCap: 'round'
             lineJoin: 'round'
 
-
+    handleHit: ->
 
 class Objects.Floor extends Objects.GameObject
     constructor: (@world, x=1500, y=730) ->
