@@ -236,7 +236,8 @@ class DefaultLoader
         @ready = true
         @cache = {}
 
-    load: (group, @callback) ->
+
+    initialize_loading_screen: ->
         throw Error "Loader ready" if not @ready
 
         @game.clearStage()
@@ -255,6 +256,9 @@ class DefaultLoader
         @loaded_elements = 0
         
         @progress 0
+
+    load: (group, @callback) ->
+        @initialize_loading_screen()
 
         for name, src of DefaultLoader.resources[group].images
             ++@total_elements
@@ -304,3 +308,37 @@ class DefaultLoader
     progress: (progress) ->
         @loading_text.setText "Loading #{Math.round progress*100 }%"
         @game.layer.draw()
+
+
+class EditorLoader extends DefaultLoader
+    constructor: (@game, @callback) ->
+        super
+        @preload_dependencies()
+
+    preload_dependencies: ->
+        @initialize_loading_screen()
+        for name, dependency of DefaultLoader.dependencies
+            for name in dependency.sounds
+                if not @cache["snd/" + name + ".mp3"]?
+                    @cache["snd/" + name + ".mp3"] = {}
+                    ++@total_elements
+                    snd = new Utils.SoundResource "snd/" + name + ".mp3", (obj) => @element_loaded_handler(obj, "snd/" + name + ".mp3")
+
+            for name in dependency.images
+                if not @cache["img/" + name + ".png"]?
+                    @cache["img/" + name + ".png"] = {}
+                    ++@total_elements
+                    img = new Utils.ImageResource "img/" + name + ".png", (obj) => @element_loaded_handler(obj, "img/" + name + ".png")
+        return
+    
+    load: (group, @callback) ->
+        @initialize_loading_screen()
+        if num = group.match(/level(\d+)/)?[1]
+            @total_elements += 4
+
+            new Utils.ImageResource "img/level#{num}_layer1.png", (obj) => @element_loaded_handler(obj, "img/level#{num}_layer1.png", group)
+            new Utils.ImageResource "img/level#{num}_layer2.png", (obj) => @element_loaded_handler(obj, "img/level#{num}_layer2.png", group)
+            new Utils.ImageResource "img/level#{num}_layer3.png", (obj) => @element_loaded_handler(obj, "img/level#{num}_layer3.png", group)
+
+            new Utils.SoundResource "snd/level#{num}.mp3", (obj) => @element_loaded_handler(obj, "snd/level#{num}.mp3", group)
+        return
