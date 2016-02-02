@@ -51,6 +51,9 @@ class Editor
             @href = URL.createObjectURL(new Blob([that.serialize()], {type: "json"}));
             @download = "level#{that.number}.json";
 
+        $(".sidebar [params] button.remove").click =>
+            @removeActiveObject()
+
     clearStage: ->
         @stage.removeChildren()
         @stage.add @layer = new Kinetic.Layer
@@ -60,10 +63,18 @@ class Editor
 
     setActiveObject: (obj) ->
         @active_object = obj
-        $(".sidebar [params] input[name=X]").val(obj.getX())
-        $(".sidebar [params] input[name=Y]").val(obj.getY())
-        $(".sidebar [params] input[name=RotationDeg]").val(obj.getRotationDeg())
-        $(".sidebar [params] input[name=type]").val(obj.constructor.name)
+        $(".sidebar [params] input[name=X]").val(obj?.getX())
+        $(".sidebar [params] input[name=Y]").val(obj?.getY())
+        $(".sidebar [params] input[name=RotationDeg]").val(obj?.getRotationDeg())
+        $(".sidebar [params] input[name=type]").val(obj?.constructor.name)
+        $(".sidebar [params] button.remove").show()
+
+    removeActiveObject: ->
+        return unless @active_object
+        Kinetic.Group::remove.call @active_object
+        @setActiveObject null
+        $(".sidebar [params] button.remove").hide()
+        @draw()
 
     setBirds: () ->
         $("[chosen-birds]").html("")
