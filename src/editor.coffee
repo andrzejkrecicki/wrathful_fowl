@@ -10,7 +10,9 @@ class Editor
 
         @birds = []
         @number = 1
-        @loader = new EditorLoader this, => @loadLevel @number
+        @loader = new EditorLoader this, =>
+            @loader.loading_text.setText "Open file to edit."
+            @draw()
 
         that = this;
 
@@ -50,6 +52,12 @@ class Editor
         $("#save").click ->
             @href = URL.createObjectURL(new Blob([that.serialize()], {type: "json"}));
             @download = "level#{that.number}.json";
+
+        $("#open").click =>
+            $("#file").click() if @loader.ready
+
+        $("#file").change ->
+            that.loadLevel @number = +this.files[0].name.match(/(\d+)\.json/)[1]
 
         $(".sidebar [params] button.remove").click =>
             @removeActiveObject()
