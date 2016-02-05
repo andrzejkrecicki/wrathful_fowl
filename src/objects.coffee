@@ -591,7 +591,7 @@ class Objects.BombBird extends Objects.GenericBird
         @sprite.on "indexChange", ({oldVal, newVal}) =>
             if newVal == 0
                 @sprite.stop()
-                @remove()
+                @life = 0
                 Utils.makeExplosion @world, @body.GetPosition(), 12, 60
 
     handleHit: (impulse) ->
