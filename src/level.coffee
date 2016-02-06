@@ -251,20 +251,20 @@ class Level extends Kinetic.Group
                             ) < 3.5
                             @birds[0].body.SetPosition x: e.layerX / @world.scale, y: e.layerY / @world.scale
 
-                            @band1.adjustPosition e.layerX - Math.cos(angle) * 25, e.layerY - Math.sin(angle) * 25
-                            @band2.adjustPosition e.layerX - Math.cos(angle) * 25, e.layerY - Math.sin(angle) * 25
+                            @band1.adjustPosition e.layerX - Math.cos(angle) * @birds[0].radius(), e.layerY - Math.sin(angle) * @birds[0].radius()
+                            @band2.adjustPosition e.layerX - Math.cos(angle) * @birds[0].radius(), e.layerY - Math.sin(angle) * @birds[0].radius()
                         else
                             @birds[0].body.SetPosition
                                 x: @slingshot.body.GetPosition().x - 3.5 * Math.cos(angle)
                                 y: Math.min(@slingshot.GetBirdPlacement().y - 3.5 * Math.sin(angle), 22 * @world.scale)
 
                             @band1.adjustPosition(
-                                (@slingshot.GetBirdPlacement().x - 4.3 * Math.cos(angle)) * @world.scale,
-                                (@slingshot.GetBirdPlacement().y - 4.3 * Math.sin(angle)) * @world.scale
+                                (@slingshot.GetBirdPlacement().x * @world.scale - (3.5 * @world.scale + @birds[0].radius()) * Math.cos(angle)),
+                                (@slingshot.GetBirdPlacement().y * @world.scale - (3.5 * @world.scale + @birds[0].radius()) * Math.sin(angle))
                             )
                             @band2.adjustPosition(
-                                (@slingshot.GetBirdPlacement().x - 4.3 * Math.cos(angle)) * @world.scale,
-                                (@slingshot.GetBirdPlacement().y - 4.3 * Math.sin(angle)) * @world.scale
+                                (@slingshot.GetBirdPlacement().x * @world.scale - (3.5 * @world.scale + @birds[0].radius()) * Math.cos(angle)),
+                                (@slingshot.GetBirdPlacement().y * @world.scale - (3.5 * @world.scale + @birds[0].radius()) * Math.sin(angle))
                             )
 
 

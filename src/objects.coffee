@@ -365,6 +365,9 @@ class Objects.GenericBird extends Objects.GameObject
         @world.level.addWhiteExplosion @getPosition() unless @suppress_final_explosion
         super
 
+    radius: ->
+        return 25
+
 class Objects.StandardBird extends Objects.GenericBird
     constructor: (@world, x, y, angle=0) ->
         shape = new Box2D.Collision.Shapes.b2CircleShape 23 / @world.scale
@@ -497,6 +500,9 @@ class Objects.BombingBird extends Objects.GenericBird
             height: 93
             offset: [47, 60]
 
+    radius: ->
+        return 30
+
     superPower: ->
         return if @superPowerUsed
 
@@ -621,6 +627,9 @@ class Objects.MultiBird extends Objects.GenericBird
             height: 29
             offset: [16, 15]
             image: game.loader.cache["img/bird5_1.png"]
+
+    radius: ->
+        return 11
 
     superPower: ->
         return if @superPowerUsed
