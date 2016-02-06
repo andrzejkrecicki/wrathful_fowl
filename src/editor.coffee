@@ -126,7 +126,9 @@ class Editor
                 objects: DefaultLoader.resources["level#{number}"].objects
                 birds: []
                 pigs: DefaultLoader.resources["level#{number}"].pigs
-                panOffset: 0
+                panOffset: DefaultLoader.resources["level#{number}"].panOffset
+
+            $(".scroll")[0].scrollLeft = @level.offset
 
             @level.process()
             @draw()
