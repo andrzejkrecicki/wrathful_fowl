@@ -358,7 +358,7 @@ class Objects.GenericBird extends Objects.GameObject
 
     handleHit: (impulse) ->
         super
-        if impulse > 1.5 and @life > 0
+        if impulse > 1.5 and @life > 0 and !@suppress_particles_on_hit
             @makeParticles()
 
     remove: ->
@@ -573,6 +573,7 @@ class Objects.BombBird extends Objects.GenericBird
         @life = 30
         @particle_types = ["feather_black"]
         @suppress_final_explosion = true
+        @suppress_particles_on_hit = true
 
         super @world, x, y, bodyDef, shape, .7, .4, 0
 
