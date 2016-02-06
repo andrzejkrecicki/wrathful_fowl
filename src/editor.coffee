@@ -57,7 +57,7 @@ class Editor
             $("#file").click() if @loader.ready
 
         $("#file").change ->
-            that.loadLevel @number = +this.files[0].name.match(/(\d+)\.json/)[1]
+            that.loadLevel that.number = +this.files[0].name.match(/(\d+)\.json/)[1]
 
         $(".sidebar [params] button.remove").click =>
             @removeActiveObject()
